@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Submit a viral health claim for fact-checking by Myth Rx or contact our editorial team.">
+  <title>Submit a Claim & Contact — Myth Rx | Busting Health Hoaxes</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Supabase Official JS Client (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-notice-bar">
+    <div class="container">
+      <div>
+        <span class="top-notice-pill">Crowdsourced Fact-Checking</span>
+        <span>Spotted a suspicious health remedy? Submit it to our editorial review team.</span>
+      </div>
+      <div>
+        <a href="about.html#methodology" class="top-notice-link">Review our submission guidelines &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Primary Site Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <!-- Text & Symbol Brand Logo -->
+        <a href="index.html" class="brand-logo" aria-label="Myth Rx Homepage">
+          <div class="brand-logo-icon" aria-hidden="true">&#x211E;</div>
+          <div class="brand-logo-text">
+            <span class="brand-logo-title">Myth <span>Rx</span></span>
+            <span class="brand-logo-tagline">Busting Health Hoaxes</span>
+          </div>
+        </a>
+
+        <!-- Desktop & Mobile Navigation Links -->
+        <ul class="nav-menu" id="primaryNav">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="investigations.html" class="nav-link">Investigations</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="contact.html" class="nav-link active">Submit a Claim</a></li>
+          
+          <!-- Mobile Only Action Links inside Drawer -->
+          <li class="mobile-only-actions">
+            <button class="btn btn-outline-teal btn-sm btn-block open-quick-search-trigger" type="button">🔍 Quick Search Claims</button>
+            <a href="login.html" class="btn btn-secondary btn-sm btn-block">Log In</a>
+            <a href="signup.html" class="btn btn-primary btn-sm btn-block">Sign Up</a>
+          </li>
+        </ul>
+
+        <!-- Right Side Nav Actions Group -->
+        <div class="nav-right-group">
+          <!-- Universal Quick Search Button with Ctrl+K shortcut -->
+          <button class="nav-search-btn" id="openQuickSearchBtn" type="button" aria-label="Quick search health claims">
+            <span>🔍</span>
+            <span>Search claims</span>
+            <kbd class="nav-search-kbd">Ctrl K</kbd>
+          </button>
+
+          <div class="nav-actions">
+            <a href="contact.html#submit-claim" class="btn btn-outline-teal btn-sm">Submit a Claim</a>
+            <a href="login.html" class="btn btn-secondary btn-sm">Log In</a>
+            <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+          </div>
+        </div>
+
+        <!-- Accessible Mobile Hamburger Button -->
+        <button class="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primaryNav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content section">
+    <div class="container">
+      
+      <!-- Breadcrumb Navigation -->
+      <nav class="breadcrumbs-nav" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumbs-sep">›</span>
+        <span class="breadcrumbs-current">Submit a Health Claim</span>
+      </nav>
+
+      <div class="section-header-centered mb-xl">
+        <span class="section-kicker">Help Bust Misinformation</span>
+        <h1>Submit a Claim for Clinical Fact-Checking</h1>
+        <p class="section-description">
+          Have you seen a suspicious home remedy, forwarded text message, or viral health video? Send the claim to Myth Rx for evidence-based evaluation.
+        </p>
+      </div>
+
+      <!-- Emergency Medical Notice (Prominent Warning) -->
+      <div class="medical-disclaimer-box" style="margin-top: 0; margin-bottom: var(--space-lg); border-left-color: #DC2626; background-color: #FEF2F2; color: #991B1B;" role="alert">
+        <strong>⚠️ Emergency Medical Notice:</strong> Myth Rx is an educational health research platform, not an emergency medical service or medical clinic. If you or someone you know is experiencing acute pain, suspected stroke or heart attack, respiratory failure, poisoning, or any medical emergency, please call your local emergency services (e.g. 911 / 112) or visit the nearest hospital emergency room immediately. Do NOT submit a claim or wait for a fact-check.
+      </div>
+
+      <!-- Privacy & Confidentiality Notice -->
+      <div class="medical-disclaimer-box" style="margin-top: 0; margin-bottom: var(--space-xl); border-left-color: #0284C7; background-color: #F0F9FF; color: #075985;" role="note">
+        <strong>🔒 Privacy & Medical Records Notice:</strong> Please do <strong>NOT</strong> submit personal medical records, confidential lab results, private identifying health information, or personal diagnoses. Myth Rx evaluates viral public claims and misleading health rumors, not individual patient medical charts.
+      </div>
+
+      <div class="grid-2" style="align-items: start;">
+        
+        <!-- Claim Submission Form Card -->
+        <section class="card" id="submit-claim" aria-labelledby="formTitle">
+          <div style="margin-bottom: var(--space-xs);">
+            <h2 id="formTitle" style="font-size: 1.4rem; margin-bottom: 0;">Claim Submission Form</h2>
+          </div>
+          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: var(--space-sm);">
+            Submissions are reviewed against credible clinical evidence before any fact-check is published. Fields marked with an asterisk (<span style="color: #DC2626;">*</span>) are required.
+          </p>
+
+          <!-- Quick Claim Template Helper -->
+          <div style="display: flex; gap: var(--space-xs); margin-bottom: var(--space-lg); flex-wrap: wrap; align-items: center; background: var(--color-surface-alt); padding: var(--space-sm); border-radius: var(--radius-md); border: 1px dashed var(--color-border);">
+            <button type="button" class="btn btn-outline-teal btn-sm" id="loadSampleClaimBtn" onclick="fillSampleClaimForm()">
+              📋 Load Example Reported Claim
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" id="clearClaimFormBtn" onclick="clearClaimForm()">
+              ✕ Clear Form
+            </button>
+            <span class="text-muted" style="font-size: 0.8rem; font-style: italic;">
+              (Fills a reported health claim for testing the intake workflow; does NOT auto-submit)
+            </span>
+          </div>
+
+          <script>
+            function fillSampleClaimForm() {
+              var claimInput = document.getElementById('claimText');
+              var urlInput = document.getElementById('claimSourceUrl');
+              var contextInput = document.getElementById('claimContext');
+              var alertBox = document.getElementById('submissionAlert');
+
+              if (claimInput) {
+                claimInput.value = 'Drinking concentrated lemon juice with boiled ginger root extract on an empty stomach completely dissolves kidney stones in 48 hours without medical intervention.';
+              }
+              if (urlInput) {
+                urlInput.value = 'https://instagram.com/reels/viral-remedy-post';
+              }
+              if (contextInput) {
+                contextInput.value = 'Circulating as a forwarded voice note and text message in a family WhatsApp group advising individuals to avoid hospital ultrasound or lithotripsy.';
+              }
+
+              if (alertBox) {
+                alertBox.style.display = 'block';
+                alertBox.className = 'medical-disclaimer-box';
+                alertBox.style.backgroundColor = '#EFF6FF';
+                alertBox.style.borderLeftColor = '#3B82F6';
+                alertBox.style.color = '#1E40AF';
+                alertBox.innerHTML = '<strong>Reported Claim Loaded:</strong> You can review or edit the details below, then click <em>Submit Claim for Evaluation</em> to send it to the clinical review desk.';
+              }
+              if (claimInput) claimInput.focus();
+            }
+
+            function clearClaimForm() {
+              var form = document.getElementById('claimSubmissionForm');
+              if (form) form.reset();
+              var claimInput = document.getElementById('claimText');
+              var urlInput = document.getElementById('claimSourceUrl');
+              var contextInput = document.getElementById('claimContext');
+              var alertBox = document.getElementById('submissionAlert');
+              if (claimInput) claimInput.value = '';
+              if (urlInput) urlInput.value = '';
+              if (contextInput) contextInput.value = '';
+              if (alertBox) alertBox.style.display = 'none';
+            }
+          </script>
+
+          <form id="claimSubmissionForm" novalidate>
+            
+            <div class="form-group">
+              <label for="claimText" class="form-label form-label-required">Health Claim Text</label>
+              <textarea 
+                id="claimText" 
+                name="claimText" 
+                rows="4" 
+                class="form-control" 
+                placeholder="Enter or paste the exact viral text, forwarded message, or statement (e.g. 'Drinking hot ginger water dissolves kidney stones in 48 hours')..."
+                required
+              ></textarea>
+              <div class="form-hint">Paste the exact wording of the health claim or describe the video/voice note accurately.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="claimSourceUrl" class="form-label">Original Source URL (Optional)</label>
+              <input 
+                type="url" 
+                id="claimSourceUrl" 
+                name="claimSourceUrl" 
+                class="form-control" 
+                placeholder="https://example.com/post-or-video"
+              >
+              <div class="form-hint">Paste the web link or social media post where you encountered this claim, if available.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="claimContext" class="form-label">Optional Explanation or Context</label>
+              <textarea 
+                id="claimContext" 
+                name="claimContext" 
+                rows="3" 
+                class="form-control" 
+                placeholder="Where did you see this (e.g. family group chat, TikTok, Facebook)? Why does it seem suspicious or dangerous?"
+              ></textarea>
+              <div class="form-hint">Add any helpful context such as the target audience or medium.</div>
+            </div>
+
+            <div class="form-group mt-lg">
+              <button type="submit" class="btn btn-primary btn-block btn-lg" id="submitClaimBtn">
+                Submit Claim for Evaluation
+              </button>
+            </div>
+
+            <!-- Claim Submission Feedback Alert Box -->
+            <div id="submissionAlert" class="mt-sm" style="display: none;" role="status"></div>
+          </form>
+        </section>
+
+        <!-- Information & FAQ Sidebar -->
+        <div>
+          
+          <div class="card mb-lg">
+            <h3 style="font-size: 1.2rem; margin-bottom: var(--space-sm);">How We Prioritize Submissions</h3>
+            <p class="text-muted" style="font-size: 0.9rem;">
+              Due to the immense volume of health misinformation online, our editorial evaluations are prioritized based on:
+            </p>
+            <ul style="font-size: 0.88rem; padding-left: 1.2rem; list-style: disc; color: var(--color-text);">
+              <li style="margin-bottom: 6px;"><strong>Acute Risk of Harm:</strong> Advice urging patients to abandon medications, drink toxic chemicals, or avoid emergency care.</li>
+              <li style="margin-bottom: 6px;"><strong>Virality:</strong> Claims circulating in multiple messaging groups, forums, or high-view video posts.</li>
+              <li style="margin-bottom: 6px;"><strong>Targeting Vulnerable Patients:</strong> Claims promising unverified "cures" for chronic or terminal conditions.</li>
+            </ul>
+          </div>
+
+          <div class="card mb-lg">
+            <h3 style="font-size: 1.2rem; margin-bottom: var(--space-sm);">Editorial Contact & Corrections</h3>
+            <p class="text-muted" style="font-size: 0.9rem;">
+              Need to contact the editorial team for academic inquiries or request a correction to an existing evaluation?
+            </p>
+            <div style="font-size: 0.9rem; margin-bottom: var(--space-xs);">
+              <strong>Email:</strong> <span class="text-teal">editorial@mythrx.org</span>
+            </div>
+            <div style="font-size: 0.9rem; margin-bottom: var(--space-xs);">
+              <strong>Project:</strong> Academic Health Misinformation Fact-Checking
+            </div>
+            <div style="font-size: 0.9rem;">
+              <strong>Corrections:</strong> We welcome peer-reviewed scientific citations to review and update our records.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <div class="brand-logo-icon">&#x211E;</div>
+            <div class="brand-logo-text">
+              <span class="brand-logo-title">Myth <span>Rx</span></span>
+              <span class="brand-logo-tagline">Busting Health Hoaxes</span>
+            </div>
+          </a>
+          <p class="footer-about">
+            Myth Rx investigates viral health misinformation, unverified remedies, and pseudoscientific medical claims to protect the public from preventable health hazards.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Investigations</h4>
+          <ul class="footer-links">
+            <li><a href="investigations.html?category=whatsapp">WhatsApp Forwards</a></li>
+            <li><a href="investigations.html?category=cancer">Cancer "Cures"</a></li>
+            <li><a href="investigations.html?category=diet">Diet & Detox</a></li>
+            <li><a href="investigations.html?category=supplements">Supplements</a></li>
+            <li><a href="investigations.html?category=cardiology">Cardiovascular</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Organization</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Myth Rx</a></li>
+            <li><a href="about.html#methodology">Our Methodology</a></li>
+            <li><a href="about.html#editorial-standards">Editorial Standards</a></li>
+            <li><a href="contact.html">Contact Editorial Team</a></li>
+            <li><a href="contact.html#submit-claim">Submit a Health Claim</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Account & Admin</h4>
+          <ul class="footer-links">
+            <li><a href="login.html">User Login</a></li>
+            <li><a href="signup.html">Create Free Account</a></li>
+            <li><a href="user-dashboard.html">User Dashboard</a></li>
+            <li><a href="admin/index.html">Admin Portal</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Myth Rx. All rights reserved. Academic Fact-Checking Project.</p>
+        <div class="footer-bottom-links">
+          <a href="about.html#disclaimer">Medical Disclaimer</a>
+          <a href="about.html#privacy">Privacy Policy</a>
+          <a href="contact.html">Report Correction</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/quick-search.js"></script>
+  <script>
+    // Demo Helper: Populate Sample Claim for Walkthrough & Presentation
+    document.getElementById('loadSampleClaimBtn')?.addEventListener('click', function() {
+      const claimTextInput = document.getElementById('claimText');
+      const urlInput = document.getElementById('claimSourceUrl');
+      const contextInput = document.getElementById('claimContext');
+      const alertBox = document.getElementById('submissionAlert');
+
+      if (claimTextInput) {
+        claimTextInput.value = 'Drinking a particular herbal drink is claimed to dissolve kidney stones within 48 hours.';
+      }
+      if (urlInput) {
+        urlInput.value = 'https://example.com/sample-viral-claim';
+      }
+      if (contextInput) {
+        contextInput.value = 'Example submitted for demonstrating the claim-review workflow.';
+      }
+
+      if (alertBox) {
+        alertBox.style.display = 'block';
+        alertBox.className = 'medical-disclaimer-box';
+        alertBox.style.backgroundColor = '#EFF6FF';
+        alertBox.style.borderLeftColor = '#3B82F6';
+        alertBox.style.color = '#1E40AF';
+        alertBox.innerHTML = '<strong>Sample Claim Loaded:</strong> Demonstration fields filled. You can review or edit the wording, then click <em>Submit Claim for Evaluation</em> to test database ingestion.';
+      }
+      claimTextInput?.focus();
+    });
+
+    // Clear Form Helper
+    document.getElementById('clearClaimFormBtn')?.addEventListener('click', function() {
+      const form = document.getElementById('claimSubmissionForm');
+      if (form) form.reset();
+      const alertBox = document.getElementById('submissionAlert');
+      if (alertBox) alertBox.style.display = 'none';
+    });
+
+    // Crowdsourced claim submission handler (Anonymous or Authenticated)
+    document.getElementById('claimSubmissionForm')?.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const claimTextInput = document.getElementById('claimText');
+      const urlInput = document.getElementById('claimSourceUrl');
+      const contextInput = document.getElementById('claimContext');
+      const alertBox = document.getElementById('submissionAlert');
+      const submitBtn = document.getElementById('submitClaimBtn');
+      
+      const claimVal = claimTextInput ? claimTextInput.value.trim() : '';
+      const urlVal = urlInput ? urlInput.value.trim() : null;
+      const contextVal = contextInput ? contextInput.value.trim() : null;
+      
+      if (!claimVal || claimVal.length < 10) {
+        if (alertBox) {
+          alertBox.style.display = 'block';
+          alertBox.className = 'medical-disclaimer-box';
+          alertBox.style.backgroundColor = '#FEF2F2';
+          alertBox.style.borderLeftColor = '#DC2626';
+          alertBox.style.color = '#991B1B';
+          alertBox.innerHTML = '<strong>Validation Error:</strong> Please enter a health claim statement of at least 10 characters to evaluate.';
+        }
+        claimTextInput?.focus();
+        return;
+      }
+
+      const supabase = window.MythRx?.getSupabaseClient?.();
+
+      // 1. If Supabase is configured, submit live record to public.submissions
+      if (supabase) {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Transmitting to Clinical Desk...';
+        }
+
+        try {
+          const currentUser = await window.MythRx?.getCurrentUser?.();
+
+          // Enforced by RLS policies: "Public can submit claims anonymously" / "Authenticated users can submit claims"
+          // Omit user_id when anonymous because anon role does not have INSERT privilege on user_id column
+          const insertPayload = {
+            claim_text: claimVal,
+            source_url: urlVal || null,
+            additional_context: contextVal || null,
+            status: 'pending'
+          };
+          if (currentUser && currentUser.id) {
+            insertPayload.user_id = currentUser.id;
+          }
+
+          // Note: anon role does not have SELECT privilege on submissions, so perform clean INSERT without returning
+          const { error } = await supabase
+            .from('submissions')
+            .insert(insertPayload);
+
+          if (error) throw error;
+
+          if (alertBox) {
+            alertBox.style.display = 'block';
+            alertBox.className = 'medical-disclaimer-box';
+            alertBox.style.backgroundColor = '#F0FDF4';
+            alertBox.style.borderLeftColor = '#16A34A';
+            alertBox.style.color = '#166534';
+            alertBox.innerHTML = '<strong>Claim Received by Clinical Desk:</strong><br>' +
+              'Your submission was successfully recorded in the intake queue. Our editorial reviewers prioritize claims based on acute health risk and viral circulation.';
+          }
+
+          // Reset form fields
+          claimTextInput.value = '';
+          if (urlInput) urlInput.value = '';
+          if (contextInput) contextInput.value = '';
+
+        } catch (err) {
+          if (alertBox) {
+            alertBox.style.display = 'block';
+            alertBox.className = 'medical-disclaimer-box';
+            alertBox.style.backgroundColor = '#FEF2F2';
+            alertBox.style.borderLeftColor = '#DC2626';
+            alertBox.style.color = '#991B1B';
+            alertBox.innerHTML = `<strong>Submission Error:</strong> ${err.message || 'Could not reach database.'}`;
+          }
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Claim for Evaluation';
+          }
+        }
+        return;
+      }
+
+      // 2. Fallback: Supabase unconfigured -> truthful demonstration feedback
+      if (alertBox) {
+        alertBox.style.display = 'block';
+        alertBox.className = 'medical-disclaimer-box';
+        alertBox.style.backgroundColor = '#EFF6FF';
+        alertBox.style.borderLeftColor = '#3B82F6';
+        alertBox.style.color = '#1E40AF';
+        alertBox.innerHTML = '<strong>Demonstration Mode:</strong> Your claim statement validated successfully. Add your Supabase project credentials in <code>js/supabase.js</code> to stream submissions directly into the intake queue.';
+      }
+
+      claimTextInput.value = '';
+      if (urlInput) urlInput.value = '';
+      if (contextInput) contextInput.value = '';
+    });
+  </script>
+</body>
+</html>

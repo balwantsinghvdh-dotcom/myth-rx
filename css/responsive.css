@@ -1,0 +1,226 @@
+/* ==========================================================================
+   MYTH RX — BUSTING HEALTH HOAXES
+   Responsive Stylesheet & Breakpoint Optimizations
+   Phase 1: Project Setup and Architecture
+   ========================================================================== */
+
+/* --- 1. TABLET & SMALL LAPTOP BREAKPOINT (<= 1024px) --- */
+@media screen and (max-width: 1024px) {
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .methodology-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+  }
+
+  .hero-title {
+    font-size: 2.4rem;
+  }
+}
+
+/* --- 2. MOBILE LANDSCAPE & TABLETS (<= 768px) --- */
+@media screen and (max-width: 768px) {
+  :root {
+    --header-height: 64px;
+  }
+
+  .container {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+
+  /* Navigation Drawer for Mobile */
+  .nav-toggle-btn {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    background-color: var(--color-surface);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-lg);
+    border-bottom: 2px solid var(--color-border);
+    box-shadow: var(--shadow-lg);
+    gap: var(--space-md);
+    transform: translateY(-150%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform var(--transition-normal), opacity var(--transition-normal), visibility var(--transition-normal);
+  }
+
+  .nav-menu.open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-link {
+    width: 100%;
+    padding: var(--space-xs) 0;
+    font-size: 1.05rem;
+  }
+
+  .nav-actions {
+    display: none; /* Secondary actions moved inside mobile menu when open */
+  }
+
+  .nav-menu .mobile-only-actions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* Grid Reductions */
+  .grid-3,
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .methodology-strip {
+    grid-template-columns: 1fr;
+  }
+
+  /* Hero Adjustments */
+  .hero-section {
+    padding: var(--space-xl) 0;
+  }
+
+  .hero-title {
+    font-size: 1.95rem;
+    letter-spacing: -0.5px;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .search-input-wrapper {
+    flex-direction: column;
+    border-radius: var(--radius-md);
+    padding: var(--space-xs);
+  }
+
+  .search-btn {
+    width: 100%;
+    border-radius: var(--radius-sm);
+    justify-content: center;
+  }
+
+  .cta-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: var(--space-xl) var(--space-md);
+    gap: var(--space-lg);
+  }
+
+  .cta-banner p {
+    margin: 0 auto;
+  }
+
+  /* Section Headers */
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+  }
+
+  /* Top Notice Bar */
+  .top-notice-bar .container {
+    flex-direction: column;
+    text-align: center;
+    gap: 4px;
+  }
+
+  /* Footer */
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: var(--space-sm);
+    text-align: center;
+  }
+
+  .verdict-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  /* Mobile Categories Dropdown in Drawer */
+  .nav-dropdown {
+    width: 100%;
+  }
+
+  .nav-dropdown-menu {
+    position: static;
+    transform: none !important;
+    width: 100%;
+    box-shadow: none;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    margin-top: 4px;
+    display: none;
+    padding: var(--space-2xs);
+  }
+
+  .nav-dropdown.open .nav-dropdown-menu,
+  .nav-dropdown:hover .nav-dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Stats Ticker Tablet */
+  .stats-ticker {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* --- 3. SMALL SMARTPHONES (<= 480px) --- */
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: 1.85rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 1.7rem;
+  }
+
+  .btn-lg {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .stats-ticker {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-search-modal {
+    margin: 0 var(--space-xs);
+  }
+}

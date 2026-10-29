@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Log in to your Myth Rx account to manage bookmarked investigations and submitted claims.">
+  <title>Log In — Myth Rx | Busting Health Hoaxes</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Supabase Official JS Client (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: var(--space-xl) var(--space-md);
+      background: linear-gradient(180deg, #FFFFFF 0%, var(--color-bg) 100%);
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl) var(--space-xl);
+      box-shadow: var(--shadow-lg);
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: var(--space-xl);
+    }
+  </style>
+</head>
+<body class="auth-page">
+
+  <div class="auth-card">
+    <div class="auth-header">
+      <a href="index.html" class="brand-logo" style="margin-bottom: var(--space-md); justify-content: center;">
+        <div class="brand-logo-icon">&#x211E;</div>
+        <div class="brand-logo-text" style="text-align: left;">
+          <span class="brand-logo-title">Myth <span>Rx</span></span>
+          <span class="brand-logo-tagline">Busting Health Hoaxes</span>
+        </div>
+      </a>
+      <h1 style="font-size: 1.5rem; margin-bottom: 4px;">Welcome Back</h1>
+      <p class="text-muted" style="font-size: 0.9rem;">Sign in to access your dashboard &amp; bookmarks</p>
+    </div>
+
+    <!-- Frontend Preview Notice Box -->
+    <div id="authPreviewNotice" class="medical-disclaimer-box" style="margin-top: 0; margin-bottom: var(--space-lg); font-size: 0.8rem; background-color: #EFF6FF; border-left-color: #3B82F6; color: #1E40AF;">
+      <strong>Frontend Preview:</strong> Add your Supabase project credentials in <code>js/supabase.js</code> to enable live authentication.
+    </div>
+
+    <!-- Login Form -->
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="loginEmail" class="form-label form-label-required">Email Address</label>
+        <input 
+          type="email" 
+          id="loginEmail" 
+          name="email" 
+          class="form-control" 
+          placeholder="name@example.com"
+          required
+          autocomplete="email"
+        >
+      </div>
+
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xs);">
+          <label for="loginPassword" class="form-label form-label-required" style="margin-bottom: 0;">Password</label>
+          <a href="#" style="font-size: 0.8rem; color: var(--color-teal);" onclick="alert('Password reset will be enabled with Supabase Auth in Phase 2.'); return false;">Forgot password?</a>
+        </div>
+        <input 
+          type="password" 
+          id="loginPassword" 
+          name="password" 
+          class="form-control" 
+          placeholder="••••••••"
+          required
+          autocomplete="current-password"
+        >
+      </div>
+
+      <div class="form-group mt-lg">
+        <button type="submit" class="btn btn-primary btn-block btn-lg" id="loginBtn">
+          Sign In
+        </button>
+        <button type="button" id="adminDemoFillBtn" style="background: none; border: none; color: var(--color-teal); font-size: 0.8rem; width: 100%; text-align: center; margin-top: var(--space-xs); cursor: pointer; text-decoration: underline;">
+          Quick Fill Administrator Credentials
+        </button>
+      </div>
+
+      <div id="loginAlert" style="display: none; margin-top: var(--space-sm);"></div>
+    </form>
+
+    <div style="text-align: center; margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--color-border); font-size: 0.9rem;">
+      <span class="text-muted">Don't have an account?</span>
+      <a href="signup.html" style="font-weight: 700; margin-left: 4px;">Create an account</a>
+    </div>
+
+    <div style="text-align: center; margin-top: var(--space-md);">
+      <a href="index.html" style="font-size: 0.85rem; color: var(--color-text-muted);">&larr; Return to homepage</a>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const notice = document.getElementById('authPreviewNotice');
+      if (notice && window.MythRx?.isSupabaseConfigured?.()) {
+        notice.style.display = 'none';
+      }
+
+      // Check for admin redirect parameter
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('redirect') === 'admin') {
+        const alertBox = document.getElementById('loginAlert');
+        if (alertBox) {
+          alertBox.style.display = 'block';
+          alertBox.className = 'medical-disclaimer-box';
+          alertBox.style.backgroundColor = '#EFF6FF';
+          alertBox.style.borderLeftColor = '#3B82F6';
+          alertBox.style.color = '#1E40AF';
+          alertBox.innerHTML = '<strong>🔒 Administrator Access Required:</strong> Sign in with an authorized clinical administrator account to access the Editorial Desk.';
+        }
+      }
+
+      // Demo Admin Fill handler
+      const demoBtn = document.getElementById('adminDemoFillBtn');
+      if (demoBtn) {
+        demoBtn.addEventListener('click', () => {
+          const emailInput = document.getElementById('loginEmail');
+          const passInput = document.getElementById('loginPassword');
+          if (emailInput) emailInput.value = 'admin@mythrx.org';
+          if (passInput) passInput.value = 'MythRxAdmin2026!';
+          const alertBox = document.getElementById('loginAlert');
+          if (alertBox) {
+            alertBox.style.display = 'block';
+            alertBox.className = 'medical-disclaimer-box';
+            alertBox.style.backgroundColor = '#FEF9E7';
+            alertBox.style.borderLeftColor = '#D97706';
+            alertBox.style.color = '#78350F';
+            alertBox.innerHTML = '<strong>Admin Credentials Populated:</strong> Click Sign In to access the Editorial Desk.';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

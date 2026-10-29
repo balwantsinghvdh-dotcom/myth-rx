@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn about Myth Rx, our evidence-based medical fact-checking methodology, editorial policies, and scientific review standards.">
+  <title>About & Methodology — Myth Rx | Busting Health Hoaxes</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Supabase Official JS Client (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-notice-bar">
+    <div class="container">
+      <div>
+        <span class="top-notice-pill">Editorial Standards</span>
+        <span>Dedicated to scientific integrity, peer-reviewed evidence, and public health safety.</span>
+      </div>
+      <div>
+        <a href="contact.html#submit-claim" class="top-notice-link">Submit a claim for review &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Primary Site Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <!-- Text & Symbol Brand Logo -->
+        <a href="index.html" class="brand-logo" aria-label="Myth Rx Homepage">
+          <div class="brand-logo-icon" aria-hidden="true">&#x211E;</div>
+          <div class="brand-logo-text">
+            <span class="brand-logo-title">Myth <span>Rx</span></span>
+            <span class="brand-logo-tagline">Busting Health Hoaxes</span>
+          </div>
+        </a>
+
+        <!-- Desktop & Mobile Navigation Links -->
+        <ul class="nav-menu" id="primaryNav">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="investigations.html" class="nav-link">Investigations</a></li>
+          <li><a href="about.html" class="nav-link active">About</a></li>
+          <li><a href="contact.html#submit-claim" class="nav-link">Submit a Claim</a></li>
+          
+          <!-- Mobile Only Action Links inside Drawer -->
+          <li class="mobile-only-actions">
+            <button class="btn btn-outline-teal btn-sm btn-block open-quick-search-trigger" type="button">🔍 Quick Search Claims</button>
+            <a href="login.html" class="btn btn-secondary btn-sm btn-block">Log In</a>
+            <a href="signup.html" class="btn btn-primary btn-sm btn-block">Sign Up</a>
+          </li>
+        </ul>
+
+        <!-- Right Side Nav Actions Group -->
+        <div class="nav-right-group">
+          <!-- Universal Quick Search Button with Ctrl+K shortcut -->
+          <button class="nav-search-btn" id="openQuickSearchBtn" type="button" aria-label="Quick search health claims">
+            <span>🔍</span>
+            <span>Search claims</span>
+            <kbd class="nav-search-kbd">Ctrl K</kbd>
+          </button>
+
+          <div class="nav-actions">
+            <a href="contact.html#submit-claim" class="btn btn-outline-teal btn-sm">Submit a Claim</a>
+            <a href="login.html" class="btn btn-secondary btn-sm">Log In</a>
+            <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+          </div>
+        </div>
+
+        <!-- Accessible Mobile Hamburger Button -->
+        <button class="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primaryNav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content section">
+    <div class="container container-narrow">
+      
+      <!-- Breadcrumbs -->
+      <nav class="breadcrumbs-nav" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumbs-sep">›</span>
+        <span class="breadcrumbs-current">About & Methodology</span>
+      </nav>
+
+      <!-- Page Heading -->
+      <div class="section-header-centered mb-xl">
+        <span class="section-kicker">Our Mission & Science</span>
+        <h1>About Myth Rx: Busting Health Hoaxes</h1>
+        <p class="section-description">
+          Health misinformation kills. Myth Rx bridges the gap between complex peer-reviewed medical science and viral internet claims.
+        </p>
+      </div>
+
+      <!-- Introduction Card -->
+      <div class="card mb-xl">
+        <h2 style="font-size: 1.4rem; margin-bottom: var(--space-sm);">Why Myth Rx Was Created</h2>
+        <p>
+          Unlike political or celebrity rumors, <strong>medical misinformation carries immediate physical risk</strong>. When a patient drinks toxic kerosene or boils poisonous herbs because of a viral WhatsApp forward, or discontinues prescribed insulin or chemotherapy in favor of unverified supplements, the consequence can be fatal.
+        </p>
+        <p>
+          Myth Rx was developed as a dedicated health fact-checking platform. Our mission is to dismantle viral pseudoscientific advice, predatory wellness scams, and dangerous home remedies by presenting transparent, accessible, peer-reviewed clinical evidence.
+        </p>
+      </div>
+
+      <!-- Methodology Section -->
+      <section id="methodology" class="mb-xl">
+        <h2 style="font-size: 1.6rem; margin-bottom: var(--space-md);">Our 4-Stage Fact-Checking Methodology</h2>
+        <p class="text-muted">
+          Every investigation published on Myth Rx adheres to a structured, evidence-based evaluation process modeled after health journalism standards:
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: var(--space-md); margin-top: var(--space-lg);">
+          
+          <div class="card" style="border-left: 4px solid var(--color-teal);">
+            <h3 style="font-size: 1.15rem; color: var(--color-navy); margin-bottom: 4px;">1. Claim Selection & Harm Assessment</h3>
+            <p style="margin-bottom: 0; font-size: 0.95rem; color: var(--color-text);">
+              We prioritize claims based on three metrics: <strong>virality</strong> (spread across messaging apps and social media), <strong>potential for acute harm</strong> (claims encouraging patients to abandon critical medications, ingest toxic substances, or delay emergency care), and <strong>predatory exploitation</strong> (financial wellness and miracle cure schemes).
+            </p>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--color-navy);">
+            <h3 style="font-size: 1.15rem; color: var(--color-navy); margin-bottom: 4px;">2. Hierarchy of Medical Evidence</h3>
+            <p style="margin-bottom: 0; font-size: 0.95rem; color: var(--color-text);">
+              We do not rely on anecdotal testimonials, press releases, or commercial wellness blogs. We evaluate claims against the established hierarchy of scientific evidence: systematic reviews and meta-analyses (Cochrane, PubMed), randomized controlled trials (RCTs), national clinical practice guidelines (e.g. AUA, ADA, AHA), and global public health surveillance (WHO, CDC, FDA).
+            </p>
+          </div>
+
+          <div class="card" style="border-left: 4px solid #F59E0B;">
+            <h3 style="font-size: 1.15rem; color: var(--color-navy); margin-bottom: 4px;">3. Standardized Rating Verdicts</h3>
+            <p style="margin-bottom: var(--space-xs); font-size: 0.95rem; color: var(--color-text);">
+              Every investigated claim receives one of four standardized public verdicts:
+            </p>
+            <ul style="font-size: 0.9rem; padding-left: 1rem; list-style: disc; display: flex; flex-direction: column; gap: 6px;">
+              <li><strong>SUPPORTED:</strong> Clinical trials, systematic reviews, and professional consensus guidelines corroborate the claim's health statements. <em>(Note: We use "Supported" rather than "Verified" because verification describes our investigatory workflow, not truth itself).</em></li>
+              <li><strong>FALSE:</strong> The claim is demonstrably inaccurate, contradicted by clinical trials, or physiologically impossible.</li>
+              <li><strong>MISLEADING:</strong> Contains an isolated laboratory truth or preliminary animal observation that has been exaggerated, stripped of crucial context, or generalized to false human health advice.</li>
+              <li><strong>UNVERIFIED:</strong> Sufficient human clinical evidence does not exist to either prove or disprove the claim. Preliminary in-vitro studies cannot justify clinical practice.</li>
+            </ul>
+          </div>
+
+          <div class="card" style="border-left: 4px solid #10B981;">
+            <h3 style="font-size: 1.15rem; color: var(--color-navy); margin-bottom: 4px;">4. Patient-First Plain-Language Translation</h3>
+            <p style="margin-bottom: 0; font-size: 0.95rem; color: var(--color-text);">
+              Medical evidence is only protective if ordinary families can understand and share it. We translate dense pharmacological pathways into clear, accessible explanations that readers can send directly to relatives to counter viral misinformation in messaging groups.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Editorial Transparency & Review Integrity -->
+      <section id="editorial-standards" class="card mb-xl">
+        <h2 style="font-size: 1.4rem; margin-bottom: var(--space-sm);">Editorial Transparency & Review Integrity</h2>
+        <p>
+          Myth Rx is developed as an academic fact-checking initiative. We adhere to strict integrity and transparency principles:
+        </p>
+        <ul style="font-size: 0.95rem; padding-left: 1.2rem; list-style: disc; margin-bottom: 1rem;">
+          <li style="margin-bottom: 6px;"><strong>Honest Attribution:</strong> We describe our methodology transparently. We never claim a specialist or medical expert has reviewed an article unless that clinical review has formally taken place and is documented.</li>
+          <li style="margin-bottom: 6px;"><strong>Zero Commercial Conflicts:</strong> We accept zero pharmaceutical sponsorships, supplement affiliate commissions, or sponsored medical placements.</li>
+          <li style="margin-bottom: 6px;"><strong>Direct Citations:</strong> Every factual claim in our evaluations links directly to indexed, peer-reviewed medical publications or public health authority repositories.</li>
+          <li style="margin-bottom: 6px;"><strong>Corrections Policy:</strong> If new peer-reviewed clinical evidence emerges, our investigations are updated with a transparent correction log.</li>
+        </ul>
+      </section>
+
+      <!-- Limitations of the Platform -->
+      <section class="card mb-xl" style="background-color: #F8FAFC; border-left: 4px solid var(--color-navy);">
+        <h2 style="font-size: 1.4rem; margin-bottom: var(--space-sm);">Platform Scope & Limitations</h2>
+        <p style="font-size: 0.95rem;">
+          Understanding what Myth Rx is—and what it is not—is critical to using this platform responsibly:
+        </p>
+        <ul style="font-size: 0.92rem; padding-left: 1.2rem; list-style: disc;">
+          <li style="margin-bottom: 6px;"><strong>General Education Only:</strong> Investigations assess general population-level health claims. They cannot account for individual comorbidities, drug interactions, or personal clinical histories.</li>
+          <li style="margin-bottom: 6px;"><strong>Not an Emergency Service:</strong> We do not triage acute symptoms or provide real-time clinical consultations. In an emergency, always call local emergency medical services immediately.</li>
+          <li style="margin-bottom: 6px;"><strong>Evidence-Based Scope:</strong> Published articles synthesize consensus findings from peer-reviewed medical literature and clinical guidelines.</li>
+        </ul>
+      </section>
+
+      <!-- Educational Disclaimer Box -->
+      <section id="disclaimer">
+        <div class="medical-disclaimer-box" role="note">
+          <strong>Mandatory Educational Disclaimer:</strong> Myth Rx is an educational and public interest health misinformation evaluation website. Content published here is provided solely for general educational and informational purposes and does not constitute individual medical diagnosis, prognosis, or clinical treatment advice. Never disregard professional medical advice or delay in seeking it because of something you have read on this website. If you think you may have a medical emergency, immediately call your doctor or local emergency services.
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <div class="brand-logo-icon">&#x211E;</div>
+            <div class="brand-logo-text">
+              <span class="brand-logo-title">Myth <span>Rx</span></span>
+              <span class="brand-logo-tagline">Busting Health Hoaxes</span>
+            </div>
+          </a>
+          <p class="footer-about">
+            Myth Rx investigates viral health misinformation, unverified remedies, and pseudoscientific medical claims to protect the public from preventable health hazards.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Investigations</h4>
+          <ul class="footer-links">
+            <li><a href="investigations.html?category=whatsapp">WhatsApp Forwards</a></li>
+            <li><a href="investigations.html?category=cancer">Cancer "Cures"</a></li>
+            <li><a href="investigations.html?category=diet">Diet & Detox</a></li>
+            <li><a href="investigations.html?category=supplements">Supplements</a></li>
+            <li><a href="investigations.html?category=vaccines">Vaccine Facts</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Organization</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Myth Rx</a></li>
+            <li><a href="about.html#methodology">Our Methodology</a></li>
+            <li><a href="about.html#editorial-standards">Editorial Standards</a></li>
+            <li><a href="contact.html">Contact Editorial Team</a></li>
+            <li><a href="contact.html#submit-claim">Submit a Health Claim</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Account & Admin</h4>
+          <ul class="footer-links">
+            <li><a href="login.html">User Login</a></li>
+            <li><a href="signup.html">Create Free Account</a></li>
+            <li><a href="user-dashboard.html">User Dashboard</a></li>
+            <li><a href="admin/index.html">Admin Portal</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Myth Rx. All rights reserved. Academic Fact-Checking Project.</p>
+        <div class="footer-bottom-links">
+          <a href="about.html#disclaimer">Medical Disclaimer</a>
+          <a href="about.html#privacy">Privacy Policy</a>
+          <a href="contact.html">Report Correction</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/quick-search.js"></script>
+</body>
+</html>

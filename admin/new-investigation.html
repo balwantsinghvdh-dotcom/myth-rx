@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Author, edit, and publish clinical fact-check investigations on Myth Rx.">
+  <title>New Investigation — Myth Rx Admin</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets (Relative to admin/ directory) -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+
+  <!-- Path normalization for clean routing -->
+  <script>
+    if (window.location.pathname === '/admin') {
+      window.location.replace('/admin/new-investigation.html' + window.location.search + window.location.hash);
+    }
+  </script>
+
+  <!-- Supabase Official JS Client (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Admin Site Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Admin Navigation">
+        <a href="../index.html" class="brand-logo" aria-label="Myth Rx Public Homepage">
+          <div class="brand-logo-icon">&#x211E;</div>
+          <div class="brand-logo-text">
+            <span class="brand-logo-title">Myth <span>Rx</span></span>
+            <span class="brand-logo-tagline" style="color: var(--color-teal);">Editorial &amp; Verification Panel</span>
+          </div>
+        </a>
+
+        <div class="nav-actions">
+          <span class="verdict-badge verdict-context" style="font-size: 0.75rem;">Admin Session</span>
+          <a href="../index.html" class="btn btn-secondary btn-sm" target="_blank">&larr; View Public Website</a>
+          <button type="button" class="btn btn-outline-teal btn-sm logout-btn" id="adminLogoutBtn">Log Out</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Dashboard Shell -->
+  <div class="dashboard-layout">
+    
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar" aria-label="Admin Navigation">
+      <div>
+        <div class="sidebar-user-info">
+          <span class="sidebar-user-role" style="color: #991B1B;">Clinical Reviewer</span>
+          <div class="sidebar-user-name">Editorial Desk</div>
+          <div class="sidebar-user-email">admin@mythrx.org</div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="index.html" class="sidebar-link">
+            <span>&#128202; Overview</span>
+          </a>
+          <a href="articles.html" class="sidebar-link">
+            <span>&#128221; Manage Investigations</span>
+          </a>
+          <a href="submissions.html" class="sidebar-link">
+            <span>&#128233; Review Submissions</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="new-investigation.html" class="btn btn-primary btn-sm btn-block mb-sm active">
+          + New Investigation
+        </a>
+        <a href="articles.html" class="btn btn-secondary btn-sm btn-block mb-sm">
+          &larr; Manage Investigations
+        </a>
+        <a href="../index.html" class="btn btn-secondary btn-sm btn-block">
+          Public Homepage
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-main">
+
+      <!-- Phase Notice Container -->
+      <div id="adminPhaseNotice"></div>
+
+      <!-- Topbar Header -->
+      <div class="dashboard-topbar">
+        <div class="dashboard-title-group">
+          <h1 id="editorPageHeading">Investigation Editor</h1>
+          <p id="editorPageSubheading">Draft, review, and publish evidence-based clinical fact-checks against the live investigations schema.</p>
+        </div>
+        <div class="dashboard-actions">
+          <a href="articles.html" class="btn btn-secondary btn-sm">&larr; Back to Investigations List</a>
+        </div>
+      </div>
+
+      <!-- Claim Intake Notice (when prefilled from submissions) -->
+      <div id="claimIntakeBanner" style="display: none; margin-bottom: var(--space-md); padding: var(--space-md); background: #EFF6FF; border-left: 4px solid var(--color-teal); border-radius: 6px;">
+        <div style="font-weight: 700; color: var(--color-navy); font-size: 0.95rem;">📥 Converting Crowdsourced Claim to Investigation</div>
+        <p style="font-size: 0.85rem; color: var(--color-text-muted); margin: 4px 0 0;">The viral claim text and source references below have been pre-filled from reader submission queue. Refine the clinical analysis before publishing.</p>
+      </div>
+
+      <!-- Investigation Editor Form Section -->
+      <section class="card" aria-labelledby="editorSectionTitle">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md); border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-sm);">
+          <div>
+            <h2 id="editorSectionTitle" style="font-size: 1.3rem; margin: 0;">Author Fact-Check Investigation</h2>
+            <div id="editorModeBadge" style="margin-top: 4px;">
+              <span class="verdict-badge verdict-context" style="font-size: 0.72rem;">New Investigation Mode</span>
+            </div>
+          </div>
+          <div id="editorCancelWrapper" style="display: none;">
+            <button type="button" class="btn btn-secondary btn-sm" id="cancelEditBtn">✕ Cancel Edit (Start New)</button>
+          </div>
+        </div>
+
+        <!-- Clinical Investigation Template Helper -->
+        <div style="display: flex; gap: var(--space-xs); margin-bottom: var(--space-lg); flex-wrap: wrap; align-items: center; background: var(--color-surface-alt); padding: var(--space-sm); border-radius: var(--radius-md); border: 1px dashed var(--color-border);">
+          <button type="button" class="btn btn-outline-teal btn-sm" id="loadExampleInvestigationBtn" onclick="window.loadExampleInvestigationData()">
+            📄 Load Investigation Template
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" id="clearInvestigationFormBtn" onclick="window.clearInvestigationForm()">
+            ✕ Clear Form
+          </button>
+          <span class="text-muted" style="font-size: 0.8rem; font-style: italic;">
+            (Populates evidence-based investigation fields; saves as DRAFT)
+          </span>
+        </div>
+
+        <script>
+          window.loadExampleInvestigationData = function() {
+            var titleInput = document.getElementById('invTitle');
+            var slugInput = document.getElementById('invSlug');
+            var categorySelect = document.getElementById('invCategory');
+            var verdictSelect = document.getElementById('invVerdict');
+            var statusSelect = document.getElementById('invStatus');
+            var claimInput = document.getElementById('invClaim');
+            var summaryInput = document.getElementById('invSummary');
+            var bodyInput = document.getElementById('invBody');
+            var sourcesInput = document.getElementById('invSources');
+            var alertBox = document.getElementById('invAlert');
+
+            if (titleInput) titleInput.value = 'Why Boiled Papaya Leaf Extract Does Not Rapidly Cure Severe Dengue Thrombocytopenia';
+            if (slugInput) slugInput.value = 'papaya-leaf-dengue-thrombocytopenia';
+            if (verdictSelect) verdictSelect.value = 'False';
+            if (statusSelect) statusSelect.value = 'draft'; // Explicitly Draft: Unpublished
+            if (claimInput) claimInput.value = 'Drinking raw or boiled papaya leaf extract increases platelet count from 20,000 to 150,000 in 12 hours without hospitalization.';
+            if (summaryInput) summaryInput.value = 'While Carica papaya leaf contains phytochemicals investigated in vitro, clinical evidence does not support rapid platelet restoration in acute severe dengue. Hospitalization, hematocrit monitoring, and intravenous fluid resuscitation remain essential.';
+            if (bodyInput) {
+              bodyInput.value = 'Clinical Background:\nDengue virus causes acute thrombocytopenia primarily through bone marrow suppression and immune-mediated clearance of peripheral platelets. In severe dengue, plasma leakage and vascular permeability represent life-threatening emergencies.\n\nEvidence Assessment:\nSmall preliminary trials of standardized extracts showed modest variations in platelet trends, but randomized controlled trials have not demonstrated prevention of severe plasma leakage or rapid platelet recovery within 12-24 hours.\n\nClinical Risk & Limitations:\nRelying on homemade herbal extracts while deferring IV fluid resuscitation and clinical monitoring in severe dengue significantly increases the risk of hypovolemic shock, internal hemorrhage, and fatal complications.';
+            }
+            if (sourcesInput) {
+              sourcesInput.value = 'WHO Dengue Guidelines & Clinical Management | World Health Organization | https://www.who.int/news-room/fact-sheets/detail/dengue-and-severe-dengue\nCochrane Review: Herbal Medicines for Dengue Infection | Cochrane Database of Systematic Reviews | https://www.cochranelibrary.com';
+            }
+
+            // Select first valid category option if available
+            if (categorySelect && categorySelect.options.length > 1) {
+              for (var i = 0; i < categorySelect.options.length; i++) {
+                if (categorySelect.options[i].value && categorySelect.options[i].value !== '') {
+                  categorySelect.selectedIndex = i;
+                  break;
+                }
+              }
+            }
+
+            if (alertBox) {
+              alertBox.style.display = 'block';
+              alertBox.className = 'medical-disclaimer-box';
+              alertBox.style.backgroundColor = '#EFF6FF';
+              alertBox.style.borderLeftColor = '#00A896';
+              alertBox.style.color = '#17212B';
+              alertBox.innerHTML = '<strong>Investigation Fields Loaded:</strong> Clinical fact-check fields populated as an internal <strong>DRAFT</strong>. You can review or edit any section before saving or publishing.';
+              alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          };
+
+          window.clearInvestigationForm = function() {
+            var form = document.getElementById('investigationEditorForm');
+            if (form) form.reset();
+            var idInput = document.getElementById('invEditId');
+            if (idInput) idInput.value = '';
+            var alertBox = document.getElementById('invAlert');
+            if (alertBox) alertBox.style.display = 'none';
+          };
+        </script>
+
+        <form id="investigationEditorForm">
+          <!-- Hidden Primary Key for Edit Mode -->
+          <input type="hidden" id="invEditId" value="">
+
+          <!-- SECTION 1: BASIC INFORMATION -->
+          <fieldset style="border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-lg); margin-bottom: var(--space-xl); background: #FFFFFF;">
+            <legend style="font-weight: 700; font-size: 0.95rem; color: var(--color-navy); padding: 0 var(--space-xs);">
+              1. Basic Information
+            </legend>
+            <div class="grid-2">
+              <div class="form-group">
+                <label for="invTitle" class="form-label form-label-required">Article Headline</label>
+                <input type="text" id="invTitle" class="form-control" placeholder="e.g. Why Boiled Papaya Leaves Do Not Cure Dengue" required minlength="5">
+                <div class="form-hint">Clear, authoritative headline addressing the medical myth.</div>
+              </div>
+              <div class="form-group">
+                <label for="invSlug" class="form-label form-label-required">URL Slug (Unique)</label>
+                <input type="text" id="invSlug" class="form-control" placeholder="e.g. papaya-leaf-juice-dengue" required pattern="[a-z0-9\-]+" title="Lowercase letters, numbers, and hyphens only">
+                <div class="form-hint">Unique permalink slug used in article URLs. Auto-generated from headline if left blank.</div>
+              </div>
+            </div>
+            <div class="form-group" style="max-width: 360px; margin-bottom: 0;">
+              <label for="invStatus" class="form-label form-label-required">Publication Status</label>
+              <select id="invStatus" class="form-control" required>
+                <option value="draft">Draft (Internal Only — Unpublished)</option>
+                <option value="published">Published (Public Website)</option>
+                <option value="archived">Archived (Retired)</option>
+              </select>
+              <div class="form-hint">Drafts are protected by RLS and invisible to the public.</div>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 2: ORIGINAL HEALTH CLAIM -->
+          <fieldset style="border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-lg); margin-bottom: var(--space-xl); background: #FFFFFF;">
+            <legend style="font-weight: 700; font-size: 0.95rem; color: var(--color-navy); padding: 0 var(--space-xs);">
+              2. Original Health Claim
+            </legend>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="invClaim" class="form-label form-label-required">Original Viral Claim Statement</label>
+              <textarea id="invClaim" rows="2" class="form-control" placeholder="Exact viral message, rumor text, or video transcript being investigated..." required minlength="10"></textarea>
+              <div class="form-hint">The specific health claim circulating online that readers encountered.</div>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 3: SUMMARY AND DETAILED EXPLANATION -->
+          <fieldset style="border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-lg); margin-bottom: var(--space-xl); background: #FFFFFF;">
+            <legend style="font-weight: 700; font-size: 0.95rem; color: var(--color-navy); padding: 0 var(--space-xs);">
+              3. Summary and Detailed Explanation
+            </legend>
+            <div class="form-group">
+              <label for="invSummary" class="form-label form-label-required">Executive Clinical Summary</label>
+              <textarea id="invSummary" rows="3" class="form-control" placeholder="Concise clinical summary explaining why the claim is scientifically false, misleading, or hazardous..." required minlength="15"></textarea>
+              <div class="form-hint">High-level takeaway for readers and search engine snippets.</div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="invBody" class="form-label form-label-required">Full Scientific Breakdown &amp; Physiological Analysis</label>
+              <textarea id="invBody" rows="7" class="form-control" placeholder="Detailed clinical investigation text: mechanism of action, biological pathways, pharmacological reality, and patient safety hazards... (Separate paragraphs with double line breaks)" required minlength="25"></textarea>
+              <div class="form-hint">In-depth clinical analysis. Double line-breaks will separate article paragraphs in JSONB article_content.</div>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 4: VERDICT AND CATEGORY -->
+          <fieldset style="border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-lg); margin-bottom: var(--space-xl); background: #FFFFFF;">
+            <legend style="font-weight: 700; font-size: 0.95rem; color: var(--color-navy); padding: 0 var(--space-xs);">
+              4. Verdict and Category
+            </legend>
+            <div class="grid-2">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="invCategory" class="form-label form-label-required">Health Category</label>
+                <select id="invCategory" class="form-control" required>
+                  <option value="">Loading categories...</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="invVerdict" class="form-label form-label-required">Scientific Verdict Rating</label>
+                <select id="invVerdict" class="form-control" required>
+                  <option value="False">✕ False / Hoax</option>
+                  <option value="Misleading">▲ Misleading</option>
+                  <option value="Supported">✓ Supported</option>
+                  <option value="Unverified">? Unverified</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 5: EVIDENCE AND SOURCES -->
+          <fieldset style="border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-lg); margin-bottom: var(--space-xl); background: #FFFFFF;">
+            <legend style="font-weight: 700; font-size: 0.95rem; color: var(--color-navy); padding: 0 var(--space-xs);">
+              5. Evidence and Sources
+            </legend>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="invSources" class="form-label">Peer-Reviewed Citations &amp; Guidelines (One per line: Title | Publisher | URL)</label>
+              <textarea id="invSources" rows="4" class="form-control" placeholder="AUA Guideline on Kidney Stones | American Urological Association | https://www.auanet.org&#10;Cochrane Review on Herbal Remedies | Cochrane Database | https://www.cochranelibrary.com"></textarea>
+              <div class="form-hint">Format each line as: <code>Title | Publisher / Journal | Full URL</code>. Stored in <code>public.sources</code> linked via investigation_id.</div>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 6: SAVE OR PUBLISH ACTIONS -->
+          <fieldset style="border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-lg); background: var(--color-bg);">
+            <legend style="font-weight: 700; font-size: 0.95rem; color: var(--color-navy); padding: 0 var(--space-xs);">
+              6. Save or Publish Actions
+            </legend>
+            <div style="display: flex; gap: var(--space-sm); align-items: center; flex-wrap: wrap;">
+              <button type="submit" class="btn btn-primary btn-md" id="invSaveBtn">Publish Investigation</button>
+              <button type="button" class="btn btn-secondary btn-md" id="saveDraftBtn">Save Draft</button>
+              <a href="articles.html" class="btn btn-outline-teal btn-md">Cancel or Return</a>
+            </div>
+            <div id="invAlert" style="display: none; margin-top: var(--space-md);"></div>
+          </fieldset>
+        </form>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/supabase.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Myth Rx Admin Portal: Overview metrics, recent claim submissions, and published investigation management.">
+  <title>Admin Dashboard — Myth Rx | Busting Health Hoaxes</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets (Relative to admin/ directory) -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+
+  <!-- Path normalization for clean routing -->
+  <script>
+    if (window.location.pathname === '/admin') {
+      window.location.replace('/admin/index.html' + window.location.search + window.location.hash);
+    }
+  </script>
+
+  <!-- Supabase Official JS Client (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Admin Site Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Admin Navigation">
+        <a href="../index.html" class="brand-logo" aria-label="Myth Rx Public Homepage">
+          <div class="brand-logo-icon">&#x211E;</div>
+          <div class="brand-logo-text">
+            <span class="brand-logo-title">Myth <span>Rx</span></span>
+            <span class="brand-logo-tagline" style="color: var(--color-teal);">Editorial &amp; Verification Panel</span>
+          </div>
+        </a>
+
+        <div class="nav-actions">
+          <span class="verdict-badge verdict-context" style="font-size: 0.75rem;">Admin Session</span>
+          <a href="../index.html" class="btn btn-secondary btn-sm" target="_blank">&larr; View Public Website</a>
+          <button type="button" class="btn btn-outline-teal btn-sm logout-btn" id="adminLogoutBtn">Log Out</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Dashboard Shell -->
+  <div class="dashboard-layout">
+    
+    <!-- Admin Sidebar -->
+    <aside class="dashboard-sidebar" aria-label="Admin Navigation">
+      <div>
+        <div class="sidebar-user-info">
+          <span class="sidebar-user-role" style="color: #991B1B;">Clinical Reviewer</span>
+          <div class="sidebar-user-name">Editorial Desk</div>
+          <div class="sidebar-user-email">admin@mythrx.org</div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="index.html" class="sidebar-link active">
+            <span>&#128202; Overview</span>
+          </a>
+          <a href="articles.html" class="sidebar-link">
+            <span>&#128221; Manage Investigations</span>
+            <span class="sidebar-badge">6</span>
+          </a>
+          <a href="submissions.html" class="sidebar-link">
+            <span>&#128233; Review Submissions</span>
+            <span class="sidebar-badge sidebar-badge-teal">8</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="new-investigation.html" class="btn btn-primary btn-sm btn-block mb-sm">
+          + New Investigation
+        </a>
+        <a href="../index.html" class="btn btn-secondary btn-sm btn-block">
+          Public Homepage
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Admin Content -->
+    <main class="dashboard-main">
+      
+      <!-- Phase 1 Notice Box -->
+      <div id="adminPhaseNotice"></div>
+
+      <!-- Topbar Header -->
+      <div class="dashboard-topbar">
+        <div class="dashboard-title-group">
+          <h1>Editorial Desk Overview</h1>
+          <p>Real-time monitoring of community claim intake, evidence reviews, and published peer-reviewed fact-checks.</p>
+        </div>
+        <div class="dashboard-actions">
+          <a href="new-investigation.html" class="btn btn-primary btn-sm">+ Draft New Fact-Check</a>
+        </div>
+      </div>
+
+      <!-- Quick Access Editorial Action Bar -->
+      <div class="action-bar-strip">
+        <span style="font-size: 0.82rem; font-weight: 700; color: var(--color-ink); text-transform: uppercase; letter-spacing: 0.5px;">Quick Actions:</span>
+        <a href="new-investigation.html" class="btn btn-primary btn-sm">+ Create Investigation</a>
+        <a href="submissions.html" class="btn btn-secondary btn-sm">📥 Review Submissions Queue</a>
+        <a href="articles.html" class="btn btn-outline-teal btn-sm">📑 Manage All Investigations</a>
+      </div>
+
+      <!-- Metrics Grid (Real Database Records Only) -->
+      <div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+        <div class="metric-card">
+          <div class="metric-label">Claims Awaiting Review</div>
+          <div class="metric-value" id="metricAdminPending">0</div>
+          <div class="metric-detail">Pending clinical intake</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Investigations in Draft</div>
+          <div class="metric-value" id="metricAdminDraft">0</div>
+          <div class="metric-detail">Internal clinical reviews</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Published Fact-Checks</div>
+          <div class="metric-value" id="metricAdminPublished">0</div>
+          <div class="metric-detail">Active on public website</div>
+          <span id="metricAdminTotal" style="display: none;">0</span>
+        </div>
+      </div>
+
+      <!-- Quick Section: Incoming Claims Queue -->
+      <div class="section-header" style="margin-bottom: var(--space-md);">
+        <div>
+          <h2 style="font-size: 1.3rem;">Recent Submissions Awaiting Clinical Review</h2>
+          <p class="text-muted" style="font-size: 0.9rem;">Claims submitted by readers through the crowdsourced report form.</p>
+        </div>
+        <a href="submissions.html" class="btn btn-secondary btn-sm">View All Submissions &rarr;</a>
+      </div>
+
+      <div class="table-responsive mb-xl">
+        <table class="data-table" aria-label="Recent submissions">
+          <thead>
+            <tr>
+              <th>Viral Claim</th>
+              <th>Platform</th>
+              <th>Date Received</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminRecentSubmissionsBody">
+            <tr>
+              <td>
+                <strong>Boiled papaya leaf juice for Dengue platelet recovery</strong>
+                <div class="text-muted" style="font-size: 0.8rem;">Claimed to restore thrombocytes in 12 hours</div>
+              </td>
+              <td>WhatsApp Forward</td>
+              <td>Oct 25, 2026</td>
+              <td><span class="verdict-badge verdict-context" style="font-size: 0.7rem;">In Review</span></td>
+              <td><button type="button" class="btn btn-primary btn-sm review-claim-btn" data-sub-id="sub-mock-1">Review Claim &rarr;</button></td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Baking soda &amp; molasses injection cures Stage 4 melanoma</strong>
+                <div class="text-muted" style="font-size: 0.8rem;">Urging cancer patients to abandon chemotherapy</div>
+              </td>
+              <td>Facebook Video</td>
+              <td>Oct 26, 2026</td>
+              <td><span class="verdict-badge verdict-unproven" style="font-size: 0.7rem;">Pending</span></td>
+              <td><button type="button" class="btn btn-primary btn-sm review-claim-btn" data-sub-id="sub-mock-2">Review Claim &rarr;</button></td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Walking 8,000 to 10,000 steps daily lowers cardiovascular mortality</strong>
+                <div class="text-muted" style="font-size: 0.8rem;">Clinical trial verification confirmed and published</div>
+              </td>
+              <td>Cardiology Forum</td>
+              <td>Oct 27, 2026</td>
+              <td><span class="verdict-badge verdict-supported" style="font-size: 0.7rem;">Accepted</span></td>
+              <td><button type="button" class="btn btn-primary btn-sm review-claim-btn" data-sub-id="sub-claim-5">Review Claim &rarr;</button></td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Placing raw sliced onions in socks overnight extracts blood toxins</strong>
+                <div class="text-muted" style="font-size: 0.8rem;">Viral folk reflexology forward lacking clinical plausibility</div>
+              </td>
+              <td>WhatsApp Audio</td>
+              <td>Oct 28, 2026</td>
+              <td><span class="verdict-badge verdict-context" style="font-size: 0.7rem;">In Review</span></td>
+              <td><button type="button" class="btn btn-primary btn-sm review-claim-btn" data-sub-id="sub-claim-9">Review Claim &rarr;</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Quick Section: Published Articles -->
+      <div class="section-header" style="margin-bottom: var(--space-md);">
+        <div>
+          <h2 style="font-size: 1.3rem;">Recent Published Investigations</h2>
+          <p class="text-muted" style="font-size: 0.9rem;">Live articles currently accessible to the public.</p>
+        </div>
+        <a href="articles.html" class="btn btn-secondary btn-sm">Manage All Articles &rarr;</a>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table" aria-label="Published articles">
+          <thead>
+            <tr>
+              <th>Investigation Title</th>
+              <th>Category</th>
+              <th>Assigned Verdict</th>
+              <th>Published Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminRecentArticlesBody">
+            <tr>
+              <td>
+                <strong>Why Boiled Ginger Water Does Not Melt Kidney Stones</strong>
+              </td>
+              <td>WhatsApp Viral</td>
+              <td><span class="verdict-badge verdict-false">False / Hoax</span></td>
+              <td>Oct 24, 2026</td>
+              <td>
+                <div class="table-actions">
+                  <a href="../article.html?id=ginger-kidney-stones" class="btn btn-secondary btn-sm" target="_blank">View Live</a>
+                  <a href="new-investigation.html" class="btn btn-outline-teal btn-sm">Edit</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Can Alkaline Water Actually Alter Human Blood pH?</strong>
+              </td>
+              <td>Nutrition &amp; Detox</td>
+              <td><span class="verdict-badge verdict-misleading">Misleading</span></td>
+              <td>Oct 25, 2026</td>
+              <td>
+                <div class="table-actions">
+                  <a href="../article.html?id=alkaline-water-ph" class="btn btn-secondary btn-sm" target="_blank">View Live</a>
+                  <a href="new-investigation.html" class="btn btn-outline-teal btn-sm">Edit</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Can Walking 8,000 to 10,000 Steps Daily Significantly Reduce Cardiovascular Mortality?</strong>
+              </td>
+              <td>Cardiovascular</td>
+              <td><span class="verdict-badge verdict-supported">Supported</span></td>
+              <td>Oct 27, 2026</td>
+              <td>
+                <div class="table-actions">
+                  <a href="../article.html?id=daily-walking-cardiovascular-health" class="btn btn-secondary btn-sm" target="_blank">View Live</a>
+                  <a href="new-investigation.html" class="btn btn-outline-teal btn-sm">Edit</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Ice Baths and Cold Plunges: Do They Accelerate Muscle Growth?</strong>
+              </td>
+              <td>Supplements &amp; Herbs</td>
+              <td><span class="verdict-badge verdict-unproven">Unverified</span></td>
+              <td>Oct 28, 2026</td>
+              <td>
+                <div class="table-actions">
+                  <a href="../article.html?id=cold-water-immersion-recovery" class="btn btn-secondary btn-sm" target="_blank">View Live</a>
+                  <a href="new-investigation.html" class="btn btn-outline-teal btn-sm">Edit</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Moderation Modal for Reviewing Submissions & Editing Admin Notes -->
+      <div id="adminReviewModal" style="display: none; position: fixed; inset: 0; background: rgba(16,36,58,0.7); z-index: 1000; align-items: center; justify-content: center; padding: var(--space-md);">
+        <div class="card" style="max-width: 600px; width: min(600px, 95vw); max-height: 90vh; overflow-y: auto; background: var(--color-surface); box-shadow: var(--shadow-lg);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
+            <div>
+              <h3 style="font-size: 1.2rem; margin: 0;">Review Claim Submission</h3>
+              <div style="font-size: 0.78rem; font-family: monospace; color: var(--color-text-muted); margin-top: 3px;">Database ID: <code id="modalDisplaySubId" style="color: var(--color-teal); font-weight: 700;"></code></div>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" id="closeReviewModalBtn" style="padding: 2px 8px;">✕</button>
+          </div>
+          <div id="modalClaimDetails" style="margin-bottom: var(--space-md); font-size: 0.9rem;"></div>
+          <form id="submissionModerationForm">
+            <input type="hidden" id="modalSubmissionId">
+            <div class="form-group">
+              <label for="modalSubmissionStatus" class="form-label form-label-required">Intake / Editorial Status</label>
+              <select id="modalSubmissionStatus" class="form-control" required>
+                <option value="pending">Pending Intake</option>
+                <option value="under_review">In Clinical Review</option>
+                <option value="accepted">Fact-Check Accepted</option>
+                <option value="rejected">Rejected / Out of Scope</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="modalAdminNotes" class="form-label">Private Editorial Notes (Admin Only)</label>
+              <textarea id="modalAdminNotes" class="form-control" rows="4" placeholder="Enter clinical assessment notes, research leads, or assigned reviewer..."></textarea>
+              <div class="form-hint">These notes are protected by column privileges and RLS; ordinary readers never see them.</div>
+            </div>
+            <div style="display: flex; gap: var(--space-sm); margin-top: var(--space-md);">
+              <button type="submit" class="btn btn-primary btn-sm" id="saveModerationBtn">Save Moderation Decision</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="cancelReviewModalBtn">Cancel</button>
+            </div>
+            <div id="modalAlert" style="display: none; margin-top: var(--space-sm);"></div>
+          </form>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/supabase.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

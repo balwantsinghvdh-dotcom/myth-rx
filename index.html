@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Myth Rx: Busting Health Hoaxes with peer-reviewed medical science and clear evidence-based explanations.">
+  <title>Myth Rx — Busting Health Hoaxes | Medical Fact-Checking</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans for high-readability science journalism -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Supabase Official JS Client (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Top Announcement & Notice Bar -->
+  <div class="top-notice-bar">
+    <div class="container">
+      <div>
+        <span class="top-notice-pill">Fact-Check Notice</span>
+        <span>Peer-reviewed clinical evidence for viral WhatsApp forwards & social media remedies.</span>
+      </div>
+      <div>
+        <a href="about.html#methodology" class="top-notice-link">How We Rate Claims &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Primary Site Header & Navigation -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <!-- Text & Symbol Brand Logo -->
+        <a href="index.html" class="brand-logo" aria-label="Myth Rx Homepage">
+          <div class="brand-logo-icon" aria-hidden="true">&#x211E;</div>
+          <div class="brand-logo-text">
+            <span class="brand-logo-title">Myth <span>Rx</span></span>
+            <span class="brand-logo-tagline">Busting Health Hoaxes</span>
+          </div>
+        </a>
+
+        <!-- Desktop & Mobile Navigation Links -->
+        <ul class="nav-menu" id="primaryNav">
+          <li><a href="index.html" class="nav-link active">Home</a></li>
+          <li><a href="investigations.html" class="nav-link">Investigations</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="contact.html#submit-claim" class="nav-link">Submit a Claim</a></li>
+          
+          <!-- Mobile Only Action Links inside Drawer -->
+          <li class="mobile-only-actions">
+            <button class="btn btn-outline-teal btn-sm btn-block open-quick-search-trigger" type="button">🔍 Quick Search Claims</button>
+            <a href="login.html" class="btn btn-secondary btn-sm btn-block">Log In</a>
+            <a href="signup.html" class="btn btn-primary btn-sm btn-block">Sign Up</a>
+          </li>
+        </ul>
+
+        <!-- Right Side Nav Actions Group -->
+        <div class="nav-right-group">
+          <!-- Universal Quick Search Button with Ctrl+K shortcut -->
+          <button class="nav-search-btn" id="openQuickSearchBtn" type="button" aria-label="Quick search health claims">
+            <span>🔍</span>
+            <span>Search claims</span>
+            <kbd class="nav-search-kbd">Ctrl K</kbd>
+          </button>
+
+          <div class="nav-actions">
+            <a href="contact.html#submit-claim" class="btn btn-outline-teal btn-sm">Submit a Claim</a>
+            <a href="login.html" class="btn btn-secondary btn-sm">Log In</a>
+            <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+          </div>
+        </div>
+
+        <!-- Accessible Mobile Hamburger Button -->
+        <button class="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primaryNav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Page Content -->
+  <main class="main-content">
+
+    <!-- Hero Section -->
+    <section class="hero-section" aria-labelledby="heroTitle">
+      <div class="container">
+        <div class="hero-inner">
+          <div class="hero-badge">
+            <span>🔬 Independent Evidence-Based Fact-Checking</span>
+            <span class="sr-only">Not every health claim deserves your trust. Myth Rx examines health claims, explores credible evidence, and helps you separate health myths from reliable information.</span>
+          </div>
+          <h1 id="heroTitle" class="hero-title">
+            Question the claim. Follow the evidence.
+          </h1>
+          <p class="hero-subtitle">
+            Myth Rx investigates viral health claims and online remedies, bringing the available evidence and credible sources into one place.
+          </p>
+
+          <!-- Search Bar for Claims -->
+          <div class="search-container">
+            <form id="searchForm" class="search-input-wrapper" role="search">
+              <input 
+                type="search" 
+                id="searchInput" 
+                class="search-input" 
+                placeholder="Search a health claim (e.g. 'ginger dissolves kidney stones', 'raw milk')..." 
+                aria-label="Search health claims"
+              >
+              <button type="submit" class="search-btn">
+                <span>Search</span>
+                <span aria-hidden="true">&rarr;</span>
+              </button>
+            </form>
+
+            <!-- Quick Filter Topic Pills -->
+            <div class="search-pills">
+              <span class="search-pills-label">Trending Topics:</span>
+              <a href="investigations.html?category=whatsapp" class="search-pill" data-category="whatsapp">WhatsApp Forwards</a>
+              <a href="investigations.html?category=cancer" class="search-pill" data-category="cancer">Cancer "Cures"</a>
+              <a href="investigations.html?category=diet" class="search-pill" data-category="diet">Diet &amp; Nutrition</a>
+              <a href="investigations.html?category=supplements" class="search-pill" data-category="supplements">Supplements &amp; Herbs</a>
+              <a href="investigations.html?category=cardiology" class="search-pill" data-category="cardiology">Cardiovascular</a>
+            </div>
+
+            <!-- Clear Action Buttons in Hero -->
+            <div class="hero-actions">
+              <a href="investigations.html" class="btn btn-primary btn-lg" aria-label="Explore Fact-Checks — View all investigations">
+                Explore Investigations &rarr;
+              </a>
+              <a href="contact.html#submit-claim" class="btn btn-secondary btn-lg" aria-label="Submit a Health Claim for verification">
+                Submit a Claim
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Explanation of Clinical Review Process -->
+        <div class="methodology-strip" aria-label="Investigation Process">
+          <div class="methodology-step">
+            <div class="methodology-number">PHASE 01</div>
+            <h3 class="methodology-step-title">Claim received</h3>
+            <p class="methodology-step-desc">Crowdsourced reports and viral rumors logged into intake queue. <em>(Not verified upon receipt).</em></p>
+          </div>
+          <div class="methodology-step">
+            <div class="methodology-number">PHASE 02</div>
+            <h3 class="methodology-step-title">Evidence reviewed</h3>
+            <p class="methodology-step-desc">Rigorous cross-referencing with PubMed clinical trials, Cochrane reviews, and medical guidelines.</p>
+          </div>
+          <div class="methodology-step">
+            <div class="methodology-number">PHASE 03</div>
+            <h3 class="methodology-step-title">Verdict assessed</h3>
+            <p class="methodology-step-desc">Scientific consensus assigned to one of four standardized ratings: Supported, False, Misleading, or Unverified.</p>
+          </div>
+          <div class="methodology-step">
+            <div class="methodology-number">PHASE 04</div>
+            <h3 class="methodology-step-title">Findings published</h3>
+            <p class="methodology-step-desc">Public fact-check released with plain-language takeaways and transparent study citations.</p>
+          </div>
+        </div>
+        <p class="text-center text-muted" style="font-size: 0.85rem; margin-top: var(--space-md); color: #C2ECE0;">
+          ⚠️ <strong>Notice:</strong> Submissions are not automatically verified merely because they have been received. Every claim undergoes clinical review before publication.
+        </p>
+      </div>
+    </section>
+
+    <!-- Health Topic Categories Section -->
+    <section class="section section-alt" aria-labelledby="categoriesTitle">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-kicker">Browse by Subject</span>
+            <h2 id="categoriesTitle" class="section-title">Health Misinformation Domains</h2>
+            <p class="section-description">Select a category to view investigated medical rumors and peer-reviewed evaluations.</p>
+          </div>
+          <a href="investigations.html" class="btn btn-secondary btn-sm">All Topics &rarr;</a>
+        </div>
+
+        <div class="grid-3">
+          <a href="investigations.html?category=whatsapp" class="category-card">
+            <div class="category-card-icon">📱</div>
+            <h3 class="category-card-title">WhatsApp Forwards</h3>
+            <p class="category-card-desc">Chain messages, fake voice note transcripts, and panic alerts circulating in family group chats.</p>
+          </a>
+
+          <a href="investigations.html?category=diet" class="category-card">
+            <div class="category-card-icon">🥗</div>
+            <h3 class="category-card-title">Nutrition & Diet</h3>
+            <p class="category-card-desc">Extreme detox cleanses, alkaline water myths, raw milk hazards, and fast-weight-loss panaceas.</p>
+          </a>
+
+          <a href="investigations.html?category=supplements" class="category-card">
+            <div class="category-card-icon">💊</div>
+            <h3 class="category-card-title">Supplements & Herbs</h3>
+            <p class="category-card-desc">Unregulated botanical extracts, megadose vitamins, and claims to replace prescription medications.</p>
+          </a>
+
+          <a href="investigations.html?category=cancer" class="category-card">
+            <div class="category-card-icon">🧬</div>
+            <h3 class="category-card-title">Cancer "Cures"</h3>
+            <p class="category-card-desc">Dangerous home recipes urging cancer patients to forego validated surgical or oncological care.</p>
+          </a>
+
+          <a href="investigations.html?category=cardiology" class="category-card">
+            <div class="category-card-icon">❤️</div>
+            <h3 class="category-card-title">Cardiovascular Claims</h3>
+            <p class="category-card-desc">First-aid misconceptions, stroke intervention rumors, and unverified heart attack self-treatments.</p>
+          </a>
+
+          <a href="contact.html#submit-claim" class="category-card" style="background: var(--color-teal-light); border-color: var(--color-teal);">
+            <div class="category-card-icon">❓</div>
+            <h3 class="category-card-title" style="color: var(--color-teal-hover);">Submit a New Rumor</h3>
+            <p class="category-card-desc">Encountered an unlisted medical claim online? Submit it to our editorial desk for verification.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Investigation Showcase -->
+    <section class="section" aria-labelledby="featuredSectionTitle">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-kicker">Spotlight Fact-Check</span>
+            <h2 id="featuredSectionTitle" class="section-title">Trending Viral Health Claim</h2>
+            <p class="section-description">Our featured deep dive into health claims circulating across family messaging groups.</p>
+          </div>
+          <a href="investigations.html" class="btn btn-secondary btn-sm">View All Investigations &rarr;</a>
+        </div>
+
+        <!-- Featured Big Card -->
+        <article class="card" style="padding: 0; overflow: hidden; margin-bottom: var(--space-2xl);">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+            <div style="background-color: var(--color-navy); color: #FFFFFF; padding: var(--space-2xl); display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; gap: 8px; margin-bottom: var(--space-md);">
+                  <span class="verdict-badge verdict-false">False</span>
+                  <span class="category-tag" style="background: rgba(255,255,255,0.15); color: #FFFFFF;">WhatsApp Viral</span>
+                </div>
+                <div class="investigation-claim-box" style="background: rgba(255,255,255,0.08); border-left-color: #EF4444; color: #FFFFFF;">
+                  <div class="investigation-claim-label" style="color: #F87171;">Original Viral Claim</div>
+                  <p class="investigation-claim-text" style="color: #FFFFFF;">
+                    "Drinking high-concentration boiled ginger water on an empty stomach dissolves kidney stones completely in 48 hours without surgery."
+                  </p>
+                </div>
+                <h3 style="color: #FFFFFF; font-size: 1.6rem; margin-bottom: var(--space-md);">
+                  Why Boiled Ginger Water Does Not Melt Kidney Stones
+                </h3>
+                <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6;">
+                  While ginger contains antioxidants and anti-inflammatory gingerols, kidney stones are calcified crystalline deposits (calcium oxalate, uric acid). Ingested ginger compounds are metabolized in the digestive tract and cannot chemically dissolve hard mineral stones in renal tubules.
+                </p>
+              </div>
+              <div style="padding-top: var(--space-md); border-top: 1px solid rgba(255,255,255,0.15); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                <span style="font-size: 0.85rem; color: #94A3B8;">Sources: American Urological Association, PubMed</span>
+                <a href="article.html?id=ginger-kidney-stones" class="btn btn-primary btn-sm">Read Full Investigation &rarr;</a>
+              </div>
+            </div>
+            
+            <div style="padding: var(--space-2xl); display: flex; flex-direction: column; justify-content: center; background: #FFFFFF;">
+              <h4 style="font-size: 1.15rem; margin-bottom: var(--space-sm);">The Clinical Reality</h4>
+              <p class="text-muted" style="font-size: 0.92rem; margin-bottom: var(--space-md);">
+                Delaying medical intervention for obstructive nephrolithiasis based on home concoctions can lead to hydronephrosis, severe infection, and irreversible renal damage.
+              </p>
+              <div style="background-color: var(--color-bg); padding: var(--space-md); border-radius: var(--radius-md); border-left: 3px solid var(--color-teal); margin-bottom: var(--space-md);">
+                <strong style="color: var(--color-navy); display: block; font-size: 0.85rem; margin-bottom: 2px;">Key Takeaway for Patients:</strong>
+                <span style="font-size: 0.85rem; color: var(--color-text);">Stone passage depends on diameter, location, and urinary hydration—not herbal melting. Consult a qualified urologist if experiencing acute flank pain.</span>
+              </div>
+              <div>
+                <a href="article.html?id=ginger-kidney-stones" class="btn btn-outline-teal btn-sm">Review Clinical Citations (3 Sources) &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Grid of Recent Investigations -->
+        <div class="section-header" style="margin-bottom: var(--space-lg);">
+          <div>
+            <span class="section-kicker">Recent Investigations</span>
+            <h3 class="section-title">Latest Busted Claims & Evidence Breakdowns</h3>
+          </div>
+          <a href="investigations.html" class="btn btn-secondary btn-sm">Browse Archive &rarr;</a>
+        </div>
+
+        <div class="grid-3" id="homeRecentInvestigationsGrid">
+          <!-- Card 1: Misleading -->
+          <div class="investigation-card-wrapper" data-category="diet" data-verdict="misleading">
+            <article class="card investigation-card">
+              <div class="investigation-card-header">
+                <span class="verdict-badge verdict-misleading">Misleading</span>
+                <span class="category-tag">Nutrition & Diet</span>
+              </div>
+              <div class="investigation-claim-box">
+                <div class="investigation-claim-label">The Claim</div>
+                <p class="investigation-claim-text">"Drinking alkaline water balances body pH and cures acid-based diseases."</p>
+              </div>
+              <h3 class="investigation-title">
+                <a href="article.html?id=alkaline-water-ph">Can Alkaline Water Actually Alter Blood pH Levels?</a>
+              </h3>
+              <p class="investigation-summary">
+                Human blood pH is tightly regulated between 7.35 and 7.45 by renal and respiratory systems. Stomach acid instantly neutralizes alkaline fluids before absorption.
+              </p>
+              <div class="investigation-meta">
+                <span class="investigation-meta-source">📅 Oct 25, 2026</span>
+                <a href="article.html?id=alkaline-water-ph" style="font-weight: 600;">Full Verdict &rarr;</a>
+              </div>
+            </article>
+          </div>
+
+          <!-- Card 2: Supported -->
+          <div class="investigation-card-wrapper" data-category="diet" data-verdict="supported">
+            <article class="card investigation-card">
+              <div class="investigation-card-header">
+                <span class="verdict-badge verdict-supported">Supported</span>
+                <span class="category-tag">Nutrition & Diet</span>
+              </div>
+              <div class="investigation-claim-box">
+                <div class="investigation-claim-label">The Claim</div>
+                <p class="investigation-claim-text">"Consuming unpasteurized raw milk increases the risk of severe bacterial zoonotic infections."</p>
+              </div>
+              <h3 class="investigation-title">
+                <a href="article.html?id=raw-milk-pathogens">Raw Milk Trends and Zoonotic Pathogen Risks</a>
+              </h3>
+              <p class="investigation-summary">
+                Microbiological surveillance proves pasteurization eliminates Campylobacter, Salmonella, and Listeria without destroying essential milk nutrients.
+              </p>
+              <div class="investigation-meta">
+                <span class="investigation-meta-source">📅 Oct 26, 2026</span>
+                <a href="article.html?id=raw-milk-pathogens" style="font-weight: 600;">Full Verdict &rarr;</a>
+              </div>
+            </article>
+          </div>
+
+          <!-- Card 3: Unverified -->
+          <div class="investigation-card-wrapper" data-category="supplements" data-verdict="unverified">
+            <article class="card investigation-card">
+              <div class="investigation-card-header">
+                <span class="verdict-badge verdict-unverified">Unverified</span>
+                <span class="category-tag">Supplements & Herbs</span>
+              </div>
+              <div class="investigation-claim-box">
+                <div class="investigation-claim-label">The Claim</div>
+                <p class="investigation-claim-text">"High-dose turmeric supplements replace insulin in Type 2 Diabetes."</p>
+              </div>
+              <h3 class="investigation-title">
+                <a href="article.html?id=turmeric-diabetes-insulin">Curcumin vs. Diabetes Medication: Evidence Review</a>
+              </h3>
+              <p class="investigation-summary">
+                Curcumin shows mild anti-inflammatory properties in laboratory dishes, but clinical human trials have never demonstrated that it can replace prescribed endocrine therapies.
+              </p>
+              <div class="investigation-meta">
+                <span class="investigation-meta-source">📅 Oct 25, 2026</span>
+                <a href="article.html?id=turmeric-diabetes-insulin" style="font-weight: 600;">Full Verdict &rarr;</a>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- About Myth Rx Section -->
+        <section class="card mt-xl" style="background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-xl); align-items: center;">
+            <div>
+              <span class="section-kicker">About the Platform</span>
+              <h2 style="font-size: 1.6rem; margin-bottom: var(--space-sm);">Why Science-Backed Fact-Checking Matters</h2>
+              <p class="text-muted" style="line-height: 1.6;">
+                Health misinformation is not harmless gossip. Misleading medical advice leads people to ingest toxic concoctions, abandon life-saving therapies, and delay critical interventions. <strong>Myth Rx</strong> evaluates viral health rumors against indexed clinical literature, producing clear, peer-reviewed takeaways.
+              </p>
+              <div style="display: flex; gap: var(--space-sm); margin-top: var(--space-md);">
+                <a href="about.html" class="btn btn-outline-teal btn-sm">Our 4-Step Methodology &rarr;</a>
+                <a href="about.html#editorial-standards" class="btn btn-secondary btn-sm">Editorial Standards</a>
+              </div>
+            </div>
+            <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-lg); box-shadow: var(--shadow-sm);">
+              <h3 style="font-size: 1.05rem; margin-bottom: var(--space-xs); color: var(--color-navy);">Standardized Verdict System</h3>
+              <p class="text-muted" style="font-size: 0.85rem; margin-bottom: var(--space-sm);">Every claim investigated on Myth Rx is classified into one of four clear tiers:</p>
+              <ul style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 8px;">
+                <li><span class="verdict-badge verdict-supported" style="font-size: 0.7rem;">Supported</span> — Scientific consensus & clinical evidence back the claim.</li>
+                <li><span class="verdict-badge verdict-false" style="font-size: 0.7rem;">False</span> — Demonstrably incorrect, fabricated, or physiologically impossible.</li>
+                <li><span class="verdict-badge verdict-misleading" style="font-size: 0.7rem;">Misleading</span> — Partial lab truth distorted into unproven health advice.</li>
+                <li><span class="verdict-badge verdict-unverified" style="font-size: 0.7rem;">Unverified</span> — Insufficient human trials to confirm or refute efficacy.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Call to Action Banner -->
+        <div class="cta-banner mt-xl">
+          <div>
+            <h2>Encountered an Alarming Health Claim?</h2>
+            <p>
+              Don't forward unverified advice to your friends and family. Submit the text, image, or video link to our editorial desk for peer-reviewed investigation.
+            </p>
+          </div>
+          <a href="contact.html#submit-claim" class="btn btn-primary btn-lg" style="flex-shrink: 0;">Submit Claim for Review</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Medical Disclaimer Section -->
+    <section class="container">
+      <div class="medical-disclaimer-box" role="note">
+        <strong>Mandatory Educational Notice:</strong> Myth Rx is an evidence-based health fact-checking academic platform. Content published here is intended to dispel public health misinformation and does not constitute individual medical diagnosis, prognosis, or clinical treatment advice. Always seek the advice of your physician or qualified health provider with any questions you may have regarding a medical condition.
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <div class="brand-logo-icon">&#x211E;</div>
+            <div class="brand-logo-text">
+              <span class="brand-logo-title">Myth <span>Rx</span></span>
+              <span class="brand-logo-tagline">Busting Health Hoaxes</span>
+            </div>
+          </a>
+          <p class="footer-about">
+            Myth Rx investigates viral health misinformation, unverified remedies, and pseudoscientific medical claims to protect the public from preventable health hazards.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Investigations</h4>
+          <ul class="footer-links">
+            <li><a href="investigations.html?category=whatsapp">WhatsApp Forwards</a></li>
+            <li><a href="investigations.html?category=cancer">Cancer "Cures"</a></li>
+            <li><a href="investigations.html?category=diet">Diet & Detox</a></li>
+            <li><a href="investigations.html?category=supplements">Supplements</a></li>
+            <li><a href="investigations.html?category=vaccines">Vaccine Facts</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Organization</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Myth Rx</a></li>
+            <li><a href="about.html#methodology">Our Methodology</a></li>
+            <li><a href="about.html#editorial-standards">Editorial Standards</a></li>
+            <li><a href="contact.html">Contact Editorial Team</a></li>
+            <li><a href="contact.html#submit-claim">Submit a Health Claim</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Account & Admin</h4>
+          <ul class="footer-links">
+            <li><a href="login.html">User Login</a></li>
+            <li><a href="signup.html">Create Free Account</a></li>
+            <li><a href="user-dashboard.html">User Dashboard</a></li>
+            <li><a href="admin/index.html">Admin Portal</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Myth Rx. All rights reserved. Academic Fact-Checking Project.</p>
+        <div class="footer-bottom-links">
+          <a href="about.html#disclaimer">Medical Disclaimer</a>
+          <a href="about.html#privacy">Privacy Policy</a>
+          <a href="contact.html">Report Correction</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/investigations.js"></script>
+  <script src="js/quick-search.js"></script>
+</body>
+</html>

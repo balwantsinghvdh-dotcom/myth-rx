@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Review crowdsourced health claims submitted by readers for clinical fact-checking.">
+  <title>Review Submissions — Myth Rx Admin</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+
+  <!-- Path normalization for clean routing -->
+  <script>
+    if (window.location.pathname === '/admin') {
+      window.location.replace('/admin/submissions.html' + window.location.search + window.location.hash);
+    }
+  </script>
+
+  <!-- Supabase Official JS Client (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Admin Site Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Admin Navigation">
+        <a href="../index.html" class="brand-logo" aria-label="Myth Rx Public Homepage">
+          <div class="brand-logo-icon">&#x211E;</div>
+          <div class="brand-logo-text">
+            <span class="brand-logo-title">Myth <span>Rx</span></span>
+            <span class="brand-logo-tagline" style="color: var(--color-teal);">Editorial &amp; Verification Panel</span>
+          </div>
+        </a>
+
+        <div class="nav-actions">
+          <span class="verdict-badge verdict-context" style="font-size: 0.75rem;">Admin Session</span>
+          <a href="../index.html" class="btn btn-secondary btn-sm" target="_blank">&larr; View Public Website</a>
+          <button type="button" class="btn btn-outline-teal btn-sm logout-btn" id="adminLogoutBtn">Log Out</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Dashboard Shell -->
+  <div class="dashboard-layout">
+    
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar" aria-label="Admin Navigation">
+      <div>
+        <div class="sidebar-user-info">
+          <span class="sidebar-user-role" style="color: #991B1B;">Clinical Reviewer</span>
+          <div class="sidebar-user-name">Editorial Desk</div>
+          <div class="sidebar-user-email">admin@mythrx.org</div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="index.html" class="sidebar-link">
+            <span>&#128202; Overview</span>
+          </a>
+          <a href="articles.html" class="sidebar-link">
+            <span>&#128221; Manage Investigations</span>
+            <span class="sidebar-badge">6</span>
+          </a>
+          <a href="submissions.html" class="sidebar-link active">
+            <span>&#128233; Review Submissions</span>
+            <span class="sidebar-badge sidebar-badge-teal">10</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="new-investigation.html" class="btn btn-primary btn-sm btn-block mb-sm">
+          + New Investigation
+        </a>
+        <a href="../index.html" class="btn btn-secondary btn-sm btn-block">
+          Public Homepage
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+      <!-- Phase 1 Notice Box -->
+      <div id="adminPhaseNotice"></div>
+
+      <!-- Topbar Header -->
+      <div class="dashboard-topbar">
+        <div class="dashboard-title-group">
+          <h1>Crowdsourced Claim Submissions — Review Queue</h1>
+          <p>Prioritize, review, and moderate incoming health claims with the secure administrative RPC.</p>
+        </div>
+        <div class="dashboard-actions">
+          <a href="new-investigation.html" class="btn btn-primary btn-sm">+ Convert Claim to Fact-Check</a>
+        </div>
+      </div>
+
+      <!-- Moderation Status Notice Banner (Displays when a claim is updated across tabs) -->
+      <div id="moderationNoticeBanner" style="display: none; margin-bottom: var(--space-md); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); font-size: 0.9rem;"></div>
+
+      <!-- Search & Quick Filters Toolbar -->
+      <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-md); flex-wrap: wrap; align-items: center;">
+        <div style="flex: 1; min-width: 260px;">
+          <input 
+            type="search" 
+            id="submissionSearchInput" 
+            class="form-control" 
+            placeholder="🔍 Search claims by keywords, submitter, or context..." 
+            aria-label="Search submissions"
+          >
+        </div>
+      </div>
+
+      <!-- Filter Controls for Submissions -->
+      <div class="tab-nav" id="submissionTabs">
+        <button class="tab-btn active" data-admin-filter="all">All Submissions <span class="tab-count" id="countAll">10</span></button>
+        <button class="tab-btn" data-admin-filter="pending">Pending Intake <span class="tab-count" id="countPending">3</span></button>
+        <button class="tab-btn" data-admin-filter="under_review">In Clinical Review <span class="tab-count" id="countUnderReview">2</span></button>
+        <button class="tab-btn" data-admin-filter="accepted">Fact-Check Accepted <span class="tab-count" id="countAccepted">5</span></button>
+        <button class="tab-btn" data-admin-filter="rejected">Rejected / Out of Scope <span class="tab-count" id="countRejected">0</span></button>
+      </div>
+
+      <!-- Submissions Data Table -->
+      <div class="table-responsive">
+        <table class="data-table" aria-label="Submitted claims queue">
+          <thead>
+            <tr>
+              <th style="min-width: 280px;">Reported Health Claim</th>
+              <th>Platform Origin</th>
+              <th>Submitter</th>
+              <th>Received Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminSubmissionsTableBody">
+            <!-- Row 1: False -->
+            <tr class="submission-row" data-status="under_review" data-id="sub-mock-1">
+              <td>
+                <strong>Boiled papaya leaf juice for Dengue fever platelet restoration</strong>
+                <div class="text-muted" style="font-size: 0.8rem; margin-top: 2px;">Claimed to increase platelets from 20k to 150k in 12 hours.</div>
+              </td>
+              <td><span style="font-size: 0.82rem; color: var(--color-text-muted);">WhatsApp Forward</span></td>
+              <td><span style="font-size: 0.82rem;">alex.taylor@example.com</span></td>
+              <td><span style="font-size: 0.82rem;">Oct 25, 2026</span></td>
+              <td><span class="verdict-badge verdict-misleading" style="font-size: 0.72rem;">In Clinical Review</span></td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" class="btn btn-primary btn-sm review-claim-btn" data-sub-id="sub-mock-1">Review Claim &rarr;</button>
+                  <a href="new-investigation.html?claim=Boiled+papaya+leaf+juice+for+Dengue+fever+platelet+restoration" class="btn btn-outline-teal btn-sm">Draft Fact-Check</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Row 2: False -->
+            <tr class="submission-row" data-status="pending" data-id="sub-mock-2">
+              <td>
+                <strong>Baking soda &amp; molasses injection cures Stage 4 melanoma</strong>
+                <div class="text-muted" style="font-size: 0.8rem; margin-top: 2px;">Urging cancer patients to abandon chemotherapy and inject household alkaline solution.</div>
+              </td>
+              <td><span style="font-size: 0.82rem; color: var(--color-text-muted);">Facebook Video</span></td>
+              <td><span style="font-size: 0.82rem;">Anonymous Citizen</span></td>
+              <td><span style="font-size: 0.82rem;">Oct 26, 2026</span></td>
+              <td><span class="verdict-badge verdict-context" style="font-size: 0.72rem;">Pending Intake</span></td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" class="btn btn-primary btn-sm review-claim-btn" data-sub-id="sub-mock-2">Review Claim &rarr;</button>
+                  <a href="new-investigation.html?claim=Baking+soda+molasses+injection+cures+melanoma" class="btn btn-outline-teal btn-sm">Draft Fact-Check</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Row 3: False / Toxic -->
+            <tr class="submission-row" data-status="pending" data-id="sub-mock-3">
+              <td>
+                <strong>Chewing 5 raw bitter almonds daily immunizes against heart attacks</strong>
+                <div class="text-muted" style="font-size: 0.8rem; margin-top: 2px;">Danger: Raw bitter almonds contain toxic amygdalin / hydrogen cyanide.</div>
+              </td>
+              <td><span style="font-size: 0.82rem; color: var(--color-text-muted);">TikTok Short</span></td>
+              <td><span style="font-size: 0.82rem;">user92@gmail.com</span></td>
+              <td><span style="font-size: 0.82rem;">Oct 26, 2026</span></td>
+              <td><span class="verdict-badge verdict-context" style="font-size: 0.72rem;">Pending Intake</span></td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" class="btn btn-primary btn-sm review-claim-btn" data-sub-id="sub-mock-3">Review Claim &rarr;</button>
+                  <a href="new-investigation.html?claim=Chewing+raw+bitter+almonds+immunizes+against+heart+attacks" class="btn btn-outline-teal btn-sm">Draft Fact-Check</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Row 4: False -->
+            <tr class="submission-row" data-status="accepted" data-id="sub-mock-4">
+              <td>
+                <strong>Drinking boiled ginger water completely dissolves kidney stones in 48h</strong>
+                <div class="text-muted" style="font-size: 0.8rem; margin-top: 2px;">Investigation published and live on public site.</div>
+              </td>
+              <td><span style="font-size: 0.82rem; color: var(--color-text-muted);">WhatsApp Forward</span></td>
+              <td><span style="font-size: 0.82rem;">community@mythrx.org</span></td>
+              <td><span style="font-size: 0.82rem;">Oct 22, 2026</span></td>
+              <td><span class="verdict-badge verdict-supported" style="font-size: 0.72rem;">Fact-Check Accepted</span></td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" class="btn btn-primary btn-sm review-claim-btn" data-sub-id="sub-mock-4">Review Claim &rarr;</button>
+                  <a href="../article.html?id=ginger-kidney-stones" class="btn btn-secondary btn-sm" target="_blank">View Article</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Row 5: Supported -->
+            <tr class="submission-row" data-status="accepted" data-id="sub-claim-5">
+              <td>
+                <strong>Walking 8,000 to 10,000 steps daily significantly lowers cardiovascular mortality</strong>
+                <div class="text-muted" style="font-size: 0.8rem; margin-top: 2px;">Peer-reviewed cohort study validation completed and published.</div>
+              </td>
+              <td><span style="font-size: 0.82rem; color: var(--color-text-muted);">Cardiology Forum</span></td>
+              <td><span style="font-size: 0.82rem;">clara.h@gmail.com</span></td>
+              <td><span style="font-size: 0.82rem;">Oct 27, 2026</span></td>
+              <td><span class="verdict-badge verdict-supported" style="font-size: 0.72rem;">Fact-Check Accepted</span></td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" class="btn btn-primary btn-sm review-claim-btn" data-sub-id="sub-claim-5">Review Claim &rarr;</button>
+                  <a href="../article.html?id=daily-walking-cardiovascular-health" class="btn btn-secondary btn-sm" target="_blank">View Article</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Row 6: Supported -->
+            <tr class="submission-row" data-status="accepted" data-id="sub-claim-6">
+              <td>
+                <strong>Routine HPV vaccination prevents more than 88% to 90% of cervical cancer cases</strong>
+                <div class="text-muted" style="font-size: 0.8rem; margin-top: 2px;">National cancer registry meta-analysis confirms strong clinical consensus.</div>
+              </td>
+              <td><span style="font-size: 0.82rem; color: var(--color-text-muted);">Clinic Portal</span></td>
+              <td><span style="font-size: 0.82rem;">nurse_sarah@outlook.com</span></td>
+              <td><span style="font-size: 0.82rem;">Oct 27, 2026</span></td>
+              <td><span class="verdict-badge verdict-supported" style="font-size: 0.72rem;">Fact-Check Accepted</span></td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" class="btn btn-primary btn-sm review-claim-btn" data-sub-id="sub-claim-6">Review Claim &rarr;</button>
+                  <a href="../article.html?id=hpv-vaccine-cervical-cancer" class="btn btn-secondary btn-sm" target="_blank">View Article</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Row 7: False -->
+            <tr class="submission-row" data-status="accepted" data-id="sub-claim-7">
+              <td>
+                <strong>Applying cold toothpaste or raw butter immediately soothes and heals burns</strong>
+                <div class="text-muted" style="font-size: 0.8rem; margin-top: 2px;">Dangerous domestic kitchen hoax refuted by burn trauma surgery standards.</div>
+              </td>
+              <td><span style="font-size: 0.82rem; color: var(--color-text-muted);">Parenting Forum</span></td>
+              <td><span style="font-size: 0.82rem;">david.miller@yahoo.com</span></td>
+              <td><span style="font-size: 0.82rem;">Oct 28, 2026</span></td>
+              <td><span class="verdict-badge verdict-supported" style="font-size: 0.72rem;">Fact-Check Accepted</span></td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" class="btn btn-primary btn-sm review-claim-btn" data-sub-id="sub-claim-7">Review Claim &rarr;</button>
+                  <a href="../article.html?id=toothpaste-butter-burns" class="btn btn-secondary btn-sm" target="_blank">View Article</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Row 8: Unverified -->
+            <tr class="submission-row" data-status="accepted" data-id="sub-claim-8">
+              <td>
+                <strong>Ice baths immediately following strength training accelerate long-term muscle growth</strong>
+                <div class="text-muted" style="font-size: 0.8rem; margin-top: 2px;">Clinical trials demonstrate cold immersion actually blunts mTORC1 anabolic signaling.</div>
+              </td>
+              <td><span style="font-size: 0.82rem; color: var(--color-text-muted);">YouTube Shorts</span></td>
+              <td><span style="font-size: 0.82rem;">gym_enthusiast@gmail.com</span></td>
+              <td><span style="font-size: 0.82rem;">Oct 28, 2026</span></td>
+              <td><span class="verdict-badge verdict-supported" style="font-size: 0.72rem;">Fact-Check Accepted</span></td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" class="btn btn-primary btn-sm review-claim-btn" data-sub-id="sub-claim-8">Review Claim &rarr;</button>
+                  <a href="../article.html?id=cold-water-immersion-recovery" class="btn btn-secondary btn-sm" target="_blank">View Article</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Row 9: False / Hoax -->
+            <tr class="submission-row" data-status="under_review" data-id="sub-claim-9">
+              <td>
+                <strong>Placing raw sliced onions in socks overnight extracts blood toxins to cure influenza</strong>
+                <div class="text-muted" style="font-size: 0.8rem; margin-top: 2px;">Viral folk reflexology claim lacking dermatological or microbiological plausibility.</div>
+              </td>
+              <td><span style="font-size: 0.82rem; color: var(--color-text-muted);">WhatsApp Audio Forward</span></td>
+              <td><span style="font-size: 0.82rem;">priya.k@gmail.com</span></td>
+              <td><span style="font-size: 0.82rem;">Oct 28, 2026</span></td>
+              <td><span class="verdict-badge verdict-misleading" style="font-size: 0.72rem;">In Clinical Review</span></td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" class="btn btn-primary btn-sm review-claim-btn" data-sub-id="sub-claim-9">Review Claim &rarr;</button>
+                  <a href="new-investigation.html?claim=Placing+raw+sliced+onions+in+socks+overnight+extracts+toxins" class="btn btn-outline-teal btn-sm">Draft Fact-Check</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Row 10: Misleading -->
+            <tr class="submission-row" data-status="pending" data-id="sub-claim-10">
+              <td>
+                <strong>Drinking unfiltered apple cider vinegar shots completely cures gastric acid reflux</strong>
+                <div class="text-muted" style="font-size: 0.8rem; margin-top: 2px;">Adding concentrated acetic acid can exacerbate acute esophageal mucosal erosion.</div>
+              </td>
+              <td><span style="font-size: 0.82rem; color: var(--color-text-muted);">Instagram Reel</span></td>
+              <td><span style="font-size: 0.82rem;">marcus_fit@hotmail.com</span></td>
+              <td><span style="font-size: 0.82rem;">Oct 29, 2026</span></td>
+              <td><span class="verdict-badge verdict-context" style="font-size: 0.72rem;">Pending Intake</span></td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" class="btn btn-primary btn-sm review-claim-btn" data-sub-id="sub-claim-10">Review Claim &rarr;</button>
+                  <a href="new-investigation.html?claim=Drinking+unfiltered+apple+cider+vinegar+shots+cures+acid+reflux" class="btn btn-outline-teal btn-sm">Draft Fact-Check</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Moderation Modal for Reviewing Submissions & Editing Admin Notes -->
+      <div id="adminReviewModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(16,36,58,0.7); z-index: 1000; align-items: center; justify-content: center; padding: var(--space-md);">
+        <div class="card" style="max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; background: var(--color-surface); box-shadow: var(--shadow-lg);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
+            <div>
+              <h3 style="font-size: 1.2rem; margin: 0;">Review Claim Submission</h3>
+              <div style="font-size: 0.78rem; font-family: monospace; color: var(--color-text-muted); margin-top: 3px;">Database ID: <code id="modalDisplaySubId" style="color: var(--color-teal); font-weight: 700;"></code></div>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" id="closeReviewModalBtn" style="padding: 2px 8px;">✕</button>
+          </div>
+          <div id="modalClaimDetails" style="margin-bottom: var(--space-md); font-size: 0.9rem;"></div>
+          <form id="submissionModerationForm">
+            <input type="hidden" id="modalSubmissionId">
+            <div class="form-group">
+              <label for="modalSubmissionStatus" class="form-label form-label-required">Intake / Editorial Status</label>
+              <select id="modalSubmissionStatus" class="form-control" required>
+                <option value="pending">Pending Intake</option>
+                <option value="under_review">In Clinical Review</option>
+                <option value="accepted">Fact-Check Accepted</option>
+                <option value="rejected">Rejected / Out of Scope</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="modalAdminNotes" class="form-label">Private Editorial Notes (Admin Only)</label>
+              <textarea id="modalAdminNotes" class="form-control" rows="4" placeholder="Enter clinical assessment notes, research leads, or assigned reviewer..."></textarea>
+              <div class="form-hint">These notes are protected by column privileges and RLS; ordinary readers never see them.</div>
+            </div>
+            <div style="display: flex; gap: var(--space-sm); margin-top: var(--space-md);">
+              <button type="submit" class="btn btn-primary btn-sm" id="saveModerationBtn">Save Moderation Decision</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="cancelReviewModalBtn">Cancel</button>
+            </div>
+            <div id="modalAlert" style="display: none; margin-top: var(--space-sm);"></div>
+          </form>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/supabase.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+# =============================================================================
+# Myth Rx: Busting Health Hoaxes
+# Comprehensive & Secure .gitignore
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 1. Environment Variables & Secret Files
+# -----------------------------------------------------------------------------
+# Exclude local environment files containing API keys, database credentials, etc.
+.env
+.env*
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Private keys, certificates, and credentials
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
+
+# Explicitly preserve the safe example configuration template
+!.env.example
+
+# -----------------------------------------------------------------------------
+# 2. Node.js & Package Manager Artifacts
+# -----------------------------------------------------------------------------
+# Third-party dependencies
+node_modules/
+
+# Package manager debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data & temp package files
+package-lock.json.tmp
+.pnpm-debug.log*
+
+# -----------------------------------------------------------------------------
+# 3. Operating System Files
+# -----------------------------------------------------------------------------
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# -----------------------------------------------------------------------------
+# 4. Logs, Runtime Caches & Temporary Files
+# -----------------------------------------------------------------------------
+logs/
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.orig
+
+# -----------------------------------------------------------------------------
+# 5. Local IDE & Editor Settings
+# -----------------------------------------------------------------------------
+# Visual Studio Code (ignore user workspace state, preserve team settings if any)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# JetBrains IDEs (WebStorm, IntelliJ IDEA, etc.)
+.idea/
+*.iws
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Eclipse
+.project
+.settings/
+
+# -----------------------------------------------------------------------------
+# 6. Build Outputs & Cache Directories (if used in future build steps)
+# -----------------------------------------------------------------------------
+dist/
+build/
+out/
+.cache/
+.temp/
+
+# -----------------------------------------------------------------------------
+# 7. Local Scratch Files & Diagnostic Scripts
+# -----------------------------------------------------------------------------
+# Prevents accidental commit of local scratch test scripts or agent logs
+scratch/
+.system_generated/

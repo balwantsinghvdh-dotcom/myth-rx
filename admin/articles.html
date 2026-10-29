@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Manage and publish medical fact-check investigations on Myth Rx.">
+  <title>Manage Investigations — Myth Rx Admin</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+
+  <!-- Path normalization for clean routing -->
+  <script>
+    if (window.location.pathname === '/admin') {
+      window.location.replace('/admin/articles.html' + window.location.search + window.location.hash);
+    }
+  </script>
+
+  <!-- Supabase Official JS Client (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Admin Site Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Admin Navigation">
+        <a href="../index.html" class="brand-logo" aria-label="Myth Rx Public Homepage">
+          <div class="brand-logo-icon">&#x211E;</div>
+          <div class="brand-logo-text">
+            <span class="brand-logo-title">Myth <span>Rx</span></span>
+            <span class="brand-logo-tagline" style="color: var(--color-teal);">Editorial &amp; Verification Panel</span>
+          </div>
+        </a>
+
+        <div class="nav-actions">
+          <span class="verdict-badge verdict-context" style="font-size: 0.75rem;">Admin Session</span>
+          <a href="../index.html" class="btn btn-secondary btn-sm" target="_blank">&larr; View Public Website</a>
+          <button type="button" class="btn btn-outline-teal btn-sm logout-btn" id="adminLogoutBtn">Log Out</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Dashboard Shell -->
+  <div class="dashboard-layout">
+    
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar" aria-label="Admin Navigation">
+      <div>
+        <div class="sidebar-user-info">
+          <span class="sidebar-user-role" style="color: #991B1B;">Clinical Reviewer</span>
+          <div class="sidebar-user-name">Editorial Desk</div>
+          <div class="sidebar-user-email">admin@mythrx.org</div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="index.html" class="sidebar-link">
+            <span>&#128202; Overview</span>
+          </a>
+          <a href="articles.html" class="sidebar-link active">
+            <span>&#128221; Manage Investigations</span>
+            <span class="sidebar-badge">6</span>
+          </a>
+          <a href="submissions.html" class="sidebar-link">
+            <span>&#128233; Review Submissions</span>
+            <span class="sidebar-badge sidebar-badge-teal">8</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="new-investigation.html" class="btn btn-primary btn-sm btn-block mb-sm">
+          + New Investigation
+        </a>
+        <a href="../index.html" class="btn btn-secondary btn-sm btn-block">
+          Public Homepage
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+      <!-- Phase 1 Notice Box -->
+      <div id="adminPhaseNotice"></div>
+
+      <!-- Topbar Header -->
+      <div class="dashboard-topbar">
+        <div class="dashboard-title-group">
+          <h1>Investigation Management</h1>
+          <p>Author, edit, and publish clinical fact-checking articles with standardized verdicts.</p>
+        </div>
+        <div class="dashboard-actions">
+          <a href="new-investigation.html" class="btn btn-primary btn-sm">+ Draft New Investigation</a>
+        </div>
+      </div>
+
+      <!-- Article Table -->
+      <div class="table-responsive mb-xl">
+        <table class="data-table" aria-label="Articles list">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Verdict</th>
+              <th>Clinical Reviewer</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminArticlesTableBody">
+            <tr>
+              <td>
+                <strong>Why Boiled Ginger Water Does Not Melt Kidney Stones</strong>
+              </td>
+              <td>WhatsApp Viral</td>
+              <td><span class="verdict-badge verdict-false">False / Hoax</span></td>
+              <td>Dr. Chen</td>
+              <td><span class="verdict-badge verdict-true" style="font-size: 0.68rem;">Published</span></td>
+              <td>
+                <div class="table-actions">
+                  <a href="../article.html?id=ginger-kidney-stones" class="btn btn-secondary btn-sm" target="_blank">View</a>
+                  <a href="new-investigation.html" class="btn btn-outline-teal btn-sm">Edit</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Can Alkaline Water Actually Alter Human Blood pH?</strong>
+              </td>
+              <td>Nutrition &amp; Detox</td>
+              <td><span class="verdict-badge verdict-misleading">Misleading</span></td>
+              <td>Dr. Patel</td>
+              <td><span class="verdict-badge verdict-true" style="font-size: 0.68rem;">Published</span></td>
+              <td>
+                <div class="table-actions">
+                  <a href="../article.html?id=alkaline-water-blood-ph" class="btn btn-secondary btn-sm" target="_blank">View</a>
+                  <a href="new-investigation.html" class="btn btn-outline-teal btn-sm">Edit</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Curcumin vs. Prescription Insulin in Type 2 Diabetes</strong>
+              </td>
+              <td>Supplements &amp; Herbs</td>
+              <td><span class="verdict-badge verdict-unproven">Unproven</span></td>
+              <td>Dr. Chen</td>
+              <td><span class="verdict-badge verdict-true" style="font-size: 0.68rem;">Published</span></td>
+              <td>
+                <div class="table-actions">
+                  <a href="../article.html?id=curcumin-prescription-insulin" class="btn btn-secondary btn-sm" target="_blank">View</a>
+                  <a href="new-investigation.html" class="btn btn-outline-teal btn-sm">Edit</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- New Investigation Form Section -->
+      <section class="card" id="new-article" aria-labelledby="newArticleTitle">
+        <h2 id="newArticleTitle" style="font-size: 1.3rem; margin-bottom: var(--space-xs);">
+          Create or Update Fact-Check Investigation
+        </h2>
+        <p class="text-muted" style="font-size: 0.9rem; margin-bottom: var(--space-lg);">
+          This editor operates directly on the Supabase <code>investigations</code> and <code>sources</code> tables.
+        </p>
+
+        <form id="articleForm">
+          <input type="hidden" id="artEditId" value="">
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="artTitle" class="form-label form-label-required">Article Headline</label>
+              <input type="text" id="artTitle" class="form-control" placeholder="e.g. Why Boiled Papaya Leaves Do Not Cure Dengue" required minlength="5">
+            </div>
+            <div class="form-group">
+              <label for="artSlug" class="form-label">URL Slug (Unique)</label>
+              <input type="text" id="artSlug" class="form-control" placeholder="auto-generated-if-blank" pattern="[a-z0-9\-]+" title="Lowercase letters, numbers, and hyphens only">
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="artCategory" class="form-label form-label-required">Category</label>
+              <select id="artCategory" class="form-control" required>
+                <option value="">Loading categories...</option>
+              </select>
+            </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="artVerdict" class="form-label form-label-required">Scientific Verdict Rating</label>
+              <select id="artVerdict" class="form-control" required>
+                <option value="False">False</option>
+                <option value="Misleading">Misleading</option>
+                <option value="Supported">Supported</option>
+                <option value="Unverified">Unverified</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="artStatus" class="form-label form-label-required">Publication Status</label>
+              <select id="artStatus" class="form-control" required>
+                <option value="draft">Draft (Internal)</option>
+                <option value="published">Published (Public)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="artClaim" class="form-label form-label-required">Original Viral Claim Statement</label>
+            <textarea id="artClaim" rows="2" class="form-control" placeholder="Exact viral message or rumor text being investigated..." required minlength="10"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="artSummary" class="form-label form-label-required">Executive Clinical Summary</label>
+            <textarea id="artSummary" rows="3" class="form-control" placeholder="Brief summary of why the claim is scientifically false or misleading..." required minlength="15"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="artBody" class="form-label form-label-required">Full Scientific Breakdown & Physiological Analysis</label>
+            <textarea id="artBody" rows="6" class="form-control" placeholder="Detailed clinical investigation text, mechanism of action, dangers of delaying care..." required minlength="25"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="artSources" class="form-label">Peer-Reviewed Citations (One per line: Title | Publisher | URL)</label>
+            <textarea id="artSources" rows="3" class="form-control" placeholder="e.g.: AUA Guideline on Kidney Stones | American Urological Association | https://www.auanet.org"></textarea>
+            <div class="form-hint">Separate title, publisher, and optional URL with vertical bars (|).</div>
+          </div>
+
+          <div style="display: flex; gap: var(--space-sm); margin-top: var(--space-md); align-items: center;">
+            <button type="submit" class="btn btn-primary" id="saveArticleBtn">Save Investigation</button>
+          </div>
+          <div id="articleFormAlert" style="display: none; margin-top: var(--space-sm);"></div>
+        </form>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/supabase.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

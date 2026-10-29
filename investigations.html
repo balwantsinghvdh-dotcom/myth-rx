@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse all peer-reviewed health misinformation investigations and fact-checks by Myth Rx.">
+  <title>Investigations Archive — Myth Rx | Busting Health Hoaxes</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Supabase Official JS Client (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    .filter-bar {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      box-shadow: var(--shadow-sm);
+    }
+    .filter-group-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--color-navy);
+      margin-bottom: var(--space-xs);
+    }
+    .filter-chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: var(--space-md);
+    }
+    .filter-chip {
+      background-color: #FFFFFF;
+      border: 1px solid var(--color-border);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #0F172A;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    .filter-chip:hover {
+      border-color: var(--color-teal);
+      color: var(--color-teal);
+      background-color: #F0FDFA;
+    }
+    .filter-chip.active {
+      background: linear-gradient(135deg, #0D9488 0%, #0F766E 100%) !important;
+      border-color: #0F766E !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 2px 8px rgba(13, 148, 136, 0.35) !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-notice-bar">
+    <div class="container">
+      <div>
+        <span class="top-notice-pill">Investigation Database</span>
+        <span>Search peer-reviewed medical evaluations of viral claims.</span>
+      </div>
+      <div>
+        <a href="contact.html#submit-claim" class="top-notice-link">Submit a claim for review &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Primary Site Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <!-- Text & Symbol Brand Logo -->
+        <a href="index.html" class="brand-logo" aria-label="Myth Rx Homepage">
+          <div class="brand-logo-icon" aria-hidden="true">&#x211E;</div>
+          <div class="brand-logo-text">
+            <span class="brand-logo-title">Myth <span>Rx</span></span>
+            <span class="brand-logo-tagline">Busting Health Hoaxes</span>
+          </div>
+        </a>
+
+        <!-- Desktop & Mobile Navigation Links -->
+        <ul class="nav-menu" id="primaryNav">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="investigations.html" class="nav-link active">Investigations</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="contact.html#submit-claim" class="nav-link">Submit a Claim</a></li>
+          
+          <!-- Mobile Only Action Links inside Drawer -->
+          <li class="mobile-only-actions">
+            <button class="btn btn-outline-teal btn-sm btn-block open-quick-search-trigger" type="button">🔍 Quick Search Claims</button>
+            <a href="login.html" class="btn btn-secondary btn-sm btn-block">Log In</a>
+            <a href="signup.html" class="btn btn-primary btn-sm btn-block">Sign Up</a>
+          </li>
+        </ul>
+
+        <!-- Right Side Nav Actions Group -->
+        <div class="nav-right-group">
+          <!-- Universal Quick Search Button with Ctrl+K shortcut -->
+          <button class="nav-search-btn" id="openQuickSearchBtn" type="button" aria-label="Quick search health claims">
+            <span>🔍</span>
+            <span>Search claims</span>
+            <kbd class="nav-search-kbd">Ctrl K</kbd>
+          </button>
+
+          <div class="nav-actions">
+            <a href="contact.html#submit-claim" class="btn btn-outline-teal btn-sm">Submit a Claim</a>
+            <a href="login.html" class="btn btn-secondary btn-sm">Log In</a>
+            <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+          </div>
+        </div>
+
+        <!-- Accessible Mobile Hamburger Button -->
+        <button class="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primaryNav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content section">
+    <div class="container">
+      
+      <!-- Breadcrumb Navigation -->
+      <nav class="breadcrumbs-nav" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumbs-sep">›</span>
+        <span class="breadcrumbs-current">Investigations Archive</span>
+      </nav>
+      
+      <!-- Page Header -->
+      <div class="section-header" style="align-items: flex-start; margin-bottom: var(--space-xl);">
+        <div>
+          <span class="section-kicker">Clinical Archive</span>
+          <h1>All Medical Investigations</h1>
+          <p class="section-description">
+            Explore evidence-based reviews of misleading medical claims, viral WhatsApp tips, and social media remedies.
+          </p>
+        </div>
+      </div>
+
+      <!-- Filter & Search Controls -->
+      <section class="filter-bar" aria-label="Investigation Filters">
+        <div style="margin-bottom: var(--space-md);">
+          <form id="searchForm" class="search-input-wrapper">
+            <input 
+              type="search" 
+              id="searchInput" 
+              class="search-input" 
+              placeholder="Search by keywords, viral claims, remedies, or medicines..."
+              aria-label="Filter investigations"
+            >
+            <button type="submit" class="search-btn">
+              <span>Search</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Filter By Category -->
+        <div class="filter-group-title">Filter by Health Domain</div>
+        <div class="filter-chips-row">
+          <button class="filter-chip active" data-category="all">All Topics</button>
+          <button class="filter-chip" data-category="whatsapp">WhatsApp Forwards</button>
+          <button class="filter-chip" data-category="diet">Nutrition & Diet</button>
+          <button class="filter-chip" data-category="supplements">Supplements & Herbs</button>
+          <button class="filter-chip" data-category="cancer">Cancer Claims</button>
+          <button class="filter-chip" data-category="cardiology">Cardiovascular</button>
+        </div>
+
+        <!-- Filter By Verdict (Standardized: Supported, False, Misleading, Unverified) -->
+        <div class="filter-group-title" style="margin-top: var(--space-sm);">Filter by Scientific Verdict</div>
+        <div class="filter-chips-row" style="margin-bottom: 0;">
+          <button class="filter-chip active" data-verdict-filter="all">All Verdicts</button>
+          <button class="filter-chip" data-verdict-filter="supported">✓ Supported</button>
+          <button class="filter-chip" data-verdict-filter="false">✕ False</button>
+          <button class="filter-chip" data-verdict-filter="misleading">▲ Misleading</button>
+          <button class="filter-chip" data-verdict-filter="unverified">? Unverified</button>
+        </div>
+      </section>
+
+      <!-- Active Count & Reset Controls -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); flex-wrap: wrap; gap: 8px;">
+        <p id="resultsCount" class="text-muted" style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0;">
+          Loading investigations...
+        </p>
+        <div style="display: flex; gap: var(--space-sm); align-items: center; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <label for="archiveSortSelect" style="font-size: 0.85rem; font-weight: 600; color: var(--color-navy); margin-bottom: 0;">Sort by:</label>
+            <select id="archiveSortSelect" class="form-control" style="width: auto; padding: 4px 10px; font-size: 0.85rem; border-radius: var(--radius-sm); border-color: var(--color-border);" aria-label="Sort investigations">
+              <option value="newest">Newest Published</option>
+              <option value="oldest">Oldest Published</option>
+              <option value="alpha">Title (A–Z)</option>
+            </select>
+          </div>
+          <button id="resetFiltersBtn" class="btn-reset-filters" type="button" aria-label="Reset all filters">
+            ↺ Reset Filters
+          </button>
+        </div>
+      </div>
+
+      <!-- Investigations Grid (Populated dynamically by js/investigations.js) -->
+      <div class="grid-3" id="investigationsGrid">
+        <!-- Rendered dynamically from live database or demonstration dataset -->
+      </div>
+
+      <!-- Load More / Pagination Area -->
+      <div id="archivePaginationContainer" style="text-align: center; margin-top: var(--space-2xl); display: none;">
+        <p id="paginationInfo" class="text-muted" style="font-size: 0.85rem; margin-bottom: var(--space-sm);"></p>
+        <button id="loadMoreBtn" class="btn btn-outline-teal btn-md" type="button">
+          Load More Investigations &darr;
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <div class="brand-logo-icon">&#x211E;</div>
+            <div class="brand-logo-text">
+              <span class="brand-logo-title">Myth <span>Rx</span></span>
+              <span class="brand-logo-tagline">Busting Health Hoaxes</span>
+            </div>
+          </a>
+          <p class="footer-about">
+            Myth Rx investigates viral health misinformation, unverified remedies, and pseudoscientific medical claims to protect the public from preventable health hazards.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Investigations</h4>
+          <ul class="footer-links">
+            <li><a href="investigations.html?category=whatsapp">WhatsApp Forwards</a></li>
+            <li><a href="investigations.html?category=cancer">Cancer "Cures"</a></li>
+            <li><a href="investigations.html?category=diet">Diet & Detox</a></li>
+            <li><a href="investigations.html?category=supplements">Supplements</a></li>
+            <li><a href="investigations.html?category=cardiology">Cardiovascular</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Organization</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Myth Rx</a></li>
+            <li><a href="about.html#methodology">Our Methodology</a></li>
+            <li><a href="about.html#editorial-standards">Editorial Standards</a></li>
+            <li><a href="contact.html">Contact Editorial Team</a></li>
+            <li><a href="contact.html#submit-claim">Submit a Health Claim</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Account & Admin</h4>
+          <ul class="footer-links">
+            <li><a href="login.html">User Login</a></li>
+            <li><a href="signup.html">Create Free Account</a></li>
+            <li><a href="user-dashboard.html">User Dashboard</a></li>
+            <li><a href="admin/index.html">Admin Portal</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Myth Rx. All rights reserved. Academic Fact-Checking Project.</p>
+        <div class="footer-bottom-links">
+          <a href="about.html#disclaimer">Medical Disclaimer</a>
+          <a href="about.html#privacy">Privacy Policy</a>
+          <a href="contact.html">Report Correction</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/investigations.js"></script>
+  <script src="js/quick-search.js"></script>
+</body>
+</html>

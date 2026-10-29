@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Myth Rx User Dashboard: Manage your saved health fact-checks and track your submitted claims.">
+  <title>User Dashboard — Myth Rx | Busting Health Hoaxes</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+
+  <!-- Supabase Official JS Client (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Primary Site Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <!-- Text & Symbol Brand Logo -->
+        <a href="index.html" class="brand-logo" aria-label="Myth Rx Homepage">
+          <div class="brand-logo-icon" aria-hidden="true">&#x211E;</div>
+          <div class="brand-logo-text">
+            <span class="brand-logo-title">Myth <span>Rx</span></span>
+            <span class="brand-logo-tagline">Busting Health Hoaxes</span>
+          </div>
+        </a>
+
+        <!-- Desktop & Mobile Navigation Links -->
+        <ul class="nav-menu" id="primaryNav">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="investigations.html" class="nav-link">Investigations</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="contact.html#submit-claim" class="nav-link">Submit a Claim</a></li>
+          
+          <!-- Mobile Only Action Links inside Drawer -->
+          <li class="mobile-only-actions">
+            <button class="btn btn-outline-teal btn-sm btn-block open-quick-search-trigger" type="button">🔍 Quick Search Claims</button>
+            <a href="user-dashboard.html" class="btn btn-primary btn-sm btn-block">My Dashboard</a>
+            <a href="index.html" class="btn btn-secondary btn-sm btn-block">Sign Out</a>
+          </li>
+        </ul>
+
+        <!-- Right Side Nav Actions Group -->
+        <div class="nav-right-group">
+          <!-- Universal Quick Search Button with Ctrl+K shortcut -->
+          <button class="nav-search-btn" id="openQuickSearchBtn" type="button" aria-label="Quick search health claims">
+            <span>🔍</span>
+            <span>Search claims</span>
+            <kbd class="nav-search-kbd">Ctrl K</kbd>
+          </button>
+
+          <div class="nav-actions">
+            <span style="font-size: 0.88rem; font-weight: 600; color: var(--color-navy);">Alex Taylor</span>
+            <a href="index.html" class="btn btn-secondary btn-sm">Sign Out</a>
+          </div>
+        </div>
+
+        <!-- Accessible Mobile Hamburger Button -->
+        <button class="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primaryNav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Dashboard Shell -->
+  <div class="dashboard-layout">
+    
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar" aria-label="User Navigation">
+      <div>
+        <div class="sidebar-user-info">
+          <span class="sidebar-user-role" id="sidebarUserRole">Community Reader</span>
+          <div class="sidebar-user-name" id="sidebarUserName">Alex Taylor</div>
+          <div class="sidebar-user-email" id="sidebarUserEmail">alex.taylor@example.com</div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <button class="sidebar-link active tab-btn" data-tab="tab-bookmarks">
+            <span>&#128278; Saved Bookmarks</span>
+            <span class="sidebar-badge sidebar-badge-teal" id="sidebarBookmarkBadge">0</span>
+          </button>
+          <button class="sidebar-link tab-btn" data-tab="tab-submissions">
+            <span>&#128221; My Submissions</span>
+            <span class="sidebar-badge" id="sidebarSubmissionBadge">0</span>
+          </button>
+          <button class="sidebar-link tab-btn" data-tab="tab-profile">
+            <span>&#9881; Profile Settings</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="#quick-submit" class="btn btn-outline-teal btn-sm btn-block mb-sm" id="sidebarSubmitClaimBtn">
+          + Submit New Claim
+        </a>
+        <a href="index.html" class="btn btn-secondary btn-sm btn-block mb-xs">
+          &larr; Public Site
+        </a>
+        <button type="button" class="btn btn-outline-teal btn-sm btn-block" id="dashSidebarLogoutBtn">
+          Log Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Dashboard Area -->
+    <main class="dashboard-main">
+      
+      <!-- Session / Phase 1 Notice Box -->
+      <div id="sessionNoticeBox"></div>
+
+      <!-- Topbar Header -->
+      <div class="dashboard-topbar">
+        <div class="dashboard-title-group">
+          <h1>User Dashboard</h1>
+          <p>Review your bookmarked health investigations and track claims submitted for clinical evaluation.</p>
+        </div>
+        <div class="dashboard-actions">
+          <a href="investigations.html" class="btn btn-secondary btn-sm">Browse All Fact-Checks</a>
+        </div>
+      </div>
+
+      <!-- Metric Cards (Personal User Activity) -->
+      <div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+        <div class="metric-card">
+          <div class="metric-label">Bookmarked Investigations</div>
+          <div class="metric-value" id="metricBookmarksCount">0</div>
+          <div class="metric-detail">Saved for offline / family sharing</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Claims Submitted</div>
+          <div class="metric-value" id="metricSubmissionsCount">0</div>
+          <div class="metric-detail">In clinical / editorial review queue</div>
+        </div>
+      </div>
+
+      <!-- TAB 1: SAVED BOOKMARKS -->
+      <section id="tab-bookmarks" class="tab-content">
+        <div class="section-header" style="margin-bottom: var(--space-md);">
+          <div>
+            <h2 style="font-size: 1.3rem;">Saved Health Investigations</h2>
+            <p class="text-muted" style="font-size: 0.9rem;">Quickly access fact-checks you've pinned to debunk viral family messages.</p>
+          </div>
+        </div>
+
+        <div class="grid-2" id="bookmarksContainer">
+          <!-- Bookmarked Card 1 -->
+          <article class="card investigation-card">
+            <div class="investigation-card-header">
+              <span class="verdict-badge verdict-false">False / Hoax</span>
+              <span class="category-tag">WhatsApp Viral</span>
+            </div>
+            <div class="investigation-claim-box">
+              <div class="investigation-claim-label">Claim</div>
+              <p class="investigation-claim-text">"Drinking boiled ginger water dissolves kidney stones in 48 hours without surgery."</p>
+            </div>
+            <h3 class="investigation-title">
+              <a href="article.html">Why Boiled Ginger Water Does Not Melt Kidney Stones</a>
+            </h3>
+            <p class="investigation-summary">
+              Calcified renal calculi cannot be dissolved through ingested ginger metabolites. Delaying medical care causes urinary obstruction.
+            </p>
+            <div class="investigation-meta">
+              <span>Saved on: Oct 24, 2026</span>
+              <div style="display: flex; gap: var(--space-xs);">
+                <a href="article.html" class="btn btn-secondary btn-sm">Read Article</a>
+                <button class="btn btn-outline-teal btn-sm" onclick="alert('Bookmark removed (Phase 1 Preview)');">Remove</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bookmarked Card 2 -->
+          <article class="card investigation-card">
+            <div class="investigation-card-header">
+              <span class="verdict-badge verdict-misleading">Misleading</span>
+              <span class="category-tag">Nutrition & Detox</span>
+            </div>
+            <div class="investigation-claim-box">
+              <div class="investigation-claim-label">Claim</div>
+              <p class="investigation-claim-text">"Drinking alkaline water balances body pH and cures acid-based diseases."</p>
+            </div>
+            <h3 class="investigation-title">
+              <a href="article.html">Can Alkaline Water Actually Alter Human Blood pH?</a>
+            </h3>
+            <p class="investigation-summary">
+              Stomach gastric acid instantly neutralizes alkaline fluids. Homeostatic pH is strictly regulated by lungs and kidneys.
+            </p>
+            <div class="investigation-meta">
+              <span>Saved on: Oct 25, 2026</span>
+              <div style="display: flex; gap: var(--space-xs);">
+                <a href="article.html" class="btn btn-secondary btn-sm">Read Article</a>
+                <button class="btn btn-outline-teal btn-sm" onclick="alert('Bookmark removed (Phase 1 Preview)');">Remove</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- TAB 2: MY SUBMISSIONS -->
+      <section id="tab-submissions" class="tab-content hidden">
+        <div class="section-header" style="margin-bottom: var(--space-md);">
+          <div>
+            <h2 style="font-size: 1.3rem;">Claims You Have Submitted</h2>
+            <p class="text-muted" style="font-size: 0.9rem;">Track the clinical review status of medical rumors you reported.</p>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" id="openQuickSubmitBtn">+ Submit Another Claim</button>
+        </div>
+
+        <!-- Quick Submit Form (Collapsible) -->
+        <div class="card mb-lg" id="quickSubmitCard" style="display: none; border-left: 4px solid var(--color-teal); margin-bottom: var(--space-lg);">
+          <h3 style="font-size: 1.1rem; margin-bottom: var(--space-xs);">Submit a Health Claim for Clinical Evaluation</h3>
+          <p class="text-muted" style="font-size: 0.85rem; margin-bottom: var(--space-md);">Our clinical review desk investigates viral rumors, home remedies, and suspicious health advice.</p>
+          <form id="dashboardClaimForm">
+            <div class="form-group">
+              <label for="dashClaimText" class="form-label form-label-required">Claim Statement</label>
+              <textarea id="dashClaimText" class="form-control" rows="2" placeholder="e.g. Drinking boiled ginger water dissolves kidney stones in 48 hours..." required minlength="10"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="dashSourceUrl" class="form-label">Source URL (Optional)</label>
+              <input type="url" id="dashSourceUrl" class="form-control" placeholder="https://social-post-or-link.com">
+            </div>
+            <div class="form-group">
+              <label for="dashContext" class="form-label">Additional Context (Optional)</label>
+              <input type="text" id="dashContext" class="form-control" placeholder="Origin platform (e.g. WhatsApp, TikTok, family forward)">
+            </div>
+            <div style="display: flex; gap: var(--space-sm); align-items: center;">
+              <button type="submit" class="btn btn-primary btn-sm" id="dashClaimSubmitBtn">Submit Claim</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="cancelQuickSubmitBtn">Cancel</button>
+            </div>
+            <div id="dashClaimAlert" style="display: none; margin-top: var(--space-sm);"></div>
+          </form>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table" aria-label="Submitted claims table">
+            <thead>
+              <tr>
+                <th>Submitted Claim</th>
+                <th>Source Platform / Context</th>
+                <th>Date Submitted</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="submissionsTableBody">
+              <tr>
+                <td colspan="4" class="text-muted" style="text-align: center; padding: var(--space-lg);">
+                  Loading your submissions from clinical database...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 3: PROFILE SETTINGS -->
+      <section id="tab-profile" class="tab-content hidden">
+        <div class="section-header" style="margin-bottom: var(--space-md);">
+          <div>
+            <h2 style="font-size: 1.3rem;">Profile & Account Settings</h2>
+            <p class="text-muted" style="font-size: 0.9rem;">Manage your reader account details and email preferences.</p>
+          </div>
+        </div>
+
+        <div class="card" style="max-width: 600px;">
+          <form id="profileForm">
+            <div class="form-group">
+              <label for="profileFullName" class="form-label form-label-required">Full Name / Display Name</label>
+              <input type="text" id="profileFullName" class="form-control" value="Alex Taylor" required minlength="2">
+              <div class="form-hint">This name is displayed on your account and reader bookmarks.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="profileEmail" class="form-label">Email Address</label>
+              <input type="email" id="profileEmail" class="form-control" value="alex.taylor@example.com" disabled>
+              <div class="form-hint">Email address is managed through your Supabase Auth account.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Account Role</label>
+              <input type="text" id="profileRole" class="form-control" value="user" disabled style="background-color: #F3F4F6;">
+              <div class="form-hint">Role is server-managed and protected by Row Level Security.</div>
+            </div>
+
+            <div class="form-group mt-lg">
+              <button type="submit" class="btn btn-primary" id="saveProfileBtn">Save Profile Changes</button>
+            </div>
+            <div id="profileAlert" style="display: none; margin-top: var(--space-sm);"></div>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/user-dashboard.js"></script>
+  <script src="js/quick-search.js"></script>
+</body>
+</html>
