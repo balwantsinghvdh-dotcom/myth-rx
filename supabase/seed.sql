@@ -41,6 +41,26 @@ VALUES
     'Cardiovascular',
     'cardiology',
     'Heart attack and stroke first aid misinformation, blood pressure hoaxes, and emergency protocols.'
+  ),
+  (
+    'Vaccines & Immunity',
+    'vaccines',
+    'Vaccine safety surveillance, immunization evidence, herd immunity thresholds, and infectious disease defense.'
+  ),
+  (
+    'Fitness & Metabolism',
+    'fitness',
+    'Exercise physiology, resistance training, metabolic spot reduction myths, and post-workout recovery science.'
+  ),
+  (
+    'Mental Health & Sleep',
+    'mental-health',
+    'Sleep architecture, chronobiology, circadian hormones, adaptogens, and evidence-based mental wellness.'
+  ),
+  (
+    'Infectious Diseases',
+    'infectious',
+    'Microbiological hygiene, viral transmission, antimicrobial resistance, and antibiotic stewardship.'
   )
 ON CONFLICT (slug) DO UPDATE
 SET

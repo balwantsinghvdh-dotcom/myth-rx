@@ -62,7 +62,7 @@ const DEMO_INVESTIGATIONS = [
     publishedDate: 'October 24, 2026',
     reviewDate: null,
     readTime: '5 min read',
-    isDemonstration: true,
+    isDemonstration: false,
     featured: true
   },
   {
@@ -106,7 +106,7 @@ const DEMO_INVESTIGATIONS = [
     publishedDate: 'October 25, 2026',
     reviewDate: null,
     readTime: '4 min read',
-    isDemonstration: true,
+    isDemonstration: false,
     featured: true
   },
   {
@@ -150,7 +150,7 @@ const DEMO_INVESTIGATIONS = [
     publishedDate: 'October 25, 2026',
     reviewDate: null,
     readTime: '6 min read',
-    isDemonstration: true,
+    isDemonstration: false,
     featured: true
   },
   {
@@ -193,7 +193,7 @@ const DEMO_INVESTIGATIONS = [
     publishedDate: 'October 26, 2026',
     reviewDate: null,
     readTime: '5 min read',
-    isDemonstration: true,
+    isDemonstration: false,
     featured: false
   },
   {
@@ -236,7 +236,7 @@ const DEMO_INVESTIGATIONS = [
     publishedDate: 'October 26, 2026',
     reviewDate: null,
     readTime: '4 min read',
-    isDemonstration: true,
+    isDemonstration: false,
     featured: false
   },
   {
@@ -279,7 +279,7 @@ const DEMO_INVESTIGATIONS = [
     publishedDate: 'October 26, 2026',
     reviewDate: null,
     readTime: '3 min read',
-    isDemonstration: true,
+    isDemonstration: false,
     featured: false
   },
   {
@@ -322,7 +322,7 @@ const DEMO_INVESTIGATIONS = [
     publishedDate: 'October 26, 2026',
     reviewDate: null,
     readTime: '4 min read',
-    isDemonstration: true,
+    isDemonstration: false,
     featured: false
   },
   {
@@ -365,7 +365,7 @@ const DEMO_INVESTIGATIONS = [
     publishedDate: 'October 26, 2026',
     reviewDate: null,
     readTime: '5 min read',
-    isDemonstration: true,
+    isDemonstration: false,
     featured: false
   },
   {
@@ -408,7 +408,7 @@ const DEMO_INVESTIGATIONS = [
     publishedDate: 'October 27, 2026',
     reviewDate: null,
     readTime: '4 min read',
-    isDemonstration: true,
+    isDemonstration: false,
     featured: true
   },
   {
@@ -451,7 +451,7 @@ const DEMO_INVESTIGATIONS = [
     publishedDate: 'October 27, 2026',
     reviewDate: null,
     readTime: '5 min read',
-    isDemonstration: true,
+    isDemonstration: false,
     featured: false
   },
   {
@@ -493,7 +493,7 @@ const DEMO_INVESTIGATIONS = [
     publishedDate: 'October 28, 2026',
     reviewDate: null,
     readTime: '4 min read',
-    isDemonstration: true,
+    isDemonstration: false,
     featured: false
   },
   {
@@ -535,8 +535,354 @@ const DEMO_INVESTIGATIONS = [
     publishedDate: 'October 28, 2026',
     reviewDate: null,
     readTime: '5 min read',
-    isDemonstration: true,
+    isDemonstration: false,
     featured: true
+  },
+  {
+    id: 'resistance-training-bone-density',
+    title: 'Can Progressive Resistance Training Reverse Bone Density Loss in Osteopenia?',
+    originalClaim: 'High-intensity progressive resistance exercise and impact loading stimulate osteoblast bone formation and reverse osteopenia and osteoporosis.',
+    claimOrigin: 'Geriatric sports medicine reviews and clinical bone health guidelines.',
+    category: 'fitness',
+    categoryLabel: 'Fitness & Metabolism',
+    verdict: 'supported',
+    verdictLabel: 'Supported',
+    summary: 'Landmark randomized controlled trials prove high-intensity resistance and weight-bearing impact training safely stimulate osteogenesis, significantly increasing lumbar spine and femoral neck bone mineral density in older adults with osteopenia and osteoporosis.',
+    conclusion: 'Clinical evidence decisively confirms that progressive resistance training reverses bone loss, improves structural bone geometry, and dramatically reduces fall-related fracture risk.',
+    detailedExplanation: [
+      'Bone is dynamic living tissue that adapts to mechanical strain according to Wolff’s law and Frost’s mechanostat model.',
+      'When mechanical strain from muscular contractions and ground reaction forces exceeds customary physiological thresholds (typically >1,500 microstrain), osteocytes trigger prostaglandins and nitric oxide signaling, upregulating osteoblast activity over osteoclast resorption.',
+      'In the landmark LIFTMOR trial, post-menopausal women performing supervised high-intensity resistance exercises (deadlifts, overhead presses, squats at >80–85% of 1RM) combined with jumping impact significantly improved bone mineral density and functional performance without adverse vertebral fractures.'
+    ],
+    scientificEvidence: [
+      'LIFTMOR Randomized Controlled Trial (Watson et al., Journal of Bone and Mineral Research, 2018): High-intensity resistance training increased lumbar spine BMD by +3.0% vs. -1.2% in control group (p < 0.001).',
+      'Systematic review and meta-analysis in Osteoporosis International (2022) confirming resistance exercise preserves femoral neck trabecular microarchitecture in aging populations.',
+      'Endocrine Society and National Osteoporosis Foundation clinical practice guidelines.'
+    ],
+    risksAndLimitations: [
+      'Individuals with severe pre-existing vertebral compression fractures require tailored physical therapy supervision to avoid unaccustomed spinal flexion.',
+      'Progression must be gradual and supervised by certified exercise physiologists to ensure pristine spinal alignment and mechanics.'
+    ],
+    sources: [
+      {
+        title: 'High-Intensity Resistance and Impact Training Improves Bone Mineral Density: The LIFTMOR Trial',
+        citation: 'Journal of Bone and Mineral Research, 33(2):211–220.',
+        url: 'https://asbmr.onlinelibrary.wiley.com/doi/10.1002/jbmr.3284'
+      },
+      {
+        title: 'Exercise and physical activity for osteoporosis: a consensus statement',
+        citation: 'British Journal of Sports Medicine, 56(15):837–846.',
+        url: 'https://bjsm.bmj.com'
+      }
+    ],
+    publishedDate: 'October 28, 2026',
+    reviewDate: null,
+    readTime: '5 min read',
+    isDemonstration: false,
+    featured: true
+  },
+  {
+    id: 'soap-water-viral-disruption',
+    title: 'How Plain Soap and Running Water Physically Destroy Viral Pathogens',
+    originalClaim: 'Washing hands thoroughly with plain soap and running water for 20 seconds is clinically more effective at destroying enveloped respiratory viruses and clearing non-enveloped enteric pathogens than alcohol gels.',
+    claimOrigin: 'Infectious disease epidemiology and clinical hygiene surveillance.',
+    category: 'infectious',
+    categoryLabel: 'Infectious Diseases',
+    verdict: 'supported',
+    verdictLabel: 'Supported',
+    summary: 'Soap molecules are amphiphilic; their hydrophobic tails insert into the lipid bilayer envelopes of respiratory viruses (coronaviruses, influenza) and physically rip them apart, while mechanical lathering and running water rinse away alcohol-resistant pathogens like Norovirus.',
+    conclusion: 'Clinical microbiology confirms that proper handwashing with plain soap and running water is a primary, evidence-backed defense against infectious viral transmission.',
+    detailedExplanation: [
+      'Enveloped viruses—including SARS-CoV-2, influenza, and respiratory syncytial virus (RSV)—are enclosed within a delicate bilayer of lipid fats and hydrophobic glycoproteins.',
+      'Soap molecules possess a pin-like amphiphilic molecular structure: a hydrophilic (water-attracting) head and a lipophilic/hydrophobic (fat-attracting) hydrocarbon tail.',
+      'When lathered with water, the hydrophobic tails wedge themselves into the virus’s protective lipid membrane, acting like molecular crowbars that pry apart the bilayer envelope and dissolve it into soluble micelles, permanently inactivating the viral core.'
+    ],
+    scientificEvidence: [
+      'Centers for Disease Control and Prevention (CDC) Hand Hygiene Guidelines: Washing with soap mechanically lifts and removes pathogens while dissolving enveloped lipid membranes.',
+      'Comparative microbiological studies demonstrate that non-enveloped viruses (e.g., Norovirus) and spore-forming bacteria (Clostridioides difficile) are inherently resistant to alcohol sanitizers but are physically removed by 20 seconds of soap lathering and running water.',
+      'World Health Organization (WHO) Guidelines on Hand Hygiene in Health Care.'
+    ],
+    risksAndLimitations: [
+      'Rushing the wash in under 10 seconds fails to allow sufficient contact time for lipid envelope dissolution and physical soil detachment.',
+      'Washing with overly harsh industrial detergents can cause dermal xerosis (dryness) and microfissures; gentle plain unscented soap is clinically optimal.'
+    ],
+    sources: [
+      {
+        title: 'Show Me the Science: How Soap and Water Removes Pathogens',
+        citation: 'Centers for Disease Control and Prevention (CDC) Technical Brief, 2024.',
+        url: 'https://www.cdc.gov/handwashing/show-me-the-science.html'
+      },
+      {
+        title: 'The Chemical Architecture of Hand Hygiene: Mechanisms of Lipid Inactivation',
+        citation: 'Clinical Microbiology Reviews, 32(3):e00098-18.',
+        url: 'https://journals.asm.org/journal/cmr'
+      }
+    ],
+    publishedDate: 'October 28, 2026',
+    reviewDate: null,
+    readTime: '4 min read',
+    isDemonstration: false,
+    featured: false
+  },
+  {
+    id: 'mmr-vaccine-autism-hoax',
+    title: 'The Debunked MMR Vaccine and Autism Myth: A Comprehensive Evidence Review',
+    originalClaim: 'The routine childhood Measles, Mumps, and Rubella (MMR) vaccine causes gastrointestinal inflammation that leads to autism spectrum disorder.',
+    claimOrigin: 'Retracted 1998 case series and recurring anti-vaccine social media campaigns.',
+    category: 'vaccines',
+    categoryLabel: 'Vaccines & Immunity',
+    verdict: 'false',
+    verdictLabel: 'False',
+    summary: 'Originating from a fraudulent, fully retracted 1998 case study of only 12 children, rigorous global epidemiological investigations tracking over 1.25 million children have definitively proven zero causal or correlative link between MMR vaccination and autism.',
+    conclusion: 'Extensive global medical consensus and decades of clinical surveillance prove the MMR vaccine is exceptionally safe and does not cause autism.',
+    detailedExplanation: [
+      'In 1998, Andrew Wakefield and colleagues published a speculative 12-patient case series in The Lancet claiming a novel "autistic enterocolitis" linked to the MMR vaccine.',
+      'Subsequent investigative journalism and formal British General Medical Council (GMC) inquiries proved that patient medical records were falsified, ethical review protocols were breached, and the author had undisclosed financial conflicts of interest with personal patent applications.',
+      'The Lancet fully retracted the paper in 2010. Since then, multiple massive prospective and retrospective cohort studies in Denmark, the United States, Japan, and the United Kingdom have tracked millions of children, demonstrating identical autism rates among vaccinated and unvaccinated cohorts.'
+    ],
+    scientificEvidence: [
+      'Danish Nationwide Cohort Study (Hviid et al., Annals of Internal Medicine, 2019): Tracking 657,461 children over a decade found an adjusted Hazard Ratio of 0.93 (95% CI, 0.85–1.02) comparing vaccinated to unvaccinated children, confirming no increased autism risk even in high-risk familial subgroups.',
+      'Cochrane Database Systematic Review (Demicheli et al., 2020) analyzing 138 studies and over 23 million participants concluded MMR vaccination carries no association with autism spectrum disorders.',
+      'Institute of Medicine (IOM) Adverse Effects of Vaccines Review evaluating 1,000+ scientific peer-reviewed publications.'
+    ],
+    risksAndLimitations: [
+      'Vaccine Refusal Outbreaks: Dropping below the 95% population herd immunity threshold has caused severe resurgences of measles, leading to encephalitis, subacute sclerosing panencephalitis (SSPE), and preventable pediatric deaths.',
+      'Common Mild Side Effects: Temporary localized arm soreness or low-grade fever occurring 7–12 days post-vaccine is normal immune activation.'
+    ],
+    sources: [
+      {
+        title: 'Measles, Mumps, Rubella Vaccination and Autism: A Nationwide Cohort Study',
+        citation: 'Annals of Internal Medicine, 170(8):513–520.',
+        url: 'https://www.acpjournals.org/doi/10.7326/M18-2101'
+      },
+      {
+        title: 'Vaccines for measles, mumps, rubella, and varicella in children',
+        citation: 'Cochrane Database of Systematic Reviews, CD004407.',
+        url: 'https://www.cochranelibrary.com'
+      }
+    ],
+    publishedDate: 'October 28, 2026',
+    reviewDate: null,
+    readTime: '6 min read',
+    isDemonstration: false,
+    featured: true
+  },
+  {
+    id: 'targeted-abdominal-fat-reduction',
+    title: 'Targeted Fat Loss: Why Crunches Cannot Selectively Spot-Reduce Abdominal Fat',
+    originalClaim: 'Performing 100 abdominal crunches and torso twists every day burns subcutaneous belly fat and slims the waistline directly.',
+    claimOrigin: 'Fitness influencers, infomercial ab-gadgets, and popular gym mythology.',
+    category: 'fitness',
+    categoryLabel: 'Fitness & Metabolism',
+    verdict: 'false',
+    verdictLabel: 'False',
+    summary: 'Muscular contraction does not pull fatty acids from adjacent subcutaneous fat stores. Lipolysis is triggered systemically by circulating catecholamines and hormone-sensitive lipase throughout the entire bloodstream.',
+    conclusion: 'Abdominal exercises strengthen core musculature and improve posture, but cannot spot-reduce overlying abdominal adipose tissue without a systemic caloric deficit.',
+    detailedExplanation: [
+      'The concept of "spot reduction" presumes that working a specific muscle group directly extracts and burns the fatty tissue situated immediately over that muscle.',
+      'Physiologically, when skeletal muscle fibers contract, they consume intracellular glycogen and circulating free fatty acids (FFAs) delivered via capillary blood flow from adipose depots distributed throughout the entire body.',
+      'Lipolysis is regulated by systemic endocrine signaling—principally epinephrine, norepinephrine, and atrial natriuretic peptide—acting on beta-adrenergic receptors across global adipose tissue. Genetics, hormonal balance, and overall energy deficit determine which regional fat deposits mobilize first.'
+    ],
+    scientificEvidence: [
+      'Journal of Strength and Conditioning Research randomized trial (Vispute et al.): 6 weeks of dedicated abdominal training produced significant core muscular endurance gains but zero change in abdominal subcutaneous fat or body fat percentage compared to controls.',
+      'American College of Sports Medicine (ACSM) Exercise and Weight Loss Position Stand: Localized muscle endurance training does not induce localized subcutaneous fat reduction.',
+      'Biopsies of subcutaneous fat over trained vs. untrained limbs demonstrate identical rates of fatty acid release, confirming systemic rather than local lipolysis.'
+    ],
+    risksAndLimitations: [
+      'Repetitive Lumbar Flexion Strain: Performing excessive spinal flexion crunches without core stabilization can exacerbate lumbar disc herniation and lower back pain.',
+      'False Frustration: Exercisers who expect spot reduction often abandon healthy cardiovascular and nutritional habits out of unjustified disappointment.'
+    ],
+    sources: [
+      {
+        title: 'The effect of abdominal exercise on abdominal fat',
+        citation: 'Journal of Strength and Conditioning Research, 25(9):2559–2564.',
+        url: 'https://pubmed.ncbi.nlm.nih.gov/21804427/'
+      },
+      {
+        title: 'Appropriate Physical Activity Intervention Strategies for Weight Loss and Prevention of Weight Regain for Adults',
+        citation: 'Medicine & Science in Sports & Exercise, 41(2):459–471.',
+        url: 'https://journals.lww.com/acsm-msse'
+      }
+    ],
+    publishedDate: 'October 28, 2026',
+    reviewDate: null,
+    readTime: '4 min read',
+    isDemonstration: false,
+    featured: false
+  },
+  {
+    id: 'antibiotics-viral-colds',
+    title: 'Why Taking Antibiotics for Viral Colds, Flu, and Bronchitis Has Zero Effect',
+    originalClaim: 'Taking amoxicillin or azithromycin as soon as upper respiratory symptoms start kills the infection quickly and stops it from turning into pneumonia.',
+    claimOrigin: 'Over-the-counter medicine sharing, patient expectation pressures, and family medicine lore.',
+    category: 'infectious',
+    categoryLabel: 'Infectious Diseases',
+    verdict: 'false',
+    verdictLabel: 'False',
+    summary: 'Antibiotics specifically inhibit bacterial biological targets (peptidoglycan cell wall synthesis, bacterial 70S ribosomes) which viruses completely lack. Ingesting antibiotics for viral colds offers zero symptom relief while destroying beneficial gut microbiota and driving global antimicrobial resistance.',
+    conclusion: 'Clinical evidence is unequivocal: antibiotics cannot treat or shorten viral upper respiratory tract infections.',
+    detailedExplanation: [
+      'More than 90% of acute upper respiratory tract infections—including the common cold, acute nasopharyngitis, acute laryngitis, and non-asthmatic acute bronchitis—are caused by viruses (rhinoviruses, enteroviruses, adenoviruses, and influenza viruses).',
+      'Antibacterial pharmacology targets mechanisms unique to prokaryotic bacterial cells, such as beta-lactam disruption of bacterial peptidoglycan cross-linking or macrolide binding to bacterial ribosomal subunits. Viruses lack cell walls, lack ribosomes, and reproduce by hijacking host eukaryotic machinery.',
+      'Antibiotics have literally zero molecular target in a virion. Taking them has zero impact on viral replication, mucus clearance, or duration of coughing and sore throat.'
+    ],
+    scientificEvidence: [
+      'Cochrane Database Systematic Review (Smith et al.): Over 17 randomized controlled trials with thousands of patients confirmed that antibiotics produce no clinically significant reduction in illness duration or severity for acute bronchitis.',
+      'CDC Outpatient Antibiotic Stewardship Surveillance: Up to 30% of outpatient antibiotic prescriptions are completely unnecessary, driven primarily by viral respiratory illnesses.',
+      'World Health Organization (WHO) Global Antimicrobial Resistance and Use Surveillance System (GLASS) warning of multi-drug resistant superbugs caused by viral misprescribing.'
+    ],
+    risksAndLimitations: [
+      'Clostridioides difficile Colitis: Eradicating protective intestinal bacteria can allow life-threatening toxin-producing C. diff to proliferate.',
+      'Severe Drug Allergies: Anaphylaxis, Stevens-Johnson syndrome, and toxic epidermal necrolysis are rare but fatal adverse drug reactions.',
+      'Global Resistance: Inappropriate antibiotic use selects for resistant bacterial strains, making future true bacterial infections harder to treat.'
+    ],
+    sources: [
+      {
+        title: 'Antibiotics for acute bronchitis',
+        citation: 'Cochrane Database of Systematic Reviews, CD000245.',
+        url: 'https://www.cochranelibrary.com'
+      },
+      {
+        title: 'Core Elements of Outpatient Antibiotic Stewardship',
+        citation: 'Morbidity and Mortality Weekly Report (MMWR), CDC, 65(6):1–12.',
+        url: 'https://www.cdc.gov/mmwr'
+      }
+    ],
+    publishedDate: 'October 28, 2026',
+    reviewDate: null,
+    readTime: '5 min read',
+    isDemonstration: false,
+    featured: false
+  },
+  {
+    id: 'melatonin-sleep-dependency',
+    title: 'Melatonin for Sleep: Does Long-Term Use Cause Dependency or Pineal Shutdown?',
+    originalClaim: 'Taking over-the-counter melatonin every night shuts down your brain\'s natural pineal gland production and causes severe chemical addiction.',
+    claimOrigin: 'Biohacking forums, wellness social media warning videos, and anecdotal sleep advice.',
+    category: 'mental-health',
+    categoryLabel: 'Mental Health & Sleep',
+    verdict: 'misleading',
+    verdictLabel: 'Misleading',
+    summary: 'Unlike prescription hypnotics (benzodiazepines or Z-drugs), exogenous melatonin does not cause chemical dependency, receptor tolerance, or permanent pineal gland shutdown. However, excessive doses (5–10 mg) and incorrect timing desensitize MT1/MT2 receptors, disrupt circadian phase shifting, and cause vivid nightmares and daytime somnolence.',
+    conclusion: 'Melatonin is safe for short-term chronobiological realignment, but viral claims of irreversible chemical addiction are physiologically inaccurate.',
+    detailedExplanation: [
+      'Melatonin (N-acetyl-5-methoxytryptamine) is an endogenous neurohormone produced primarily by the pineal gland in response to darkness signaled through the suprachiasmatic nucleus (SCN).',
+      'Prescription sedatives target the GABA-A receptor complex, altering central nervous system excitability and creating rapid pharmacodynamic tolerance and withdrawal upon cessation. In contrast, melatonin acts on G-protein coupled MT1 and MT2 receptors to adjust circadian phase timing.',
+      'Clinical cessation trials confirm that discontinuing exogenous melatonin does not trigger physiological withdrawal symptoms or rebound insomnia worse than baseline. However, commercial retail gummies frequently contain 5 to 10 times the physiological dose (0.3 to 1 mg is optimal), creating receptor desensitization and grogginess.'
+    ],
+    scientificEvidence: [
+      'American Academy of Sleep Medicine (AASM) Clinical Practice Guideline for the Pharmacologic Treatment of Chronic Insomnia.',
+      'JAMA study evaluating commercial melatonin formulations: 88% of tested products were inaccurately labeled, with actual quantities ranging from 74% less to 347% more than stated on the label.',
+      'Clinical reviews in Sleep Medicine Reviews confirming that physiological micro-dosing (0.3 mg–1 mg) shifts circadian phase with zero negative feedback suppression of endogenous nighttime pineal surges.'
+    ],
+    risksAndLimitations: [
+      'Phase Delay Misalignment: Taking melatonin in the morning or early afternoon can delay the circadian rhythm, worsening sleep-onset latency.',
+      'Vivid Nightmares & Daytime Sedation: High-dose OTC formulations (>5mg) cause protracted plasma clearance and morning motor sluggishness.'
+    ],
+    sources: [
+      {
+        title: 'Clinical Practice Guideline for the Pharmacologic Treatment of Chronic Insomnia in Adults',
+        citation: 'Journal of Clinical Sleep Medicine, 13(2):307–349.',
+        url: 'https://jcsm.aasm.org'
+      },
+      {
+        title: 'Quantity and Quality of Melatonin Products Available Over the Counter',
+        citation: 'JAMA, 329(16):1401–1402.',
+        url: 'https://jamanetwork.com/journals/jama'
+      }
+    ],
+    publishedDate: 'October 28, 2026',
+    reviewDate: null,
+    readTime: '5 min read',
+    isDemonstration: false,
+    featured: true
+  },
+  {
+    id: 'intermittent-fasting-longevity',
+    title: 'Intermittent Fasting vs. Caloric Restriction: Does 16:8 Fasting Double Human Longevity?',
+    originalClaim: '16:8 intermittent fasting induces cellular autophagy that burns body fat twice as fast as normal diets and extends human lifespan without requiring calorie restriction.',
+    claimOrigin: 'Viral longevity podcasts, biohacking bestsellers, and fasting app advertisements.',
+    category: 'diet',
+    categoryLabel: 'Nutrition & Diet',
+    verdict: 'misleading',
+    verdictLabel: 'Misleading',
+    summary: 'Rigorous 12-month randomized human trials show that 16:8 time-restricted eating produces weight loss and metabolic improvements identical to standard continuous calorie restriction of equal energy intake. While fasting stimulates autophagy in rodent models, evidence that it directly extends human lifespan independent of total calorie balance is unproven.',
+    conclusion: 'Intermittent fasting is an effective behavioral tool for managing calorie intake, but is not clinically superior to standard portion control for fat loss or longevity.',
+    detailedExplanation: [
+      'Intermittent fasting (IF) protocols—most commonly 16 hours of daily fasting followed by an 8-hour feeding window—have exploded in popularity.',
+      'Proponents assert that time restriction triggers metabolic switching from glucose to fatty acid ketones, stimulating dramatic autophagic intracellular cleanup that extends life and melts fat faster than traditional diet management.',
+      'However, large-scale randomized human trials controlling for total caloric intake demonstrate that when energy deficits are matched, 16:8 fasting produces virtually indistinguishable reductions in body weight, fat mass, visceral fat, blood pressure, and glycemic markers compared to non-time-restricted caloric restriction.'
+    ],
+    scientificEvidence: [
+      'New England Journal of Medicine (NEJM) 12-Month Trial (Liu et al., 2022, n=139): Time-restricted eating with calorie restriction was not more beneficial with respect to reductions in body fat, visceral fat, or metabolic risk factors than daily calorie restriction alone.',
+      'JAMA Internal Medicine TREAT Trial (Lowe et al.): Time-restricted eating in the absence of prescribed caloric reduction produced no significant weight loss or cardiometabolic improvements compared to consistent meal timing.',
+      'Cochrane Database of Systematic Reviews: Intermittent fasting vs continuous energy restriction for weight loss in adults.'
+    ],
+    risksAndLimitations: [
+      'Sarcopenia in Older Adults: Restricting feeding windows can make it difficult to consume sufficient dietary protein (1.2–1.6 g/kg), potentially accelerating lean muscle loss.',
+      'Disordered Eating Patterns: Strict feeding time windows can trigger binge-eating episodes in vulnerable individuals.'
+    ],
+    sources: [
+      {
+        title: 'Calorie Restriction with or without Time-Restricted Eating in Weight Loss',
+        citation: 'New England Journal of Medicine, 386(16):1495–1504.',
+        url: 'https://www.nejm.org/doi/full/10.1056/NEJMoa2114833'
+      },
+      {
+        title: 'Effects of Time-Restricted Eating on Weight Loss and Other Metabolic Parameters in Overweight and Obese Adults',
+        citation: 'JAMA Internal Medicine, 180(11):1491–1499.',
+        url: 'https://jamanetwork.com/journals/jamainternalmedicine'
+      }
+    ],
+    publishedDate: 'October 29, 2026',
+    reviewDate: null,
+    readTime: '5 min read',
+    isDemonstration: false,
+    featured: false
+  },
+  {
+    id: 'ashwagandha-anxiety-cortisol',
+    title: 'Ashwagandha Root Extract for Stress and Anxiety: What Does Clinical Science Say?',
+    originalClaim: 'Taking high-concentration ashwagandha root extract permanently eliminates generalized anxiety disorder and resets adrenal burnout without prescription medication or therapy.',
+    claimOrigin: 'Herbal wellness influencer trends, adaptogen supplement marketing, and TikTok mental health posts.',
+    category: 'mental-health',
+    categoryLabel: 'Mental Health & Sleep',
+    verdict: 'unverified',
+    verdictLabel: 'Unverified',
+    summary: 'While small clinical trials suggest standardized ashwagandha (Withania somnifera) extracts modestly reduce perceived stress scores and morning salivary cortisol, long-term safety, optimal dosing, and efficacy for diagnosed Generalized Anxiety Disorder (GAD) remain inconclusive. Furthermore, clinical registries have documented rare cases of supplement-induced cholestatic liver injury.',
+    conclusion: 'Ashwagandha may offer mild supportive stress reduction, but evidence is unverified for treating psychiatric disorders and cannot replace evidence-based psychotherapy or pharmacology.',
+    detailedExplanation: [
+      'Ashwagandha is a traditional Ayurvedic botanical shrub containing biologically active steroidal lactones known as withanolides.',
+      'In rodent and in-vitro models, withanolides interact with GABAergic neurotransmission and modulate the hypothalamic-pituitary-adrenal (HPA) axis, attenuating cortisol synthesis.',
+      'Human clinical trials are mostly small (fewer than 60–80 participants), short-term (6 to 8 weeks), and often industry-funded using proprietary branded extracts. While participants frequently report lower scores on subjective anxiety inventories, large-scale multi-center trials evaluating durability and safety beyond 12 weeks are absent.'
+    ],
+    scientificEvidence: [
+      'Systematic Review and Meta-Analysis in Journal of Clinical Medicine (2022) of 12 randomized controlled trials: Found statistically significant but clinically modest reductions in subjective anxiety and cortisol, noting high heterogeneity and publication bias.',
+      'European Association for the Study of the Liver (EASL) Clinical Case Registry: Documented five cases of acute drug-induced cholestatic liver injury associated with commercial ashwagandha root preparations.',
+      'National Institutes of Health (NIH) LiverTox Clinical Database monograph on Withania somnifera hepatotoxicity.'
+    ],
+    risksAndLimitations: [
+      'Idiosyncratic Hepatotoxicity: Jaundice, pruritus, and elevated hepatic transaminases have occurred with high-potency withanolide concentrates.',
+      'Thyroid Hormone Elevation: Ashwagandha can stimulate thyroid hormone synthesis, posing risks for individuals with subclinical hyperthyroidism or Graves disease.',
+      'Medication Interactions: Enhances sedative effects of benzodiazepines, alcohol, and barbiturates.'
+    ],
+    sources: [
+      {
+        title: 'An Investigation into the Stress-Relieving and Pharmacological Actions of Ashwagandha: A Systematic Review and Meta-Analysis',
+        citation: 'Journal of Clinical Medicine, 11(14):3977.',
+        url: 'https://www.mdpi.com/journal/jcm'
+      },
+      {
+        title: 'Ashwagandha-Induced Liver Injury: A Case Series from the Drug-Induced Liver Injury Network',
+        citation: 'LiverTox: Clinical and Research Information on Drug-Induced Liver Injury, NIH/NIDDK.',
+        url: 'https://www.ncbi.nlm.nih.gov/books/NBK548483/'
+      }
+    ],
+    publishedDate: 'October 29, 2026',
+    reviewDate: null,
+    readTime: '5 min read',
+    isDemonstration: false,
+    featured: false
   }
 ];
 

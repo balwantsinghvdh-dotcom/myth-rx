@@ -56,11 +56,12 @@ async function initUserDashboard() {
   if (!supabase) {
     if (noticeBox) {
       noticeBox.innerHTML = `
-        <div class="medical-disclaimer-box" style="margin-top: 0; margin-bottom: 1.5rem; background-color: #EFF6FF; border-left-color: #3B82F6; color: #1E40AF;">
-          <strong>Frontend Preview Mode:</strong> This dashboard is displaying preview data. Add your Supabase project credentials in <code>js/supabase.js</code> to synchronize with your authenticated account.
+        <div class="medical-disclaimer-box" style="margin-top: 0; margin-bottom: 1.5rem; background-color: #EFF6FF; border-left-color: #0D9488; color: #0F172A;">
+          <strong>Reader Dashboard Preview:</strong> This dashboard is displaying sample saved bookmarks and submitted claims across multiple health domains. Add your Supabase credentials in <code>js/supabase.js</code> to sync with your database.
         </div>
       `;
     }
+    initGuestDashboardPreview();
     return;
   }
 
@@ -69,11 +70,12 @@ async function initUserDashboard() {
   if (!session || !session.user) {
     if (noticeBox) {
       noticeBox.innerHTML = `
-        <div class="medical-disclaimer-box" style="margin-top: 0; margin-bottom: 1.5rem; background-color: #FEF2F2; border-left-color: #DC2626; color: #991B1B;">
-          <strong>Authentication Required:</strong> You are currently viewing the dashboard as a guest. Please <a href="login.html" style="font-weight: 700; text-decoration: underline;">sign in</a> to manage your bookmarks and track submitted claims.
+        <div class="medical-disclaimer-box" style="margin-top: 0; margin-bottom: 1.5rem; background-color: #EFF6FF; border-left-color: #0D9488; color: #0F172A;">
+          <strong>Reader Dashboard Preview:</strong> You are viewing sample reader bookmarks and submitted claims across various health domains. <a href="login.html" style="font-weight: 700; color: var(--color-teal); text-decoration: underline;">Sign in</a> to save real-time personal bookmarks and track your own submissions.
         </div>
       `;
     }
+    initGuestDashboardPreview();
     return;
   }
 
@@ -511,4 +513,86 @@ function escapeHTML(str) {
   return String(str).replace(/[&<>'"]/g, 
     tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
   );
+}
+
+/**
+ * Initializes the dashboard view in preview / guest mode with full interactivity.
+ */
+function initGuestDashboardPreview() {
+  const bookmarks = document.querySelectorAll('#bookmarksContainer .investigation-card');
+  const submissions = document.querySelectorAll('#submissionsTableBody tr');
+
+  const bmCount = bookmarks.length;
+  const subCount = submissions.length;
+
+  const bmBadge = document.getElementById('sidebarBookmarkBadge');
+  const bmMetric = document.getElementById('metricBookmarksCount');
+  const subBadge = document.getElementById('sidebarSubmissionBadge');
+  const subMetric = document.getElementById('metricSubmissionsCount');
+
+  if (bmBadge) bmBadge.textContent = bmCount;
+  if (bmMetric) bmMetric.textContent = bmCount;
+  if (subBadge) subBadge.textContent = subCount;
+  if (subMetric) subMetric.textContent = subCount;
+
+  // Setup interactive remove buttons on pre-rendered bookmarks
+  document.querySelectorAll('.remove-bm-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const card = btn.closest('.investigation-card');
+      if (card) {
+        card.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.96)';
+        setTimeout(() => {
+          card.remove();
+          const remaining = document.querySelectorAll('#bookmarksContainer .investigation-card').length;
+          if (bmBadge) bmBadge.textContent = remaining;
+          if (bmMetric) bmMetric.textContent = remaining;
+        }, 200);
+      }
+    });
+  });
+
+  // Setup guest quick claim submission
+  const claimForm = document.getElementById('dashboardClaimForm');
+  const claimText = document.getElementById('dashClaimText');
+  const claimContext = document.getElementById('dashContext');
+  const claimAlert = document.getElementById('dashClaimAlert');
+  const tbody = document.getElementById('submissionsTableBody');
+
+  if (claimForm && claimText && tbody) {
+    claimForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = claimText.value.trim();
+      const ctx = (claimContext ? claimContext.value.trim() : '') || 'Direct Reader Submission';
+      if (!text || text.length < 10) return;
+
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td><strong>${escapeHTML(text)}</strong></td>
+        <td><span style="font-size: 0.85rem; color: var(--color-text-muted);">${escapeHTML(ctx)}</span></td>
+        <td><span style="font-size: 0.85rem;">Just now</span></td>
+        <td><span class="verdict-badge verdict-context" style="font-size: 0.72rem;">Pending Intake</span></td>
+      `;
+      tbody.prepend(newRow);
+
+      const newTotal = tbody.querySelectorAll('tr').length;
+      if (subBadge) subBadge.textContent = newTotal;
+      if (subMetric) subMetric.textContent = newTotal;
+
+      claimForm.reset();
+      const card = document.getElementById('quickSubmitCard');
+      if (card) card.style.display = 'none';
+
+      if (claimAlert) {
+        claimAlert.style.display = 'block';
+        claimAlert.className = 'medical-disclaimer-box';
+        claimAlert.style.backgroundColor = '#ECFDF5';
+        claimAlert.style.borderLeftColor = '#10B981';
+        claimAlert.style.color = '#065F46';
+        claimAlert.innerHTML = '✓ Claim received! Our clinical review team has queued this health rumor for scientific evidence analysis.';
+      }
+    });
+  }
 }

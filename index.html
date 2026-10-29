@@ -125,10 +125,12 @@
             <div class="search-pills">
               <span class="search-pills-label">Trending Topics:</span>
               <a href="investigations.html?category=whatsapp" class="search-pill" data-category="whatsapp">WhatsApp Forwards</a>
-              <a href="investigations.html?category=cancer" class="search-pill" data-category="cancer">Cancer "Cures"</a>
+              <a href="investigations.html?category=cardiology" class="search-pill" data-category="cardiology">Cardiovascular</a>
+              <a href="investigations.html?category=vaccines" class="search-pill" data-category="vaccines">Vaccines &amp; Immunity</a>
               <a href="investigations.html?category=diet" class="search-pill" data-category="diet">Diet &amp; Nutrition</a>
               <a href="investigations.html?category=supplements" class="search-pill" data-category="supplements">Supplements &amp; Herbs</a>
-              <a href="investigations.html?category=cardiology" class="search-pill" data-category="cardiology">Cardiovascular</a>
+              <a href="investigations.html?category=fitness" class="search-pill" data-category="fitness">Fitness &amp; Metabolism</a>
+              <a href="investigations.html?category=mental-health" class="search-pill" data-category="mental-health">Mental Health &amp; Sleep</a>
             </div>
 
             <!-- Clear Action Buttons in Hero -->
@@ -290,12 +292,108 @@
         </div>
 
         <div class="grid-3" id="homeRecentInvestigationsGrid">
-          <!-- Card 1: Misleading -->
+          <!-- Card 1: Supported (Cardiovascular) -->
+          <div class="investigation-card-wrapper" data-category="cardiology" data-verdict="supported">
+            <article class="card investigation-card">
+              <div class="investigation-card-header">
+                <span class="verdict-badge verdict-supported">Supported</span>
+                <span class="category-tag">Cardiovascular</span>
+              </div>
+              <div class="investigation-claim-box">
+                <div class="investigation-claim-label">The Claim</div>
+                <p class="investigation-claim-text">"Walking 8,000 to 10,000 steps daily significantly reduces heart disease and mortality risk."</p>
+              </div>
+              <h3 class="investigation-title">
+                <a href="article.html?id=daily-walking-cardiovascular-health">Can Walking 8,000 to 10,000 Steps Daily Reduce Cardiovascular Mortality?</a>
+              </h3>
+              <p class="investigation-summary">
+                Large-scale prospective cohort studies and meta-analyses prove achieving 8,000–10,000 steps daily yields progressive ~50% cardiovascular mortality reductions.
+              </p>
+              <div class="investigation-meta">
+                <span class="investigation-meta-source">📅 Oct 27, 2026</span>
+                <a href="article.html?id=daily-walking-cardiovascular-health" style="font-weight: 600;">Full Verdict &rarr;</a>
+              </div>
+            </article>
+          </div>
+
+          <!-- Card 2: False (Vaccines & Immunity) -->
+          <div class="investigation-card-wrapper" data-category="vaccines" data-verdict="false">
+            <article class="card investigation-card">
+              <div class="investigation-card-header">
+                <span class="verdict-badge verdict-false">False</span>
+                <span class="category-tag">Vaccines &amp; Immunity</span>
+              </div>
+              <div class="investigation-claim-box">
+                <div class="investigation-claim-label">The Claim</div>
+                <p class="investigation-claim-text">"The routine childhood MMR vaccine causes gastrointestinal damage that triggers autism spectrum disorder."</p>
+              </div>
+              <h3 class="investigation-title">
+                <a href="article.html?id=mmr-vaccine-autism-hoax">The Debunked MMR Vaccine and Autism Myth: Evidence Review</a>
+              </h3>
+              <p class="investigation-summary">
+                Originating from a retracted 1998 case study, global investigations tracking over 1.25 million children prove zero causal link between MMR and autism.
+              </p>
+              <div class="investigation-meta">
+                <span class="investigation-meta-source">📅 Oct 28, 2026</span>
+                <a href="article.html?id=mmr-vaccine-autism-hoax" style="font-weight: 600;">Full Verdict &rarr;</a>
+              </div>
+            </article>
+          </div>
+
+          <!-- Card 3: Misleading (Mental Health & Sleep) -->
+          <div class="investigation-card-wrapper" data-category="mental-health" data-verdict="misleading">
+            <article class="card investigation-card">
+              <div class="investigation-card-header">
+                <span class="verdict-badge verdict-misleading">Misleading</span>
+                <span class="category-tag">Mental Health &amp; Sleep</span>
+              </div>
+              <div class="investigation-claim-box">
+                <div class="investigation-claim-label">The Claim</div>
+                <p class="investigation-claim-text">"Taking over-the-counter melatonin every night shuts down natural pineal production and causes chemical addiction."</p>
+              </div>
+              <h3 class="investigation-title">
+                <a href="article.html?id=melatonin-sleep-dependency">Melatonin for Sleep: Does Long-Term Use Cause Dependency or Pineal Shutdown?</a>
+              </h3>
+              <p class="investigation-summary">
+                Melatonin does not cause chemical dependency, but retail megadoses and improper timing desensitize MT1/MT2 receptors and cause daytime grogginess.
+              </p>
+              <div class="investigation-meta">
+                <span class="investigation-meta-source">📅 Oct 28, 2026</span>
+                <a href="article.html?id=melatonin-sleep-dependency" style="font-weight: 600;">Full Verdict &rarr;</a>
+              </div>
+            </article>
+          </div>
+
+          <!-- Card 4: Supported (Cancer & Immunology) -->
+          <div class="investigation-card-wrapper" data-category="cancer" data-verdict="supported">
+            <article class="card investigation-card">
+              <div class="investigation-card-header">
+                <span class="verdict-badge verdict-supported">Supported</span>
+                <span class="category-tag">Cancer Claims</span>
+              </div>
+              <div class="investigation-claim-box">
+                <div class="investigation-claim-label">The Claim</div>
+                <p class="investigation-claim-text">"Routine HPV vaccination before initial exposure prevents more than 88% to 90% of cervical cancer cases."</p>
+              </div>
+              <h3 class="investigation-title">
+                <a href="article.html?id=hpv-vaccine-cervical-cancer">Does the Human Papillomavirus Vaccine Prevent Cervical Cancer?</a>
+              </h3>
+              <p class="investigation-summary">
+                Long-term national registry data tracking >1.67 million females confirm recombinant HPV vaccines reduce invasive cervical cancer rates by 88%.
+              </p>
+              <div class="investigation-meta">
+                <span class="investigation-meta-source">📅 Oct 27, 2026</span>
+                <a href="article.html?id=hpv-vaccine-cervical-cancer" style="font-weight: 600;">Full Verdict &rarr;</a>
+              </div>
+            </article>
+          </div>
+
+          <!-- Card 5: Misleading (Nutrition & Diet) -->
           <div class="investigation-card-wrapper" data-category="diet" data-verdict="misleading">
             <article class="card investigation-card">
               <div class="investigation-card-header">
                 <span class="verdict-badge verdict-misleading">Misleading</span>
-                <span class="category-tag">Nutrition & Diet</span>
+                <span class="category-tag">Nutrition &amp; Diet</span>
               </div>
               <div class="investigation-claim-box">
                 <div class="investigation-claim-label">The Claim</div>
@@ -314,50 +412,26 @@
             </article>
           </div>
 
-          <!-- Card 2: Supported -->
-          <div class="investigation-card-wrapper" data-category="diet" data-verdict="supported">
-            <article class="card investigation-card">
-              <div class="investigation-card-header">
-                <span class="verdict-badge verdict-supported">Supported</span>
-                <span class="category-tag">Nutrition & Diet</span>
-              </div>
-              <div class="investigation-claim-box">
-                <div class="investigation-claim-label">The Claim</div>
-                <p class="investigation-claim-text">"Consuming unpasteurized raw milk increases the risk of severe bacterial zoonotic infections."</p>
-              </div>
-              <h3 class="investigation-title">
-                <a href="article.html?id=raw-milk-pathogens">Raw Milk Trends and Zoonotic Pathogen Risks</a>
-              </h3>
-              <p class="investigation-summary">
-                Microbiological surveillance proves pasteurization eliminates Campylobacter, Salmonella, and Listeria without destroying essential milk nutrients.
-              </p>
-              <div class="investigation-meta">
-                <span class="investigation-meta-source">📅 Oct 26, 2026</span>
-                <a href="article.html?id=raw-milk-pathogens" style="font-weight: 600;">Full Verdict &rarr;</a>
-              </div>
-            </article>
-          </div>
-
-          <!-- Card 3: Unverified -->
-          <div class="investigation-card-wrapper" data-category="supplements" data-verdict="unverified">
+          <!-- Card 6: Unverified (Fitness & Metabolism) -->
+          <div class="investigation-card-wrapper" data-category="fitness" data-verdict="unverified">
             <article class="card investigation-card">
               <div class="investigation-card-header">
                 <span class="verdict-badge verdict-unverified">Unverified</span>
-                <span class="category-tag">Supplements & Herbs</span>
+                <span class="category-tag">Fitness &amp; Metabolism</span>
               </div>
               <div class="investigation-claim-box">
                 <div class="investigation-claim-label">The Claim</div>
-                <p class="investigation-claim-text">"High-dose turmeric supplements replace insulin in Type 2 Diabetes."</p>
+                <p class="investigation-claim-text">"Taking 3-to-5-minute ice baths immediately after weight lifting accelerates muscle hypertrophy twice as fast."</p>
               </div>
               <h3 class="investigation-title">
-                <a href="article.html?id=turmeric-diabetes-insulin">Curcumin vs. Diabetes Medication: Evidence Review</a>
+                <a href="article.html?id=cold-water-immersion-recovery">Ice Baths: Do They Accelerate Muscle Growth &amp; Repair?</a>
               </h3>
               <p class="investigation-summary">
-                Curcumin shows mild anti-inflammatory properties in laboratory dishes, but clinical human trials have never demonstrated that it can replace prescribed endocrine therapies.
+                Cold water immersion reduces acute muscle soreness, but randomized human trials show post-lifting ice baths blunt long-term muscle hypertrophy.
               </p>
               <div class="investigation-meta">
-                <span class="investigation-meta-source">📅 Oct 25, 2026</span>
-                <a href="article.html?id=turmeric-diabetes-insulin" style="font-weight: 600;">Full Verdict &rarr;</a>
+                <span class="investigation-meta-source">📅 Oct 28, 2026</span>
+                <a href="article.html?id=cold-water-immersion-recovery" style="font-weight: 600;">Full Verdict &rarr;</a>
               </div>
             </article>
           </div>

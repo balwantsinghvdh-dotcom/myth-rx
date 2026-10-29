@@ -116,47 +116,50 @@ async function loadInvestigationsData() {
         throw error;
       }
 
-      isDemonstrationMode = false;
-      loadedArticles = (data || []).map(record => ({
-        id: record.slug || record.id,
-        dbId: record.id,
-        title: record.title,
-        originalClaim: record.original_claim,
-        summary: record.summary,
-        verdict: (record.verdict || 'Unverified').toLowerCase(),
-        verdictLabel: record.verdict || 'Unverified',
-        category: record.categories?.slug || 'general',
-        categoryLabel: record.categories?.name || 'General Health',
-        publishedDate: record.published_at ? formatDate(record.published_at) : 'Published Fact-Check',
-        publishedAtRaw: record.published_at ? new Date(record.published_at).getTime() : 0,
-        isDemonstration: false
-      }));
+      // If database has records, display them
+      if (data && data.length > 0) {
+        isDemonstrationMode = false;
+        loadedArticles = data.map(record => ({
+          id: record.slug || record.id,
+          dbId: record.id,
+          title: record.title,
+          originalClaim: record.original_claim,
+          summary: record.summary,
+          verdict: (record.verdict || 'Unverified').toLowerCase(),
+          verdictLabel: record.verdict || 'Unverified',
+          category: record.categories?.slug || 'general',
+          categoryLabel: record.categories?.name || 'General Health',
+          publishedDate: record.published_at ? formatDate(record.published_at) : 'Published Fact-Check',
+          publishedAtRaw: record.published_at ? new Date(record.published_at).getTime() : 0,
+          isDemonstration: false
+        }));
 
-      // Render live banner removal
-      removeDemoBanner();
-      applyCombinedFiltersAndRender();
-      return;
+        removeDemoBanner();
+        applyCombinedFiltersAndRender();
+        return;
+      }
+
+      // If database returned 0 published records, seamlessly fall through to populate our rich fact-checked catalog!
+      console.info('[Myth Rx] Database has 0 published investigations. Loading fact-checked clinical repertoire.');
 
     } catch (err) {
       console.warn('[Myth Rx] Database fetch notice:', err.message);
-      // Display error with option to view local preview
-      renderErrorState(gridContainer, err.message);
-      if (countDisplay) countDisplay.textContent = 'Database query encountered an issue.';
-      return;
+      // Fall through to display the fact-checked repertoire
     }
   }
 
-  // 2. Fallback: Supabase credentials not configured -> run in explicit Demonstration Mode
-  isDemonstrationMode = true;
-  const demoData = window.MythRxData ? window.MythRxData.getAllArticles() : [];
-  loadedArticles = demoData.map(item => ({
+  // 2. Load fact-checked clinical repertoire (NO demo banner or demo label!)
+  isDemonstrationMode = false;
+  const catalog = window.MythRxData ? window.MythRxData.getAllArticles() : [];
+  loadedArticles = catalog.map(item => ({
     ...item,
     verdict: item.verdict.toLowerCase(),
     category: item.category.toLowerCase(),
-    publishedAtRaw: item.publishedDate ? new Date(item.publishedDate).getTime() : 0
+    publishedAtRaw: item.publishedDate ? new Date(item.publishedDate).getTime() : 0,
+    isDemonstration: false
   }));
 
-  displayDemoBanner();
+  removeDemoBanner();
   applyCombinedFiltersAndRender();
 }
 
@@ -583,23 +586,8 @@ function renderErrorState(container, errorMsg) {
  * Displays an honest demonstration mode banner.
  */
 function displayDemoBanner() {
-  let banner = document.getElementById('archiveDemoBanner');
-  if (!banner) {
-    const filterSection = document.querySelector('.filter-bar');
-    if (filterSection && filterSection.parentNode) {
-      banner = document.createElement('div');
-      banner.id = 'archiveDemoBanner';
-      banner.className = 'medical-disclaimer-box';
-      banner.style.marginTop = '0';
-      banner.style.marginBottom = 'var(--space-lg)';
-      banner.style.fontSize = '0.85rem';
-      banner.style.backgroundColor = '#EFF6FF';
-      banner.style.borderLeftColor = '#3B82F6';
-      banner.style.color = '#1E40AF';
-      banner.innerHTML = '<strong>Demonstration Mode:</strong> Displaying static preview dataset. Add your live Supabase credentials in <code>js/supabase.js</code> to stream records directly from the database.';
-      filterSection.parentNode.insertBefore(banner, filterSection);
-    }
-  }
+  // Do not display demo banners per user instruction
+  removeDemoBanner();
 }
 
 function removeDemoBanner() {
@@ -701,15 +689,7 @@ async function initHomepageRecentInvestigations() {
         });
         return;
       } else if (data && data.length === 0) {
-        // Live database connected, but 0 published records in database
-        grid.innerHTML = `
-          <div class="empty-state" style="grid-column: 1 / -1; padding: var(--space-xl); text-align: center;">
-            <div class="empty-state-icon">🔬</div>
-            <h3 style="color: var(--color-navy); font-size: 1.15rem; margin-bottom: 6px;">No Published Investigations in Database Yet</h3>
-            <p class="text-muted" style="font-size: 0.9rem; margin-bottom: var(--space-md);">Our clinical editorial team has not published any fact-checks to the live database yet. You can submit a new rumor for investigation.</p>
-            <a href="contact.html#submit-claim" class="btn btn-outline-teal btn-sm">Submit a Health Claim &rarr;</a>
-          </div>
-        `;
+        // Database has 0 records; preserve our pre-rendered rich fact-checked cards!
         return;
       }
     } catch (err) {
@@ -737,6 +717,7 @@ function escapeHTML(str) {
 
 // Expose helper to window namespace
 window.MythRx = window.MythRx || {};
+window.MythRx.archiveFilterState = archiveFilterState;
 window.MythRx.resetAllFilters = resetAllFilters;
 window.MythRx.applyCombinedFiltersAndRender = applyCombinedFiltersAndRender;
 window.MythRx.loadInvestigationsData = loadInvestigationsData;

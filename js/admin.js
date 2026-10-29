@@ -800,11 +800,15 @@ async function loadCategoryDropdown(selectId = 'artCategory') {
   if (!supabase) {
     select.innerHTML = `
       <option value="">-- Select Health Category --</option>
-      <option value="nutrition-diet">Nutrition & Dietary Supplements</option>
-      <option value="infectious-disease">Infectious Disease & Immunity</option>
-      <option value="cancer-hoaxes">Cancer & Chronic Illness Hoaxes</option>
-      <option value="herbal-remedies">Alternative Remedies & Botanicals</option>
-      <option value="pharmaceuticals">Pharmaceuticals & Vaccines</option>
+      <option value="whatsapp">WhatsApp Viral</option>
+      <option value="cardiology">Cardiovascular</option>
+      <option value="vaccines">Vaccines & Immunity</option>
+      <option value="diet">Nutrition & Diet</option>
+      <option value="supplements">Supplements & Herbs</option>
+      <option value="cancer">Cancer Claims</option>
+      <option value="fitness">Fitness & Metabolism</option>
+      <option value="mental-health">Mental Health & Sleep</option>
+      <option value="infectious">Infectious Diseases</option>
     `;
     return;
   }
@@ -879,6 +883,34 @@ async function loadAdminArticlesList() {
     }
 
     if (!investigations || investigations.length === 0) {
+      const fallbackArticles = window.MythRxData ? window.MythRxData.getAllArticles() : [];
+      if (fallbackArticles.length > 0) {
+        fallbackArticles.forEach(inv => {
+          const tr = document.createElement('tr');
+          const catName = inv.categoryLabel || 'General Health';
+          const verdictBadge = `<span class="verdict-badge verdict-${(inv.verdict || 'unverified').toLowerCase()}">${escapeHTML(inv.verdictLabel || inv.verdict || 'Unverified')}</span>`;
+          const statusBadge = '<span class="verdict-badge verdict-supported" style="font-size: 0.68rem;">Published</span>';
+          const viewLiveHref = `../article.html?id=${encodeURIComponent(inv.id)}`;
+          const editHref = `new-investigation.html?id=${encodeURIComponent(inv.id)}`;
+
+          tr.innerHTML = `
+            <td><strong>${escapeHTML(inv.title)}</strong></td>
+            <td>${escapeHTML(catName)}</td>
+            <td>${verdictBadge}</td>
+            <td>Clinical Reviewer</td>
+            <td>${statusBadge}</td>
+            <td>
+              <div class="table-actions">
+                <a href="${viewLiveHref}" class="btn btn-secondary btn-sm" target="_blank">View Live</a>
+                <a href="${editHref}" class="btn btn-outline-teal btn-sm">Edit</a>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+        return;
+      }
+
       tbody.innerHTML = `
         <tr>
           <td colspan="6" class="text-muted" style="text-align: center; padding: var(--space-xl);">

@@ -264,7 +264,16 @@
               <div class="form-group" style="margin-bottom: 0;">
                 <label for="invCategory" class="form-label form-label-required">Health Category</label>
                 <select id="invCategory" class="form-control" required>
-                  <option value="">Loading categories...</option>
+                  <option value="">-- Select Health Category --</option>
+                  <option value="whatsapp">WhatsApp Viral</option>
+                  <option value="cardiology">Cardiovascular</option>
+                  <option value="vaccines">Vaccines &amp; Immunity</option>
+                  <option value="diet">Nutrition &amp; Diet</option>
+                  <option value="supplements">Supplements &amp; Herbs</option>
+                  <option value="cancer">Cancer Claims</option>
+                  <option value="fitness">Fitness &amp; Metabolism</option>
+                  <option value="mental-health">Mental Health &amp; Sleep</option>
+                  <option value="infectious">Infectious Diseases</option>
                 </select>
               </div>
               <div class="form-group" style="margin-bottom: 0;">
@@ -310,6 +319,7 @@
   </div>
 
   <!-- Scripts -->
+  <script src="../js/data.js"></script>
   <script src="../js/supabase.js"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/admin.js"></script>

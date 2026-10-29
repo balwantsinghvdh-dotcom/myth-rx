@@ -89,11 +89,11 @@
         <nav class="sidebar-nav">
           <button class="sidebar-link active tab-btn" data-tab="tab-bookmarks">
             <span>&#128278; Saved Bookmarks</span>
-            <span class="sidebar-badge sidebar-badge-teal" id="sidebarBookmarkBadge">0</span>
+            <span class="sidebar-badge sidebar-badge-teal" id="sidebarBookmarkBadge">6</span>
           </button>
           <button class="sidebar-link tab-btn" data-tab="tab-submissions">
             <span>&#128221; My Submissions</span>
-            <span class="sidebar-badge" id="sidebarSubmissionBadge">0</span>
+            <span class="sidebar-badge" id="sidebarSubmissionBadge">5</span>
           </button>
           <button class="sidebar-link tab-btn" data-tab="tab-profile">
             <span>&#9881; Profile Settings</span>
@@ -132,16 +132,21 @@
       </div>
 
       <!-- Metric Cards (Personal User Activity) -->
-      <div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+      <div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
         <div class="metric-card">
           <div class="metric-label">Bookmarked Investigations</div>
-          <div class="metric-value" id="metricBookmarksCount">0</div>
+          <div class="metric-value" id="metricBookmarksCount">6</div>
           <div class="metric-detail">Saved for offline / family sharing</div>
         </div>
         <div class="metric-card">
           <div class="metric-label">Claims Submitted</div>
-          <div class="metric-value" id="metricSubmissionsCount">0</div>
+          <div class="metric-value" id="metricSubmissionsCount">5</div>
           <div class="metric-detail">In clinical / editorial review queue</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Fact-Checks Published</div>
+          <div class="metric-value" id="metricPublishedCount">2</div>
+          <div class="metric-detail">Community claims with clinical verdicts</div>
         </div>
       </div>
 
@@ -155,55 +160,192 @@
         </div>
 
         <div class="grid-2" id="bookmarksContainer">
-          <!-- Bookmarked Card 1 -->
-          <article class="card investigation-card">
+          <!-- Bookmarked Card 1: Supported / Cardiovascular -->
+          <article class="card investigation-card" data-bm-id="bm-walking">
             <div class="investigation-card-header">
-              <span class="verdict-badge verdict-false">False / Hoax</span>
-              <span class="category-tag">WhatsApp Viral</span>
+              <span class="verdict-badge verdict-supported">Supported</span>
+              <span class="category-tag">Cardiovascular</span>
             </div>
             <div class="investigation-claim-box">
               <div class="investigation-claim-label">Claim</div>
-              <p class="investigation-claim-text">"Drinking boiled ginger water dissolves kidney stones in 48 hours without surgery."</p>
+              <p class="investigation-claim-text">"Walking 8,000 to 10,000 steps daily significantly reduces the risk of heart disease, stroke, and all-cause mortality."</p>
             </div>
             <h3 class="investigation-title">
-              <a href="article.html">Why Boiled Ginger Water Does Not Melt Kidney Stones</a>
+              <a href="article.html?id=daily-walking-cardiovascular-health">Can Walking 8,000 to 10,000 Steps Daily Significantly Reduce Cardiovascular Mortality?</a>
             </h3>
             <p class="investigation-summary">
-              Calcified renal calculi cannot be dissolved through ingested ginger metabolites. Delaying medical care causes urinary obstruction.
+              Large-scale prospective cohort studies and meta-analyses definitively prove achieving 8,000–10,000 steps daily yields progressive ~50% mortality reductions.
             </p>
             <div class="investigation-meta">
-              <span>Saved on: Oct 24, 2026</span>
+              <span>Saved on: Oct 27, 2026</span>
               <div style="display: flex; gap: var(--space-xs);">
-                <a href="article.html" class="btn btn-secondary btn-sm">Read Article</a>
-                <button class="btn btn-outline-teal btn-sm" onclick="alert('Bookmark removed (Phase 1 Preview)');">Remove</button>
+                <a href="article.html?id=daily-walking-cardiovascular-health" class="btn btn-secondary btn-sm">Read Article</a>
+                <button class="btn btn-outline-teal btn-sm remove-bm-btn" data-bm-id="bm-walking" type="button">Remove</button>
               </div>
             </div>
           </article>
 
-          <!-- Bookmarked Card 2 -->
-          <article class="card investigation-card">
+          <!-- Bookmarked Card 2: False / WhatsApp Viral -->
+          <article class="card investigation-card" data-bm-id="bm-ginger">
             <div class="investigation-card-header">
-              <span class="verdict-badge verdict-misleading">Misleading</span>
-              <span class="category-tag">Nutrition & Detox</span>
+              <span class="verdict-badge verdict-false">False</span>
+              <span class="category-tag">WhatsApp Viral</span>
             </div>
             <div class="investigation-claim-box">
               <div class="investigation-claim-label">Claim</div>
-              <p class="investigation-claim-text">"Drinking alkaline water balances body pH and cures acid-based diseases."</p>
+              <p class="investigation-claim-text">"Drinking high-concentration boiled ginger water on an empty stomach dissolves kidney stones completely in 48 hours without surgery."</p>
             </div>
             <h3 class="investigation-title">
-              <a href="article.html">Can Alkaline Water Actually Alter Human Blood pH?</a>
+              <a href="article.html?id=ginger-kidney-stones">Why Boiled Ginger Water Does Not Melt Kidney Stones</a>
             </h3>
             <p class="investigation-summary">
-              Stomach gastric acid instantly neutralizes alkaline fluids. Homeostatic pH is strictly regulated by lungs and kidneys.
+              Calcified renal calculi cannot be dissolved through ingested ginger metabolites. Delaying medical care risks acute ureteral obstruction and renal damage.
+            </p>
+            <div class="investigation-meta">
+              <span>Saved on: Oct 24, 2026</span>
+              <div style="display: flex; gap: var(--space-xs);">
+                <a href="article.html?id=ginger-kidney-stones" class="btn btn-secondary btn-sm">Read Article</a>
+                <button class="btn btn-outline-teal btn-sm remove-bm-btn" data-bm-id="bm-ginger" type="button">Remove</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bookmarked Card 3: Supported / Vaccines & Immunity -->
+          <article class="card investigation-card" data-bm-id="bm-hpv">
+            <div class="investigation-card-header">
+              <span class="verdict-badge verdict-supported">Supported</span>
+              <span class="category-tag">Vaccines &amp; Immunity</span>
+            </div>
+            <div class="investigation-claim-box">
+              <div class="investigation-claim-label">Claim</div>
+              <p class="investigation-claim-text">"Routine HPV vaccination before initial exposure prevents more than 88% to 90% of cervical and anogenital cancer cases."</p>
+            </div>
+            <h3 class="investigation-title">
+              <a href="article.html?id=hpv-vaccine-cervical-cancer">Does the Human Papillomavirus (HPV) Vaccine Actually Prevent Cervical Cancer?</a>
+            </h3>
+            <p class="investigation-summary">
+              Long-term registry data tracking over 1.67 million females confirm recombinant HPV vaccines reduce invasive cervical cancer rates by 88%.
+            </p>
+            <div class="investigation-meta">
+              <span>Saved on: Oct 27, 2026</span>
+              <div style="display: flex; gap: var(--space-xs);">
+                <a href="article.html?id=hpv-vaccine-cervical-cancer" class="btn btn-secondary btn-sm">Read Article</a>
+                <button class="btn btn-outline-teal btn-sm remove-bm-btn" data-bm-id="bm-hpv" type="button">Remove</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bookmarked Card 4: Misleading / Nutrition & Diet -->
+          <article class="card investigation-card" data-bm-id="bm-alkaline">
+            <div class="investigation-card-header">
+              <span class="verdict-badge verdict-misleading">Misleading</span>
+              <span class="category-tag">Nutrition &amp; Diet</span>
+            </div>
+            <div class="investigation-claim-box">
+              <div class="investigation-claim-label">Claim</div>
+              <p class="investigation-claim-text">"Drinking alkaline water (pH 8.5+) neutralizes body acidity, alters blood pH, and cures chronic acid-based diseases."</p>
+            </div>
+            <h3 class="investigation-title">
+              <a href="article.html?id=alkaline-water-ph">Can Alkaline Water Actually Alter Human Blood pH Levels?</a>
+            </h3>
+            <p class="investigation-summary">
+              Stomach gastric acid instantly neutralizes alkaline fluids. Systemic arterial blood pH is tightly regulated within 7.35–7.45 by renal and respiratory buffers.
             </p>
             <div class="investigation-meta">
               <span>Saved on: Oct 25, 2026</span>
               <div style="display: flex; gap: var(--space-xs);">
-                <a href="article.html" class="btn btn-secondary btn-sm">Read Article</a>
-                <button class="btn btn-outline-teal btn-sm" onclick="alert('Bookmark removed (Phase 1 Preview)');">Remove</button>
+                <a href="article.html?id=alkaline-water-ph" class="btn btn-secondary btn-sm">Read Article</a>
+                <button class="btn btn-outline-teal btn-sm remove-bm-btn" data-bm-id="bm-alkaline" type="button">Remove</button>
               </div>
             </div>
           </article>
+
+          <!-- Bookmarked Card 5: Misleading / Mental Health & Sleep -->
+          <article class="card investigation-card" data-bm-id="bm-melatonin">
+            <div class="investigation-card-header">
+              <span class="verdict-badge verdict-misleading">Misleading</span>
+              <span class="category-tag">Mental Health &amp; Sleep</span>
+            </div>
+            <div class="investigation-claim-box">
+              <div class="investigation-claim-label">Claim</div>
+              <p class="investigation-claim-text">"Taking over-the-counter melatonin every night shuts down your brain's natural pineal gland production and causes severe chemical addiction."</p>
+            </div>
+            <h3 class="investigation-title">
+              <a href="article.html?id=melatonin-sleep-dependency">Melatonin for Sleep: Does Long-Term Use Cause Dependency or Pineal Shutdown?</a>
+            </h3>
+            <p class="investigation-summary">
+              Exogenous melatonin does not cause chemical dependency or pineal atrophy, but excessive doses desensitize MT1/MT2 receptors and cause daytime grogginess.
+            </p>
+            <div class="investigation-meta">
+              <span>Saved on: Oct 28, 2026</span>
+              <div style="display: flex; gap: var(--space-xs);">
+                <a href="article.html?id=melatonin-sleep-dependency" class="btn btn-secondary btn-sm">Read Article</a>
+                <button class="btn btn-outline-teal btn-sm remove-bm-btn" data-bm-id="bm-melatonin" type="button">Remove</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bookmarked Card 6: Unverified / Fitness & Recovery -->
+          <article class="card investigation-card" data-bm-id="bm-icebaths">
+            <div class="investigation-card-header">
+              <span class="verdict-badge verdict-unverified">Unverified</span>
+              <span class="category-tag">Fitness &amp; Metabolism</span>
+            </div>
+            <div class="investigation-claim-box">
+              <div class="investigation-claim-label">Claim</div>
+              <p class="investigation-claim-text">"Taking 3-to-5-minute ice baths immediately after weight lifting accelerates muscle hypertrophy and repairs microtears twice as fast."</p>
+            </div>
+            <h3 class="investigation-title">
+              <a href="article.html?id=cold-water-immersion-recovery">Ice Baths and Cold Plunges: Do They Accelerate Muscle Growth and Tissue Repair?</a>
+            </h3>
+            <p class="investigation-summary">
+              Cold water immersion reduces acute soreness, but randomized human trials show post-lifting ice baths blunt long-term muscle hypertrophy and mTORC1 signaling.
+            </p>
+            <div class="investigation-meta">
+              <span>Saved on: Oct 28, 2026</span>
+              <div style="display: flex; gap: var(--space-xs);">
+                <a href="article.html?id=cold-water-immersion-recovery" class="btn btn-secondary btn-sm">Read Article</a>
+                <button class="btn btn-outline-teal btn-sm remove-bm-btn" data-bm-id="bm-icebaths" type="button">Remove</button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Quick Health Domain Navigation Ribbon -->
+        <div class="card mt-xl" style="background: #FFFFFF; border: 1px solid var(--color-border); padding: var(--space-lg); border-radius: var(--radius-lg);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md); flex-wrap: wrap; gap: 8px;">
+            <div>
+              <h3 style="font-size: 1.1rem; margin-bottom: 2px;">Explore Fact-Checks Across Health Domains</h3>
+              <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 0;">Browse peer-reviewed evaluations across different subjects.</p>
+            </div>
+            <a href="investigations.html" class="btn btn-outline-teal btn-sm">View Full Archive &rarr;</a>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--space-sm);">
+            <a href="investigations.html?category=cardiology" class="category-card" style="padding: var(--space-sm); text-align: center;">
+              <span style="font-size: 1.4rem; display: block; margin-bottom: 4px;">❤️</span>
+              <strong style="font-size: 0.85rem; color: var(--color-navy);">Cardiovascular</strong>
+            </a>
+            <a href="investigations.html?category=vaccines" class="category-card" style="padding: var(--space-sm); text-align: center;">
+              <span style="font-size: 1.4rem; display: block; margin-bottom: 4px;">💉</span>
+              <strong style="font-size: 0.85rem; color: var(--color-navy);">Vaccines &amp; Immunity</strong>
+            </a>
+            <a href="investigations.html?category=diet" class="category-card" style="padding: var(--space-sm); text-align: center;">
+              <span style="font-size: 1.4rem; display: block; margin-bottom: 4px;">🥗</span>
+              <strong style="font-size: 0.85rem; color: var(--color-navy);">Nutrition &amp; Diet</strong>
+            </a>
+            <a href="investigations.html?category=supplements" class="category-card" style="padding: var(--space-sm); text-align: center;">
+              <span style="font-size: 1.4rem; display: block; margin-bottom: 4px;">💊</span>
+              <strong style="font-size: 0.85rem; color: var(--color-navy);">Supplements</strong>
+            </a>
+            <a href="investigations.html?category=fitness" class="category-card" style="padding: var(--space-sm); text-align: center;">
+              <span style="font-size: 1.4rem; display: block; margin-bottom: 4px;">🏋️</span>
+              <strong style="font-size: 0.85rem; color: var(--color-navy);">Fitness &amp; Exercise</strong>
+            </a>
+            <a href="investigations.html?category=mental-health" class="category-card" style="padding: var(--space-sm); text-align: center;">
+              <span style="font-size: 1.4rem; display: block; margin-bottom: 4px;">🧠</span>
+              <strong style="font-size: 0.85rem; color: var(--color-navy);">Mental Health &amp; Sleep</strong>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -249,13 +391,93 @@
                 <th>Submitted Claim</th>
                 <th>Source Platform / Context</th>
                 <th>Date Submitted</th>
-                <th>Status</th>
+                <th>Review Status</th>
               </tr>
             </thead>
             <tbody id="submissionsTableBody">
+              <!-- Submission 1: Published Fact-Check (Supported) -->
               <tr>
-                <td colspan="4" class="text-muted" style="text-align: center; padding: var(--space-lg);">
-                  Loading your submissions from clinical database...
+                <td>
+                  <strong>Walking 8,000 to 10,000 steps daily significantly reduces heart disease and mortality risk.</strong>
+                </td>
+                <td>
+                  <span style="font-size: 0.85rem; color: var(--color-text-muted);">Wearable fitness tracker discussion &amp; family WhatsApp</span>
+                </td>
+                <td>
+                  <span style="font-size: 0.85rem;">Oct 18, 2026</span>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="verdict-badge verdict-supported" style="font-size: 0.72rem;">Fact-Check Published</span>
+                    <a href="article.html?id=daily-walking-cardiovascular-health" class="btn btn-outline-teal btn-sm" style="padding: 2px 8px; font-size: 0.72rem;">View &rarr;</a>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Submission 2: Published Fact-Check (False) -->
+              <tr>
+                <td>
+                  <strong>Applying cold toothpaste or butter directly onto thermal burns stops blisters and prevents scars.</strong>
+                </td>
+                <td>
+                  <span style="font-size: 0.85rem; color: var(--color-text-muted);">Generational kitchen lore &amp; Facebook forward</span>
+                </td>
+                <td>
+                  <span style="font-size: 0.85rem;">Oct 20, 2026</span>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="verdict-badge verdict-false" style="font-size: 0.72rem;">Fact-Check Published</span>
+                    <a href="article.html?id=toothpaste-butter-burns" class="btn btn-outline-teal btn-sm" style="padding: 2px 8px; font-size: 0.72rem;">View &rarr;</a>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Submission 3: In Clinical Review -->
+              <tr>
+                <td>
+                  <strong>Taking 500mg magnesium glycinate 30 minutes before sleep increases deep slow-wave sleep cycles.</strong>
+                </td>
+                <td>
+                  <span style="font-size: 0.85rem; color: var(--color-text-muted);">Wellness podcast &amp; Reddit sleep discussion</span>
+                </td>
+                <td>
+                  <span style="font-size: 0.85rem;">Oct 25, 2026</span>
+                </td>
+                <td>
+                  <span class="verdict-badge verdict-misleading" style="font-size: 0.72rem;">In Clinical Review</span>
+                </td>
+              </tr>
+
+              <!-- Submission 4: In Clinical Review -->
+              <tr>
+                <td>
+                  <strong>Consuming 2 raw crushed garlic cloves with honey every morning cures active strep throat without prescription antibiotics.</strong>
+                </td>
+                <td>
+                  <span style="font-size: 0.85rem; color: var(--color-text-muted);">TikTok viral remedy clip</span>
+                </td>
+                <td>
+                  <span style="font-size: 0.85rem;">Oct 26, 2026</span>
+                </td>
+                <td>
+                  <span class="verdict-badge verdict-misleading" style="font-size: 0.72rem;">In Clinical Review</span>
+                </td>
+              </tr>
+
+              <!-- Submission 5: Pending Intake -->
+              <tr>
+                <td>
+                  <strong>Staring directly into morning sunlight for 15 minutes decalcifies the pineal gland and eliminates chronic insomnia.</strong>
+                </td>
+                <td>
+                  <span style="font-size: 0.85rem; color: var(--color-text-muted);">Instagram alternative wellness reel</span>
+                </td>
+                <td>
+                  <span style="font-size: 0.85rem;">Oct 28, 2026</span>
+                </td>
+                <td>
+                  <span class="verdict-badge verdict-context" style="font-size: 0.72rem;">Pending Intake</span>
                 </td>
               </tr>
             </tbody>
